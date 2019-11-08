@@ -4,7 +4,7 @@ import UserList from './UserList';
 
 const CreateTeamForm = () => {
     const submitForm = values => {
-        console.log(values);
+        console.log('submitting', values);
     };
 
     const [values, handleChange, handleSubmit] = useForm(
@@ -13,8 +13,6 @@ const CreateTeamForm = () => {
         },
         submitForm
     );
-
-    console.log('values are', values)
 
     return (
         <form onSubmit={handleSubmit}>
