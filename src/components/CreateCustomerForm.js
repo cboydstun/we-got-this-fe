@@ -1,10 +1,13 @@
 import React from 'react';
+import { useStateValue } from '../state';
 import { useForm } from '../hooks/useForm';
-import { createCustomer } from '../state/reducers/customerReducer';
+import { actions } from '../state/customer/customerActions';
 
 const CreateCustomerForm = () => {
+    const [state, dispatch] = useStateValue();
+
     const submitForm = values => {
-        createCustomer(values);
+        actions.addCustomer(dispatch, values);
     };
 
     const [values, handleChange, handleSubmit] = useForm(

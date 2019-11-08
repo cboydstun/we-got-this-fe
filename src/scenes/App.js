@@ -1,78 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
+//
+//Config
+import { initGoogleClient } from '../config/googleClient';
+
 //Components / Scenes
-import { Navigation, CreateCustomerForm, RegisterCompany } from '../components';
+
+import { Navigation, CreateCustomerForm, SplashLoading, RegisterCompany } from '../components';
 import Calendar from './Calendar';
+import Auth from './Auth';
 
 //Constants
 import { routes } from '../constants/routes';
 
 //State
 import { useStateValue } from '../state';
-import { setUser } from '../state/reducers/userReducer';
+import { actions } from '../state/auth/authActions';
 
 //Fire
-import Firebase from '../firebase';
-import { auth } from 'firebase';
+import Firebase from '../config/firebase';
 
 
 //
 //Config
 var storageRef = Firebase.getStorageRef();
-let gapi = window.gapi;
-
-async function initGoogleClient() {
-    await gapi.load('client', () => {
-        console.log('loaded client');
-        gapi.client.init({
-            apiKey: 'AIzaSyCSuD-_FQ3ockPsbQRsbCRgg1-lmcNsA6I',
-            clientId:
-                '566987245774-abeg79tlatngaaupsmdthc8ikouva2qo.apps.googleusercontent.com',
-            discoveryDocs: [
-                'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
-            ],
-            scope: 'https://www.googleapis.com/auth/calendar',
-        });
-        gapi.client.load('calendar', 'v3', () =>
-            console.log('loaded calendar')
-        );
-    });
-}
-
-async function login() {
-    const googleAuth = gapi.auth2.getAuthInstance();
-    const googleUser = await googleAuth.signIn();
-
-    const token = googleUser.getAuthResponse().id_token;
-
-    console.log(googleUser);
-
-    const credential = auth.GoogleAuthProvider.credential(token);
-
-    await Firebase.signInWithCredential(credential);
-}
-
-function logout() {
-    Firebase.signOut();
-    const googleAuth = gapi.auth2.getAuthInstance();
-    googleAuth.signOut();
-}
-
-const Auth = () => {
-    return (
-        <>
-            <h1>Auth</h1>{' '}
-            <button
-                onClick={() => {
-                    login();
-                }}
-            >
-                Sign In With Google
-            </button>
-        </>
-    );
-};
 
 const Dashboard = () => {
     const [files, setFiles] = useState(null);
@@ -113,25 +65,23 @@ const Dashboard = () => {
 };
 
 const Me = () => {
-    const [{ user }] = useStateValue();
-    return <h1>Me is {user && user.displayName} </h1>;
-};
-
-const LoadingMessage = () => {
-    return <h1>Loading</h1>;
+    const [{ auth }] = useStateValue();
+    return <h1>Me is {auth.currentUser && auth.currentUser.displayName} </h1>;
 };
 
 function App() {
-    const [{ user }, dispatch] = useStateValue();
+    const [{ auth }, dispatch] = useStateValue();
     const [isLoading, setIsLoading] = useState(true);
+    console.log('Auth State', auth);
 
-    //Initiliaze Google API
     useEffect(() => {
+        //Initiliaze Google API
         initGoogleClient();
+
+        //Auth Change With Firebase
         Firebase.onAuthStateChanged(user => {
-            console.log(user);
             if (user !== null) {
-                setUser(dispatch, user);
+                actions.getOrCreateCurrentUser(dispatch, user);
                 setIsLoading(false);
             } else {
                 setIsLoading(false);
@@ -140,7 +90,7 @@ function App() {
     }, [dispatch]);
 
     if (isLoading) {
-        return <LoadingMessage />;
+        return <SplashLoading />;
     } else {
         return (
             <BrowserRouter>
@@ -150,14 +100,6 @@ function App() {
                 <Route path={routes.HOME} component={Dashboard} />
                 <Route path={routes.ME} component={Me} />
                 <Route path={routes.CALENDAR} component={Calendar} />
-
-                <button
-                    onClick={() => {
-                        logout();
-                    }}
-                >
-                    Sign Out
-                </button>
 
                 <CreateCustomerForm />
                 <RegisterCompany/>
