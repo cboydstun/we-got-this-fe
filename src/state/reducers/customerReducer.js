@@ -1,10 +1,22 @@
-import Firebase from '../../firebase';
+import Firebase from '../../config/firebase';
+
+//
+//Config
+//
 
 const db = Firebase.getFirestore();
 
-// export const CREATE_CUSTOMER = 'wgt/customer/create_customer';
+//
+// Constants
+//
 
-export const createCustomer = values => {
+export const SET_CUSTOMERS = 'wgt/customer/set_customer';
+
+//
+// Actions
+//
+
+export async function createCustomer(values) {
     // db.collection('customers')
     //     .add({
     //         ...values,
@@ -15,33 +27,46 @@ export const createCustomer = values => {
 
     let customerID = values.name + '123';
 
+    let createdDate = new Date().toISOString();
+
     db.collection('customers')
         .doc(`${customerID}`)
         .set({
             customerID,
             ...values,
         });
-};
 
-// export default function reducer(state, action) {
-// 	//define payload
-// 	let payload = action.payload;
+    getCustomers();
+}
 
-// 	switch (action.type) {
-// 		case CREATE_CUSTOMER:
-// 			return {
-// 				...state,
-// 				...payload,
-// 			};
+export async function getCustomers(accountID) {
+    db.collection('customers')
+        .where('account_id', '==', `${accountID}`)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                console.log(doc.id, ' => ', doc.data());
+            });
+        });
+}
 
-// 		case LOGOUT:
-// 			return {
-// 				...state,
-// 				user: null,
-// 			};
-// 		default:
-// 			return {
-// 				...state,
-// 			};
-// 	}
-// }
+//
+// Reducer
+//
+
+export default function reducer(state, action) {
+    //define payload
+    let payload = action.payload;
+
+    switch (action.type) {
+        case SET_CUSTOMERS:
+            return {
+                ...state,
+                customers: payload,
+            };
+        default:
+            return {
+                ...state,
+            };
+    }
+}

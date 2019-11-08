@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import firebase from '../firebase';
+import firebase from '../config/firebase';
 
 const UserList = ({ ids }) => {
     const [users, setUsers] = useState([]);

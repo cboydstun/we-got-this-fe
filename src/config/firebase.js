@@ -24,6 +24,7 @@ class Firebase {
         firebase.analytics();
         this.auth = firebase.auth();
         this.firestore = firebase.firestore;
+        console.log('Initialized Firebase App');
     }
 
     onAuthStateChanged(callbackSuccess, callbackFailure) {
