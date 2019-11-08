@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 //Components / Scenes
-import { Navigation, CreateCustomerForm } from '../components';
+import { Navigation, CreateCustomerForm, CreateTeamForm } from '../components';
 import Calendar from './Calendar';
 
 //Constants
@@ -82,7 +82,8 @@ const Dashboard = () => {
 
     return (
         <>
-            <h1>Dashboard</h1>{' '}
+            <h1>Dashboard</h1>
+            <CreateTeamForm />
             <label htmlFor="fileInput">Select Files to Upload</label>
             <input
                 type="file"
