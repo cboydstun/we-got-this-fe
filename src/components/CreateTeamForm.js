@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from '../hooks/useForm';
+import UserList from './UserList';
 
 const CreateTeamForm = () => {
     const submitForm = values => {
@@ -25,6 +26,7 @@ const CreateTeamForm = () => {
                 value={values.name}
                 onChange={handleChange}
             />
+            <UserList ids={['1QDmGsLpzHOOX4W46aaa']} />
             <button type="submit">Submit</button>
         </form>
     );
