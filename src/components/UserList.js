@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import firebase from '../firebase';
+import db from '../firebase';
+import ogFire from 'firebase';
 
-const UserList = ids => {
+const UserList = ({ ids }) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        firebase.getFirestore().collection('accounts').get()
+        const firestore = db.getFirestore();
+
+        firestore.collection('accounts')
+            .where(ogFire.firestore.FieldPath.documentId(), 'in', ids)
+            .get()
             .then(snapshot => setUsers(snapshot.docs.map(doc => doc.data())));
     }, []);
 
