@@ -23,6 +23,7 @@ class Firebase {
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
         this.auth = firebase.auth();
+        this.firestore = firebase.firestore;
     }
 
     onAuthStateChanged(callbackSuccess, callbackFailure) {

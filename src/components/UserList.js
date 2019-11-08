@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import db from '../firebase';
-import firebase from 'firebase';
+import firebase from '../firebase';
 
 const UserList = ({ ids }) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        const firestore = db.getFirestore();
+        const firestore = firebase.getFirestore();
 
         firestore.collection('accounts')
             .where(firebase.firestore.FieldPath.documentId(), 'in', ids)
