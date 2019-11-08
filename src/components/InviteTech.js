@@ -1,4 +1,5 @@
 import React from 'react';
+import { Formik } from "formik";
 import { useForm } from '../hooks/useForm';
 import { inviteTech } from '../state/reducers/techReducer';
 
@@ -11,25 +12,44 @@ const InviteTech = () => {
 
 const [values, handleChange, handleSubmit] = useForm(
   {
-    name: '',
+    firstName: '',
+    lastName: '',
     phone: '',
     address: '',
     email: '',
-    type: ''
+    notes: '',
+    city: '',
+    zip:''
         },
         submitForm 
     );
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input onChange={handleChange} name='name' placeholder='name'/>
-                <input onChange={handleChange} name='phone' placeholder='phone'/>
-                <input onChange={handleChange} name='address'placeholder='address'/>
-                <input onChange={handleChange} name='email' placeholder='email'/>
-                <button type='submit'>Submit</button>
-            </form>
-        </div>
+        <Formik initialValues={{ 
+    firstName: '',
+    lastName: '',
+    phone: '',
+    address: '',
+    email: '',
+    notes: '',
+    city: '',
+    zip:'' 
+}}>
+        {({values, errors, touched, handleChange, handleBlur}) => (
+         <form onSubmit={handleSubmit}>
+             <input onChange={handleChange} name='firstName' placeholder='firstName'/>
+             <input onChange={handleChange} name='lastName' placeholder='lastName'/>
+             <input onChange={handleChange} name='phone' placeholder='phone'/>
+             <input onChange={handleChange} name='address'placeholder='address'/>
+             <input onChange={handleChange} name='city'placeholder='city'/>
+             <input onChange={handleChange} name='state'placeholder='state'/>
+             <input onChange={handleChange} name='email' placeholder='email'/>
+             <input onChange={handleChange} name='zip' placeholder='zip'/>
+             <input onChange={handleChange} name='notes' placeholder='notes'/>
+             <button type='submit'>Submit</button>
+         </form>
+        )}
+        </Formik>
     )
 }
 export default InviteTech;

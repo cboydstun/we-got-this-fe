@@ -5,13 +5,17 @@ const db = Firebase.getFirestore();
 
 export const inviteTech = (/* dispatch, */ tech) => {
 
-    let {name, email, phone, address} = tech;
+    let {firstName, lastName, email, phone, address , notes , city , zip,} = tech;
 
     db.collection('techs').add({
-        name,
+        firstName,
+        lastName,
         email,
         phone,
-        address
+        address,
+        notes,
+        city,
+        zip,
     });
 
     // dispatch({
