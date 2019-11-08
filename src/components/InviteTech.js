@@ -16,8 +16,6 @@ const validationSchema = Yup.object().shape({
     .max(255, 'Must be shorter than 255')
     .required('Must enter a Last Name'),
     phone: Yup.number()
-    .min(1, 'Must have at least 7 character')
-    .max(11, 'Must be shorter than 11')
     .required('Must enter a Number'),
     address: Yup.string()
     .min(1, 'Must have a character')
@@ -34,11 +32,14 @@ const validationSchema = Yup.object().shape({
     state: Yup.string()
     .min(1, 'Must have a character')
     .max(155, 'Must be shorter than 155')
-    .required('Must enter an State'),
+    .required('Must enter a State'),
     zip: Yup.string()
     .min(1, 'Must have a character')
     .max(155, 'Must be shorter than 155')
     .required('Must enter an Zip'),
+    notes: Yup.string()
+    .min(1, 'Must have a character')
+    .max(255, 'Must be shorter than 255')
 })
 
 
@@ -63,7 +64,8 @@ const [values, handleChange, handleSubmit] = useForm(
     );
 
     return (
-        <Formik initialValues={{ 
+        <Formik 
+    initialValues={{ 
     firstName: '',
     lastName: '',
     phone: '',
@@ -73,8 +75,19 @@ const [values, handleChange, handleSubmit] = useForm(
     city: '',
     zip:'' 
 }} 
-validationSchema={validationSchema}>
-        {({values, errors, touched, handleChange, handleBlur}) => (
+
+validationSchema={validationSchema}
+onSubmit={(values, {setSubmitting, resetForm}) => {
+    setSubmitting(true)
+
+    setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        resetForm();
+        setSubmitting(false);
+    }, 500);
+}}>
+
+        {({values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
          <form className='Form' onSubmit={handleSubmit}>
          <div>
 
@@ -119,7 +132,7 @@ validationSchema={validationSchema}>
              </div>
     
              <button>Cancel</button>
-             <button type='submit'>Submit</button>
+             <button type='submit' disabled={isSubmitting}>Submit</button>
          </div>
          </form>
         )}
