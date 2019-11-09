@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import Error from './Error';
 
 
+
 const validationSchema = Yup.object().shape({
     firstName: Yup.string()
     .min(1, 'Must have a character')
@@ -33,9 +34,8 @@ const validationSchema = Yup.object().shape({
     .min(1, 'Must have a character')
     .max(155, 'Must be shorter than 155')
     .required('Must enter a State'),
-    zip: Yup.string()
+    zip: Yup.number()
     .min(1, 'Must have a character')
-    .max(155, 'Must be shorter than 155')
     .required('Must enter an Zip'),
     notes: Yup.string()
     .min(1, 'Must have a character')
@@ -45,23 +45,23 @@ const validationSchema = Yup.object().shape({
 
 const InviteTech = () => {
 
-    const submitForm = values => {
-        inviteTech(values);
-    };
+//     const submitForm = values => {
+//         inviteTech(values);
+//     };
 
-const [values, handleChange, handleSubmit] = useForm(
-  {
-    firstName: '',
-    lastName: '',
-    phone: '',
-    address: '',
-    email: '',
-    notes: '',
-    city: '',
-    zip:''
-        },
-        submitForm 
-    );
+// const [values, handleChange, handleSubmit] = useForm(
+//   {
+//     firstName: '',
+//     lastName: '',
+//     phone: '',
+//     address: '',
+//     email: '',
+//     notes: '',
+//     city: '',
+//     zip:''
+//         },
+//         submitForm 
+//     );
 
     return (
         <Formik 
@@ -89,52 +89,53 @@ onSubmit={(values, {setSubmitting, resetForm}) => {
 
         {({values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
          <form className='Form' onSubmit={handleSubmit}>
-         <div>
+         <div className='tech-form-left'>
 
              <div>
-                <input onChange={handleChange} name='firstName' placeholder='firstName' value={values.firstName} onBlur={handleBlur} className={touched.firstName && errors.firstName ? 'has-error' : null}/>
+                <input onChange={handleChange} name='firstName' placeholder='First Name' value={values.firstName} onBlur={handleBlur} className={touched.firstName && errors.firstName ? 'has-error' : null}/>
                 <Error touched={touched.firstName} message={errors.firstName} />
              </div>
              <div>
-                <input onChange={handleChange} name='lastName' placeholder='lastName' value={values.lastName} onBlur={handleBlur} className={touched.lastName && errors.lasttName ? 'has-error' : null}/>
+                <input onChange={handleChange} name='lastName' placeholder='Last Name' value={values.lastName} onBlur={handleBlur} className={touched.lastName && errors.lasttName ? 'has-error' : null}/>
                 <Error touched={touched.lastName} message={errors.lastName} />
              </div>
              <div>
-                <input onChange={handleChange} name='phone' placeholder='phone' value={values.phone} onBlur={handleBlur} className={touched.phone && errors.phone ? 'has-error' : null}/>
+                <input onChange={handleChange} name='phone' placeholder='Phone' value={values.phone} onBlur={handleBlur} className={touched.phone && errors.phone ? 'has-error' : null}/>
                 <Error touched={touched.phone} message={errors.phone} />
              </div>
              <div>
-                <input onChange={handleChange} name='address'placeholder='address' value={values.address} onBlur={handleBlur} className={touched.address && errors.address ? 'has-error' : null}/>
+                <input onChange={handleChange} name='address'placeholder='Address' value={values.address} onBlur={handleBlur} className={touched.address && errors.address ? 'has-error' : null}/>
                 <Error touched={touched.address} message={errors.address} />
              </div>
              <div>
-                <input onChange={handleChange} name='city'placeholder='city' value={values.city} onBlur={handleBlur} className={touched.city && errors.city ? 'has-error' : null}/>
-                <Error touched={touched.city} message={errors.city} />
+                <textarea onChange={handleChange} name='notes' placeholder='Notes' value={values.notes} onBlur={handleBlur} className={touched.notes && errors.notes  ? 'has-error' : null}/>
+                <Error touched={touched.notes} message={errors.notes} />
              </div>
+        
+         </div> {/* it-form-top-left end */}
+         <div className='tech-form-right'>
              <div>
-                <input onChange={handleChange} name='state'placeholder='state' value={values.state} onBlur={handleBlur} className={touched.state && errors.state ? 'has-error' : null}/>
-                <Error touched={touched.state} message={errors.state} />
-             </div>
-            
-         </div>
-         <div>
-             <div>
-                <input onChange={handleChange} name='email' placeholder='email' value={values.email} onBlur={handleBlur} className={touched.email && errors.email ? 'has-error' : null}/>
+                <input onChange={handleChange} name='email' placeholder='Email' value={values.email} onBlur={handleBlur} className={touched.email && errors.email ? 'has-error' : null}/>
                 <Error touched={touched.email} message={errors.email} />
              </div>
              <div>
-                <input onChange={handleChange} name='zip' placeholder='zip' value={values.zip} onBlur={handleBlur} className={touched.zip && errors.zip ? 'has-error' : null}/>
+                <input onChange={handleChange} name='zip' placeholder='Zip' value={values.zip} onBlur={handleBlur} className={touched.zip && errors.zip ? 'has-error' : null}/>
                 <Error touched={touched.zip} message={errors.zip} />
              </div>
              <div>
-                <textarea onChange={handleChange} name='notes' placeholder='notes' value={values.notes} onBlur={handleBlur} className={touched.notes && errors.notes  ? 'has-error' : null}/>
-                <Error touched={touched.notes} message={errors.notes} />
+                <input onChange={handleChange} name='city'placeholder='City' value={values.city} onBlur={handleBlur} className={touched.city && errors.city ? 'has-error' : null}/>
+                <Error touched={touched.city} message={errors.city} />
              </div>
-    
-             <button>Cancel</button>
-             <button type='submit' disabled={isSubmitting}>Submit</button>
+             <div>
+                <input onChange={handleChange} name='state'placeholder='State' value={values.state} onBlur={handleBlur} className={touched.state && errors.state ? 'has-error' : null}/>
+                <Error touched={touched.state} message={errors.state} />
+             </div>
+             <div className='tech-buttons'>
+                <button id='tech-cancel'>Cancel</button>
+                <button type='submit' disabled={isSubmitting}>Submit</button>
+            </div>
          </div>
-         </form>
+         </form> /* Form end */
         )}
         </Formik>
     )
