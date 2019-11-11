@@ -6,7 +6,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { initGoogleClient } from '../config/googleClient';
 
 //Components / Scenes
-import { Navigation, CreateCustomerForm, SplashLoading, RegisterCompany, CreateTeamForm, UserList } from '../components';
+import { Navigation, CreateCustomerForm, SplashLoading, RegisterCompany, CreateTeamForm, InviteTech } from '../components';
+
 import Calendar from './Calendar';
 import Auth from './Auth';
 
@@ -19,6 +20,7 @@ import { actions } from '../state/auth/authActions';
 
 //Fire
 import Firebase from '../config/firebase';
+
 
 
 //
@@ -101,8 +103,21 @@ function App() {
                 <Route path={routes.ME} component={Me} />
                 <Route path={routes.CALENDAR} component={Calendar} />
 
+
+                <button
+                    onClick={() => {
+                        logout();
+                    }}
+                >
+                    Sign Out
+                </button>
+
+                {/* <CreateCustomerForm /> */}
+                <InviteTech />
+
                 <CreateCustomerForm />
                 <RegisterCompany/>
+
             </BrowserRouter>
         );
     }
