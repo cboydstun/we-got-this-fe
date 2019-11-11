@@ -12,7 +12,9 @@ import {
     CreateCustomerForm,
     SplashLoading,
     RegisterCompany,
+    InviteTech 
 } from '../components';
+
 import Calendar from './Calendar';
 import Auth from './Auth';
 
@@ -26,6 +28,11 @@ import { actions } from '../state/auth/authActions';
 //Fire
 import Firebase from '../config/firebase';
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9022830ca64201bd9653791489cfe57c6ba94be3
 //
 //Config
 var storageRef = Firebase.getStorageRef();
@@ -105,8 +112,25 @@ function App() {
                 <Route path={routes.ME} component={Me} />
                 <Route path={routes.CALENDAR} component={Calendar} />
 
+
+                <button
+                    onClick={() => {
+                        logout();
+                    }}
+                >
+                    Sign Out
+                </button>
+
+                {/* <CreateCustomerForm /> */}
+                <InviteTech />
+
                 <CreateCustomerForm />
+<<<<<<< HEAD
                 <RegisterCompany />
+=======
+                <RegisterCompany/>
+
+>>>>>>> 9022830ca64201bd9653791489cfe57c6ba94be3
             </BrowserRouter>
         );
     }
