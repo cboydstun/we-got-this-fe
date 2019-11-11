@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from "formik";
-import { useForm } from '../hooks/useForm';
+// import { useForm } from '../hooks/useForm';
 import { inviteTech } from '../state/reducers/techReducer';
 import * as Yup from "yup";
 import Error from './Error';
@@ -44,26 +44,8 @@ const validationSchema = Yup.object().shape({
 
 
 const InviteTech = () => {
-
-//     const submitForm = values => {
-//         inviteTech(values);
-//     };
-
-// const [values, handleChange, handleSubmit] = useForm(
-//   {
-//     firstName: '',
-//     lastName: '',
-//     phone: '',
-//     address: '',
-//     email: '',
-//     notes: '',
-//     city: '',
-//     zip:''
-//         },
-//         submitForm 
-//     );
-
-    return (
+    
+return (
         <Formik 
     initialValues={{ 
     firstName: '',
@@ -114,6 +96,7 @@ onSubmit={(values, {setSubmitting, resetForm}) => {
         
          </div> {/* it-form-top-left end */}
          <div className='tech-form-right'>
+
              <div>
                 <input onChange={handleChange} name='email' placeholder='Email' value={values.email} onBlur={handleBlur} className={touched.email && errors.email ? 'has-error' : null}/>
                 <Error touched={touched.email} message={errors.email} />
@@ -133,8 +116,9 @@ onSubmit={(values, {setSubmitting, resetForm}) => {
              <div className='tech-buttons'>
                 <button id='tech-cancel'>Cancel</button>
                 <button type='submit' disabled={isSubmitting}>Submit</button>
-            </div>
-         </div>
+            </div> {/* tech-buttons end */}
+
+                  </div> {/* tech-form-right end */}
          </form> /* Form end */
         )}
         </Formik>
