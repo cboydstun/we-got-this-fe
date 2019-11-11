@@ -6,12 +6,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { initGoogleClient } from '../config/googleClient';
 
 //Components / Scenes
-<<<<<<< HEAD
-import { Navigation, CreateCustomerForm, InviteTech } from '../components';
-=======
+// import { Navigation, CreateCustomerForm, InviteTech } from '../components';
 
-import { Navigation, CreateCustomerForm, SplashLoading, RegisterCompany } from '../components';
->>>>>>> 13df93a68f3bf1b3fe8fcc1a9cbb99cadbb7efa0
+import { Navigation, CreateCustomerForm, SplashLoading, RegisterCompany , InviteTech } from '../components';
 import Calendar from './Calendar';
 import Auth from './Auth';
 
@@ -106,21 +103,18 @@ function App() {
                 <Route path={routes.ME} component={Me} />
                 <Route path={routes.CALENDAR} component={Calendar} />
 
-<<<<<<< HEAD
-                <button
+                {/* <button
                     onClick={() => {
                         logout();
                     }}
                 >
                     Sign Out
-                </button>
+                </button> */}
 
                 {/* <CreateCustomerForm /> */}
                 <InviteTech />
-=======
                 <CreateCustomerForm />
                 <RegisterCompany/>
->>>>>>> 13df93a68f3bf1b3fe8fcc1a9cbb99cadbb7efa0
             </BrowserRouter>
         );
     }
