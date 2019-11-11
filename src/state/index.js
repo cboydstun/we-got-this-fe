@@ -11,3 +11,12 @@ export const StateProvider = ({ reducer, initialState, children }) => {
 };
 
 export const useStateValue = () => useContext(StateContext);
+
+export const withState = WrappedComponent => {
+    return props => {
+        const [state, dispatch] = useStateValue();
+        return (
+            <WrappedComponent state={state} dispatch={dispatch} {...props} />
+        );
+    };
+};
