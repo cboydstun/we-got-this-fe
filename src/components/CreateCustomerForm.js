@@ -1,12 +1,21 @@
 import React from 'react';
+import { useStateValue } from '../state';
 import { useForm } from '../hooks/useForm';
+
 import { createCustomer } from '../state/reducers/customerReducer';
 import { Form, Field, withFormik, Formik } from "formik";
 import * as Yup from "yup";
 
 const CreateCustomerForm = ({ errors, touched, values, status }) => {
+
+import { actions } from '../state/customer/customerActions';
+
+const CreateCustomerForm = () => {
+    const [state, dispatch] = useStateValue();
+
+
     const submitForm = values => {
-        createCustomer(values);
+        actions.addCustomer(dispatch, values);
     };
 
     const [values, handleChange, handleSubmit] = useForm(
