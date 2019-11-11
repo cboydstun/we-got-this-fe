@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from '../hooks/useForm';
 import UserList from './UserList';
+import firebase from '../config/firebase';
 
 const CreateTeamForm = () => {
+    const [techs, setTechs] = useState([]);
     const submitForm = values => {
-        console.log('submitting', values);
+        const firestore = firebase.getFirestore();
+
+        firestore.collection('teams').add({
+            name: values.name,
+            users: techs.map(tech => tech.email)
+        });
     };
 
     const [values, handleChange, handleSubmit] = useForm(
@@ -24,7 +31,10 @@ const CreateTeamForm = () => {
                 value={values.name}
                 onChange={handleChange}
             />
-            <UserList ids={['1QDmGsLpzHOOX4W46aaa']} />
+            <UserList
+                ids={['cHKisdggmrvFxJIzYumv', 'dksyVFiZr0sSIMf3B28G', 'gw4DejkeoyhalshcX4HZ']}
+                handleSelectedUsers={setTechs}
+            />
             <button type="submit">Submit</button>
         </form>
     );
