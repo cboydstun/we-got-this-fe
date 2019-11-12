@@ -103,15 +103,6 @@ function App() {
                 <Route path={routes.ME} component={Me} />
                 <Route path={routes.CALENDAR} component={Calendar} />
 
-
-                <button
-                    onClick={() => {
-                        logout();
-                    }}
-                >
-                    Sign Out
-                </button>
-
                 {/* <CreateCustomerForm /> */}
                 <InviteTech />
 
