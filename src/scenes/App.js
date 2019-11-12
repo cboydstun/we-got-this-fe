@@ -12,9 +12,6 @@ import {
     SideBar,
     TopBar,
 } from '../components';
-=======
-import { Navigation, CreateCustomerForm, SplashLoading, RegisterCompany, InviteTech } from '../components';
->>>>>>> e384255dc1c0f10a16708ed64374002c716a13c7
 
 import Calendar from './Calendar';
 import Auth from './Auth';
