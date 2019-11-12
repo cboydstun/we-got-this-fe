@@ -6,6 +6,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { initGoogleClient } from '../config/googleClient';
 
 //Components / Scenes
+<<<<<<< HEAD
 
 import {
     Navigation,
@@ -14,6 +15,9 @@ import {
     RegisterCompany,
     InviteTech,
 } from '../components';
+=======
+import { Navigation, CreateCustomerForm, SplashLoading, RegisterCompany, InviteTech } from '../components';
+>>>>>>> e384255dc1c0f10a16708ed64374002c716a13c7
 
 import Calendar from './Calendar';
 import Auth from './Auth';
