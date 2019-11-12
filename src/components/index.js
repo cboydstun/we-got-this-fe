@@ -1,5 +1,5 @@
 import button from './Button';
-import createCustomerForm from './CreateCustomerForm';
+import createCustomerForm from './forms/CreateCustomerForm';
 import createTeamForm from './CreateTeamForm';
 import userList from './UserList';
 
