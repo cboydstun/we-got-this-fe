@@ -12,6 +12,7 @@ import {
     InviteTech,
     SideBar,
     TopBar,
+    CreateTeamForm,
 } from '../components';
 
 //Forms
@@ -99,6 +100,10 @@ function App() {
                         <Route
                             path={routes.CREATE_CUSTOMER_FORM}
                             component={CreateCustomerForm}
+                        />
+                        <Route
+                            path={routes.CREATE_TEAM_FORM}
+                            component={CreateTeamForm}
                         />
                     </main>
                 </div>

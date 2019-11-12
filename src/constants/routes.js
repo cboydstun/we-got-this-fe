@@ -5,6 +5,7 @@ export const routes = {
     CALENDAR: '/calendar',
     TECHS: '/techs',
     CREATE_CUSTOMER_FORM: '/create-customer',
+    CREATE_TEAM_FORM: '/team/create',
     INVITE_TECH: '/invite-tech',
     REGISTER_COMPANY: '/register-company',
 };
@@ -29,6 +30,10 @@ export const privateRoutes = [
     {
         name: 'Create Customer Form',
         path: routes.CREATE_CUSTOMER_FORM,
+    },
+    {
+        name: 'Create Team Form',
+        path: routes.CREATE_TEAM_FORM,
     },
     {
         name: 'Invite Tech',
