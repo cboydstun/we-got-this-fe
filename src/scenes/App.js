@@ -81,10 +81,12 @@ function App() {
                     <main className={classes.content}>
                         <div className={classes.toolbar} />
 
-                <Route exact path={routes.AUTH} component={Auth} />
-                <Route path={routes.HOME} component={Dashboard} />
-                <Route path={routes.ME} component={Me} />
-                <Route path={routes.CALENDAR} component={Calendar} />
+                        <Route exact path={routes.AUTH} component={Auth} />
+                        <Route path={routes.HOME} component={Dashboard} />
+                        <Route path={routes.PROFILE} component={Me} />
+                        <Route path={routes.CALENDAR} component={Calendar} />
+                    </main>
+                </div>
             </BrowserRouter>
         );
     }

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useStateValue } from '../state';
-import { useForm } from '../hooks/useForm';
+import { useStateValue } from '../../state';
+import { useForm } from '../../hooks/useForm';
 
-import { createCustomer } from '../state/reducers/customerReducer';
-import { actions } from '../state/customer/customerActions';
+import { createCustomer } from '../../state/customer/customerReducer';
+import { actions } from '../../state/customer/customerActions';
 import { Form, Field, withFormik, Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -84,15 +84,6 @@ const CustomerForm = ({ errors, touched, values, status }) => {
 
             <button type="submit">Submit</button>
         </Form>
-
-        // {users.map(users => (
-        //     <ul key={users.id}>
-        //       <li>Name: {users.name}</li>
-        //       <li>Email: {users.email}</li>
-        //       <li>Password: {users.password}</li>
-        //     </ul>
-        //   ))}
-        // </div>
     );
 };
 

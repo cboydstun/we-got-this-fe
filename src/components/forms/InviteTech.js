@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 // import { useForm } from '../hooks/useForm';
 // import { inviteTech } from '../state/reducers/techReducer';
 import * as Yup from 'yup';
-import Error from './Error';
+import Error from '../Error';
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string()
