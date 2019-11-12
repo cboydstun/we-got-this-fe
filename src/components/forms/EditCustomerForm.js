@@ -3,7 +3,7 @@ import { Formik, withFormik, Form, Field } from 'formik';
 import _ from 'lodash';
 import * as Yup from 'yup';
 import { withRouter } from 'react-router-dom';
-import { withState } from '../state';
+import { withState } from '../../state';
 
 const EditCustomer = ({
     errors,
