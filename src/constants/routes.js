@@ -4,6 +4,9 @@ export const routes = {
     PROFILE: '/profile',
     CALENDAR: '/calendar',
     TECHS: '/techs',
+    CREATE_CUSTOMER_FORM: '/create-customer',
+    INVITE_TECH: '/invite-tech',
+    REGISTER_COMPANY: '/register-company',
 };
 
 export const privateRoutes = [
@@ -22,6 +25,18 @@ export const privateRoutes = [
     {
         name: 'Techs',
         path: routes.TECHS,
+    },
+    {
+        name: 'Create Customer Form',
+        path: routes.CREATE_CUSTOMER_FORM,
+    },
+    {
+        name: 'Invite Tech',
+        path: routes.INVITE_TECH,
+    },
+    {
+        name: 'Register Company',
+        path: routes.REGISTER_COMPANY,
     },
 ];
 

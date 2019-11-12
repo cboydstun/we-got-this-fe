@@ -9,14 +9,17 @@ import {
     CreateCustomerForm,
     SplashLoading,
     RegisterCompany,
+    InviteTech,
     SideBar,
     TopBar,
 } from '../components';
 
+//Forms
+
 import Calendar from './Calendar';
 import Auth from './Auth';
 import Dashboard from './Dashboard';
-import Me from './Me';
+import Profile from './Profile';
 
 //Styles
 import RootContainer from '../components/styles/containers/RootContainer';
@@ -83,8 +86,20 @@ function App() {
 
                         <Route exact path={routes.AUTH} component={Auth} />
                         <Route path={routes.HOME} component={Dashboard} />
-                        <Route path={routes.PROFILE} component={Me} />
+                        <Route path={routes.PROFILE} component={Profile} />
                         <Route path={routes.CALENDAR} component={Calendar} />
+                        <Route
+                            path={routes.REGISTER_COMPANY}
+                            component={RegisterCompany}
+                        />
+                        <Route
+                            path={routes.INVITE_TECH}
+                            component={InviteTech}
+                        />
+                        <Route
+                            path={routes.CREATE_CUSTOMER_FORM}
+                            component={CreateCustomerForm}
+                        />
                     </main>
                 </div>
             </BrowserRouter>
