@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useForm } from '../hooks/useForm';
-import UserList from './UserList';
-import firebase from '../config/firebase';
+import { useForm } from '../../hooks/useForm';
+import UserList from '../UserList';
+import firebase from '../../config/firebase';
 
 const CreateTeamForm = () => {
     const [techs, setTechs] = useState([]);
