@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
+import { useStateValue } from '../../state';
 import { useForm } from '../../hooks/useForm';
 import UserList from '../UserList';
-import firebase from '../../config/firebase';
+import { actions } from '../../state/team/teamActions';
 
 const CreateTeamForm = () => {
+    const [, dispatch] = useStateValue();
     const [techs, setTechs] = useState([]);
     const submitForm = values => {
-        const firestore = firebase.getFirestore();
-
-        firestore.collection('teams').add({
+        actions.createTeam(dispatch, {
             name: values.name,
-            users: techs.map(tech => tech.email)
+            users: techs.map(tech => tech.email),
         });
     };
 

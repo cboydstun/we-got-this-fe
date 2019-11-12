@@ -101,6 +101,10 @@ function App() {
                             path={routes.CREATE_CUSTOMER_FORM}
                             component={CreateCustomerForm}
                         />
+                        <Route
+                            path={routes.CREATE_TEAM_FORM}
+                            component={CreateTeamForm}
+                        />
                     </main>
                 </div>
             </BrowserRouter>
