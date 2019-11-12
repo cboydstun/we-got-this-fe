@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 //
 //Config
 import { initGoogleClient } from '../config/googleClient';
 
 //Components / Scenes
 import {
-    Navigation,
     CreateCustomerForm,
     SplashLoading,
     RegisterCompany,
     SideBar,
+    TopBar,
 } from '../components';
 import Calendar from './Calendar';
 import Auth from './Auth';
@@ -32,26 +31,16 @@ import { actions } from '../state/auth/authActions';
 //Fire
 import Firebase from '../config/firebase';
 
+import { CssBaseline } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
-    appBar: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
+    toolbar: {
+        height: 48,
     },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
@@ -85,15 +74,24 @@ function App() {
         return (
             <BrowserRouter>
                 <div className={classes.root}>
-                    <Navigation />
+                    <CssBaseline />
+                    <TopBar />
+                    <SideBar />
+                    <main className={classes.content}>
+                        <div className={classes.toolbar} />
 
-                    <Route exact path={routes.AUTH} component={Auth} />
-                    <Route path={routes.HOME} component={Dashboard} />
-                    <Route path={routes.ME} component={Me} />
-                    <Route path={routes.CALENDAR} component={Calendar} />
+                        <Route exact path={routes.AUTH} component={Auth} />
+                        <Route path={routes.HOME} component={Dashboard} />
+                        <Route path={routes.PROFILE} component={Me} />
+                        <Route path={routes.CALENDAR} component={Calendar} />
 
-                    <CreateCustomerForm />
-                    <RegisterCompany />
+                        <CreateCustomerForm />
+                        <RegisterCompany />
+                        <RegisterCompany />
+                        <RegisterCompany />
+                        <RegisterCompany />
+                        <RegisterCompany />
+                    </main>
                 </div>
             </BrowserRouter>
         );

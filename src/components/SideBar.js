@@ -1,19 +1,63 @@
 import React from 'react';
-import { Drawer, Button } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Drawer, Divider, List, ListItem } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import { privateRoutes, publicRoutes } from '../constants/routes';
 
-const styles = {
-    width: '240px',
-    flexShrink: 0,
-};
+const drawerWidth = 150;
 
-const SideBar = ({ children }) => {
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
+    appBar: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    toolbar: {
+        height: 48,
+    },
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing(3),
+    },
+}));
+
+const SideBar = () => {
+    const classes = useStyles();
+    const history = useHistory();
+
     return (
-        <Drawer variant="persistent" open={true} anchor="left" style={styles}>
-            <Button variant="contained">Hello World!</Button>
-            <div>
-                A bunch of text here to test how wide the text will move the
-                stuff around
+        <Drawer
+            className={classes.drawer}
+            variant="permanent"
+            classes={{ paper: classes.drawerPaper }}
+            anchor="left"
+        >
+            <div className={classes.toolbar}>
+                <h2 style={{ margin: 0, padding: 0 }}>We Got This!</h2>
             </div>
+            <Divider />
+            <List>
+                {privateRoutes.map(route => (
+                    <ListItem button onClick={() => history.push(route.path)}>
+                        {route.name}
+                    </ListItem>
+                ))}
+                {publicRoutes.map(route => (
+                    <ListItem button onClick={() => history.push(route.path)}>
+                        {route.name}
+                    </ListItem>
+                ))}
+            </List>
         </Drawer>
     );
 };
