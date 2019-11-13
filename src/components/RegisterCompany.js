@@ -7,7 +7,7 @@ import { actions } from "../state/auth/authActions";
 
 const RegisterCompany = ({errors, touched, values, status}) => {
     const [forms, setForms] = useState([]);
-    console.log("this is touched", touched);
+    // console.log("this is touched", touched);
     useEffect(() => {
         if (status) {
             setForms([...forms, status]);
@@ -23,22 +23,32 @@ const RegisterCompany = ({errors, touched, values, status}) => {
                 <Form>
                     <div>
                         <Field type="text" name="firstName" placeholder="First Name"/>
+                        {touched.firstName && errors.firstName && (
+                        <p className="error">{errors.firstName}</p>)}
                     </div>
 
                     <div>
                         <Field type="text" name="lastName" placeholder="Last Name"/>
+                        {touched.lastName && errors.lastName && (
+                        <p className="error">{errors.lastName}</p>)}
                     </div>
 
                     <div>
                         <Field type="email" name="email" placeholder="Email"/>
+                        {touched.email && errors.email && (
+                        <p className="error">{errors.email}</p>)}
                     </div>
 
                     <div>
                         <Field type="text" name="company" placeholder="Company Name"/>
+                        {touched.company && errors.company && (
+                        <p className="error">{errors.company}</p>)}
                     </div>
 
                     <div>
                         <Field type="text" name="phoneNumber" placeholder="Phone Number" />
+                        {touched.phoneNumber && errors.phoneNumber && (
+                        <p className="error">{errors.phoneNumber}</p>)}
                     </div>
 
                     <button type="submit">Submit</button>
@@ -48,7 +58,7 @@ const RegisterCompany = ({errors, touched, values, status}) => {
     );
 }
 
-const FormikForm = withFormik({
+const RegisterForm = withFormik({
     mapPropsToValues({firstName, lastName, email, company, phoneNumber}){
         return {
             firstName: firstName || "",
@@ -63,15 +73,16 @@ const FormikForm = withFormik({
         lastName: Yup.string().required("Enter your Last Name"),
         email: Yup.string().email("Email Not Valid").required("Email Is Required"),
         company: Yup.string().required("Company Name is required"),
-        phoneNumber: Yup.string().required("Phone Number is required")
+        phoneNumber: Yup.string().min(10, 'Your phone number must be at least 10 digits').required("Phone Number is required")
     }),
 
-    handleSubmit(values, {setStatus, props}) {
+    handleSubmit(values, {setStatus, props, resetForm}) {
         actions.createCompany(props.dispatch, values)
         .then (res => {
             console.log(res)
-        })
+        });
+        resetForm();
     }
 })(RegisterCompany);
 
-export default withState(FormikForm);
+export default withState(RegisterForm);
