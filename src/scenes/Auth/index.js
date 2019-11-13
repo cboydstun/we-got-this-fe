@@ -22,7 +22,7 @@ const Auth = () => {
                     let result = await actions.login(dispatch);
                     console.log(result);
                     if (result == true) {
-                        history.push(routes.AUTH_REGISTER_COMPANY);
+                        history.push(routes.HOME);
                     }
                 }}
             >
@@ -39,15 +39,6 @@ const Auth = () => {
             >
                 Register With Google
             </button>
-            <button
-                onClick={() => {
-                    actions.logout(dispatch);
-                }}
-            >
-                Sign Out
-            </button>
-            <div id="firebaseui-auth-container"></div>
-            <Link to={routes.AUTH_REGISTER_COMPANY}>Register Company</Link>
         </>
     );
 };
