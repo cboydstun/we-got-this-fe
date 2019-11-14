@@ -67,5 +67,17 @@ export const service = {
         let docId = doc.id;
         company = {docId, ...doc.data()}
         return company;
+    },
+
+    //Getting Admin Info
+    async getAdmin(adminId) {
+        let currentAdmin;
+        let querySnapshot = await db.collection('accounts').where('firstName', '==', adminId)
+        .get()
+        querySnapshot.forEach(function(doc) {
+            let docId = doc.id;
+            currentAdmin={docId, ...doc.data()};
+        })
+        return currentAdmin;
     }
 };

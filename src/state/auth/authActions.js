@@ -15,6 +15,7 @@ export const types = {
     AUTH_UPDATE_USER_SUCCESS: 'AUTH_UPDATE_USER_SUCCESS',
     AUTH_UPDATE_USER_ERROR: 'AUTH_UPDATE_USER_ERROR',
     CREATE_COMPANY: 'CREATE_COMPANY',
+    ADMIN_INFO: 'ADMIN_INFO'
 };
 
 export const actions = {
@@ -91,4 +92,19 @@ export const actions = {
             return Error;
         }
     },
+
+    async getAdmin(dispatch, values) {
+        try {
+         let adminInfo = await service.getAdmin(values);
+         dispatch({
+             type: types.ADMIN_INFO,
+             payload: adminInfo
+         });
+        } catch (err) {
+            dispatch({
+                type: types.AUTH_ERROR
+            });
+        }
+
+    }
 };
