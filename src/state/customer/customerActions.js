@@ -1,27 +1,40 @@
 import { service } from './customerService';
 
 export const types = {
-    ADD_CUSTOMERS_START: 'ADD_CUSTOMERS_START',
-    ADD_CUSTOMER_SUCCESS: 'ADD_CUSTOMER_SUCCESS',
-    ADD_CUSTOMER_ERROR: 'ADD_CUSTOMER_ERROR',
+    ADD_CUSTOMER: 'ADD_CUSTOMERS',
+    GET_CUSTOMERS: 'GET_CUSTOMERS',
 };
 
 export const actions = {
     async addCustomer(dispatch, customer) {
         try {
-            dispatch({ type: types.ADD_CUSTOMER_START });
-
             let newCustomer = await service.addCustomer(customer);
             if (!newCustomer) {
                 throw new Error('Customer failed');
             }
-
             dispatch({
-                type: types.ADD_CUSTOMER_SUCCESS,
+                type: types.ADD_CUSTOMER,
                 payload: newCustomer,
             });
         } catch (err) {
-            dispatch({ type: types.ADD_CUSTOMER_ERROR, payload: err });
+            return err;
+        }
+    },
+
+    async getCustomers(dispatch, accountId) {
+        try {
+            console.log('Action to get customers called');
+            let customers = await service.getCustomers(accountId);
+            if (!customers) {
+                throw new Error('Failed to get customers');
+            }
+            dispatch({
+                type: types.GET_CUSTOMERS,
+                payload: customers,
+            });
+            return true;
+        } catch (err) {
+            return err;
         }
     },
 };

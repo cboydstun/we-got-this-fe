@@ -11,4 +11,19 @@ export const service = {
 
         return data;
     },
+
+    async getCustomers(accountId) {
+        let customers = [];
+        let querySnapshot = await db
+            .collection('customers')
+            .where('accountId', '==', accountId)
+            .get();
+        console.log('Query Snapshot: ', querySnapshot);
+        querySnapshot.forEach(doc => {
+            let docId = doc.id;
+            customers.push({ docId, ...doc.data() });
+        });
+        console.log('Customers from DB: ', customers);
+        return customers;
+    },
 };
