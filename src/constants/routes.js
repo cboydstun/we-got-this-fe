@@ -9,6 +9,7 @@ export const routes = {
     INVITE_TECH: '/invite-tech',
     REGISTER_COMPANY: '/register-company',
     AUTH_REGISTER_COMPANY: '/auth/register-company',
+    CUSTOMERS: '/customers',
 };
 
 export const privateRoutes = [
@@ -43,6 +44,10 @@ export const privateRoutes = [
     {
         name: 'Register Company',
         path: routes.REGISTER_COMPANY,
+    },
+    {
+        name: 'Customers',
+        path: routes.CUSTOMERS,
     },
 ];
 
