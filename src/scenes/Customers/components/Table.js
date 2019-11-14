@@ -11,6 +11,7 @@ import {
     Paper,
     Button,
     IconButton,
+    Typography,
 } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { Link } from 'react-router-dom';
@@ -41,14 +42,6 @@ const CustomerTable = ({ customers }) => {
 
     return (
         <>
-            <Toolbar>
-                Customers
-                <Tooltip title="Filter">
-                    <IconButton onClick={() => alert('Clicked')}>
-                        <FilterListIcon />
-                    </IconButton>
-                </Tooltip>{' '}
-            </Toolbar>
             <Table className={classes.table} size="small">
                 <TableHead>
                     <TableRow className={classes.header}>

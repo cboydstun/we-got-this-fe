@@ -1,13 +1,14 @@
 import React from 'react';
+import CustomerCard from './components/CustomerCard';
+import ServiceWrapper from './components/ServiceWrapper';
 
 const Customer = ({ location }) => {
     console.log(location);
 
     return (
         <>
-            <h1>Customer</h1>
-            <div>This is some text</div>
-            <p>{location.state && location.state.name}</p>
+            <CustomerCard customer={location.state} />
+            <ServiceWrapper />
         </>
     );
 };

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Toolbar, Tooltip, IconButton } from '@material-ui/core';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import CustomerTable from './components/Table';
 import { useStateValue } from '../../state';
 import { actions } from '../../state/customer/customerActions';
@@ -22,7 +24,14 @@ const Customers = () => {
 
     return (
         <div>
-            <h1>Customers</h1>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <h1>Customers</h1>
+                <Tooltip title="Filter">
+                    <IconButton onClick={() => alert('Clicked')}>
+                        <FilterListIcon />
+                    </IconButton>
+                </Tooltip>{' '}
+            </div>
             {loading ? (
                 <h2>Loading...</h2>
             ) : (
