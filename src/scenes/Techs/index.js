@@ -1,6 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import TechCard from './TechCard';
 
 const Techs = ({ techs }) => {
