@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
+    Toolbar,
+    Tooltip,
     Table,
     TableBody,
     TableCell,
@@ -8,7 +10,11 @@ import {
     TableRow,
     Paper,
     Button,
+    IconButton,
 } from '@material-ui/core';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import { Link } from 'react-router-dom';
+import { routes } from '../../../constants/routes';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,45 +29,69 @@ const useStyles = makeStyles(theme => ({
     table: {
         minWidth: 650,
     },
+    header: {
+        '& th': {
+            fontWeight: 600,
+        },
+    },
 }));
 
 const CustomerTable = ({ customers }) => {
     const classes = useStyles();
 
     return (
-        <Table className={classes.table} size="small">
-            <TableHead>
-                <TableRow>
-                    <TableCell>Customer Name</TableCell>
-                    <TableCell align="right">First Service</TableCell>
-                    <TableCell align="right">Next Service</TableCell>
-                    <TableCell align="right">Type</TableCell>
-                    <TableCell> </TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {customers.length &&
-                    customers.map(customer => (
-                        <TableRow key={customer.name}>
-                            <TableCell component="th" scope="row">
-                                {customer.name}
-                            </TableCell>
-                            <TableCell align="right">
-                                {customer.firstServiceDate}
-                            </TableCell>
-                            <TableCell align="right">
-                                {customer.nextServiceDate}
-                            </TableCell>
-                            <TableCell align="right">{customer.type}</TableCell>
-                            <TableCell align="right">
-                                <Button variant="outlined" color="primary">
-                                    Schedule
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-            </TableBody>
-        </Table>
+        <>
+            <Toolbar>
+                Customers
+                <Tooltip title="Filter">
+                    <IconButton onClick={() => alert('Clicked')}>
+                        <FilterListIcon />
+                    </IconButton>
+                </Tooltip>{' '}
+            </Toolbar>
+            <Table className={classes.table} size="small">
+                <TableHead>
+                    <TableRow className={classes.header}>
+                        <TableCell>Customer Name</TableCell>
+                        <TableCell align="right">First Service</TableCell>
+                        <TableCell align="right">Next Service</TableCell>
+                        <TableCell align="right">Type</TableCell>
+                        <TableCell> </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {customers.length &&
+                        customers.map(customer => (
+                            <TableRow key={customer.name}>
+                                <TableCell component="th" scope="row">
+                                    <Link
+                                        to={{
+                                            pathname: `${routes.CUSTOMERS}/${customer.docId}`,
+                                            state: customer,
+                                        }}
+                                    >
+                                        {customer.name}
+                                    </Link>
+                                </TableCell>
+                                <TableCell align="right">
+                                    {customer.firstServiceDate}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {customer.nextServiceDate}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {customer.type}
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Button variant="outlined" color="primary">
+                                        Schedule
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                </TableBody>
+            </Table>
+        </>
     );
 };
 

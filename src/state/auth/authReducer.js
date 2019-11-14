@@ -2,7 +2,9 @@ import { types } from './authActions';
 
 export const authState = {
     loadingUser: false,
-    currentUser: null,
+    currentUser: {
+        accountId: 'test-account',
+    },
     errorMessage: null,
 };
 
@@ -34,10 +36,10 @@ export default function reducer(state, action) {
                 currentUser: null,
             };
         case types.CREATE_COMPANY:
-            return{
+            return {
                 ...state,
                 company: payload,
-            };    
+            };
         default:
             return {
                 ...state,

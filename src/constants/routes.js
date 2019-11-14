@@ -10,6 +10,7 @@ export const routes = {
     REGISTER_COMPANY: '/register-company',
     AUTH_REGISTER_COMPANY: '/auth/register-company',
     CUSTOMERS: '/customers',
+    CUSTOMER_PROFILE: '/customers/:id',
 };
 
 export const privateRoutes = [
@@ -48,6 +49,10 @@ export const privateRoutes = [
     {
         name: 'Customers',
         path: routes.CUSTOMERS,
+    },
+    {
+        name: 'Specific Customer',
+        path: routes.CUSTOMER_PROFILE,
     },
 ];
 
