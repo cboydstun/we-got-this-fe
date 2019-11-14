@@ -1,45 +1,61 @@
 import React from 'react';
-import { Card, Button } from '@material-ui/core';
+import { Card, Button, Select, InputLabel, MenuItem, FormControl } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-    personalInfo: {
+    root: {
         display: 'flex',
 
         '& .photo': {
             maxWidth: '150px',
-            marginRight: theme.spacing(2)
         }
     },
 
-    employmentInfo: {
+    info: {
+        width: '100%',
         padding: theme.spacing(2),
+        '& h2': {
+            marginTop: '0',
+        }
+    },
+
+    dropdown: {
+        width: '100%',
     },
 
     controls: {
-        textAlign: 'right',
+        width: '100%',
+        textAlign: 'center',
+        paddingTop: theme.spacing(2),
+        '& *': {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+        }
     },
 }));
 
-const TechCard = ({ displayName, photoUrl, address, city, state, zip, phone }) => {
+const TechCard = ({ displayName, photoUrl }) => {
     const classes = useStyles();
 
     return (
-        <Card>
-            <div className={classes.personalInfo}>
-                <img className="photo" src={photoUrl} alt={displayName} />
-                <div>
-                    <h2>{displayName}</h2>
-                    <span>{address}</span>
-                    <br />
-                    <span>{city}, {state} {zip}</span>
-                    <br />
-                    <span>{phone}</span>
-                </div>
-            </div>
-            <div className={classes.employmentInfo}>
+        <Card className={classes.root}>
+            <img className="photo" src={photoUrl} alt={displayName} />
+            <div className={classes.info}>
+                <h2>{displayName}</h2>
+                <FormControl className={classes.dropdown}>
+                    <InputLabel id="team">Team</InputLabel>
+                    <Select value={3} displayEmpty>
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                </FormControl>
                 <div className={classes.controls}>
-                    <Button variant="contained">Edit</Button>
+                    <Button>Archive</Button>
+                    <Button>Edit</Button>
                 </div>
             </div>
         </Card>

@@ -4,44 +4,14 @@ import { Paper, Grid } from '@material-ui/core';
 import TechCard from './TechCard';
 
 const Techs = ({ techs }) => {
-    techs = [
-        {
-            displayName: 'Sanny Sherief',
-            photoUrl: 'https://i.imgur.com/l5YJgol.png',
-            address: '123 Fake Street',
-            city: 'Los Angeles',
-            state: 'CA',
-            zip: '90019',
-            phone: '3233233232',
-        },
-        {
-            displayName: 'Sanny Sherief',
-            photoUrl: 'https://i.imgur.com/l5YJgol.png',
-            address: '123 Fake Street',
-            city: 'Los Angeles',
-            state: 'CA',
-            zip: '90019',
-            phone: '3233233232',
-        },
-        {
-            displayName: 'Sanny Sherief',
-            photoUrl: 'https://i.imgur.com/l5YJgol.png',
-            address: '123 Fake Street',
-            city: 'Los Angeles',
-            state: 'CA',
-            zip: '90019',
-            phone: '3233233232',
-        },
-    ];
-
     return (
         <>
-            <h1>All Technicians</h1>
-            <Grid container xs={12} spacing={3} >
+            <h1>Technicians</h1>
+            <Grid container xs={12} spacing={3} justify='space-between' >
                 {
                     techs.map((tech, index) => {
                         return (
-                            <Grid item sm={12} md={6} key={index}>
+                            <Grid item sm={12} md={5} key={index}>
                                 <TechCard {...tech} />
                             </Grid>
                         )
