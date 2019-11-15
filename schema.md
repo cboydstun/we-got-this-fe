@@ -54,6 +54,7 @@ How do I contact this person?
             "company": "jackies_cleaning_4321",
             "password": **********
             "admin": true,
+            "disabled": true
         },
         "susy_smith_123124": {
             "name": "Susy Smith",
