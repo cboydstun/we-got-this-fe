@@ -92,10 +92,6 @@ function App() {
                         <Route path={routes.CALENDAR} component={Calendar} />
                         <Route path={routes.TECHS} component={Techs} />
                         <Route
-                            path={routes.AUTH_REGISTER_COMPANY}
-                            component={RegisterCompany}
-                        />
-                        <Route
                             path={routes.REGISTER_COMPANY}
                             component={RegisterCompany}
                         />

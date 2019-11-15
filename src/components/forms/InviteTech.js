@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik } from "formik";
-// import { useForm } from '../hooks/useForm';
-// import { inviteTech } from '../state/reducers/techReducer';
 import * as Yup from "yup";
 import Error from '../Error';
+import { actions } from '../../state/auth/authActions';
+import { useStateValue } from '../../state';
 
 
 
@@ -29,8 +29,8 @@ const validationSchema = Yup.object().shape({
         .max(255, 'Must be shorter than 255')
 })
 
-
 const InviteTech = () => {
+const [state, dispatch] = useStateValue();
 
     return (
         <Formik
@@ -49,6 +49,11 @@ const InviteTech = () => {
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 setSubmitting(true)
 
+                actions.inviteTech(dispatch, values)
+                .then(res => {
+                    console.log('RES...' , res)
+                })
+
                 setTimeout(() => {
                     alert(JSON.stringify(values, null, 2));
                     resetForm();
@@ -57,9 +62,9 @@ const InviteTech = () => {
                 }, 500);
             }}>
 
+    
             {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                
-
+            
                 <form className='Form' onSubmit={handleSubmit}>
                     <div className='tech-form-left'>
 

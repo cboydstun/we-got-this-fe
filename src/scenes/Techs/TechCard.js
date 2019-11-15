@@ -1,5 +1,12 @@
 import React from 'react';
-import { Card, Button, Select, InputLabel, MenuItem, FormControl } from '@material-ui/core';
+import {
+    Card,
+    Button,
+    Select,
+    InputLabel,
+    MenuItem,
+    FormControl,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -8,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
         '& .photo': {
             maxWidth: '150px',
-        }
+        },
     },
 
     info: {
@@ -16,7 +23,7 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2),
         '& h2': {
             marginTop: '0',
-        }
+        },
     },
 
     dropdown: {
@@ -30,7 +37,7 @@ const useStyles = makeStyles(theme => ({
         '& *': {
             marginLeft: theme.spacing(1),
             marginRight: theme.spacing(1),
-        }
+        },
     },
 }));
 
