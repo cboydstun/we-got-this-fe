@@ -66,9 +66,6 @@ export const service = {
         company = { docId, ...doc.data() };
         return company;
     },
-<<<<<<< HEAD
-=======
-
     //GET COMPANY
     async getCompany(accountId) {
         let currentCompany;
@@ -82,5 +79,4 @@ export const service = {
         });
         return currentCompany;
     },
->>>>>>> dev
 };

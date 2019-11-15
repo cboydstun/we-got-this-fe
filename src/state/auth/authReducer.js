@@ -39,10 +39,7 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 company: payload,
-<<<<<<< HEAD
             };
-=======
-            }; 
         case types.COMPANY_LIST:
             return {
                 ...state,
@@ -52,8 +49,7 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 currentAdmin: payload,
-            };   
->>>>>>> dev
+            };
         default:
             return {
                 ...state,

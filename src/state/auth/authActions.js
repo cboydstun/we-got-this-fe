@@ -11,16 +11,9 @@ export const types = {
 
     AUTH_LOGOUT: 'AUTH_LOGOUT',
 
-<<<<<<< HEAD
-    AUTH_UPDATE_USER_START: 'AUTH_UPDATE_USER_START',
-    AUTH_UPDATE_USER_SUCCESS: 'AUTH_UPDATE_USER_SUCCESS',
-    AUTH_UPDATE_USER_ERROR: 'AUTH_UPDATE_USER_ERROR',
-    CREATE_COMPANY: 'CREATE_COMPANY',
-=======
     CREATE_COMPANY: 'CREATE_COMPANY',
     COMPANY_LIST: 'COMPANY_LIST',
     EDIT_ADMIN: 'EDIT_ADMIN',
->>>>>>> dev
 };
 
 export const actions = {
@@ -96,8 +89,6 @@ export const actions = {
             return Error;
         }
     },
-<<<<<<< HEAD
-=======
     async getCompany(dispatch, values) {
         try {
             let companyInfo = await service.getCompany(values);
@@ -108,5 +99,4 @@ export const actions = {
             dispatch({ type: types.AUTH_ERROR });
         }
     },
->>>>>>> dev
 };
