@@ -70,7 +70,7 @@ const InviteTech = () => {
                         <div className='tech-buttons'>
                             <button id='tech-cancel'>Cancel</button>
                             <button type='submit' disabled={isSubmitting}>Submit</button>
-                        </div> {/* tech-buttons end */}
+                        </div> 
 
                 </form> /* Form end */
             )}
