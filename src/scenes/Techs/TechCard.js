@@ -43,11 +43,16 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const TechCard = ({ displayName, photoUrl }) => {
+const TechCard = ({ displayName, photoUrl, disabled }) => {
     const classes = useStyles();
     const [, dispatch] = useStateValue();
+
     const handleTeamChange = e => {
         actions.addTechToTeam(dispatch, 'example', e.target.value.toString());
+    };
+
+    const handleArchiveClick = () => {
+        console.log(displayName);
     };
 
     return (
@@ -67,7 +72,7 @@ const TechCard = ({ displayName, photoUrl }) => {
                     </Select>
                 </FormControl>
                 <div className={classes.controls}>
-                    <Button>Archive</Button>
+                    <Button onClick={handleArchiveClick}>Archive</Button>
                     <Button>Edit</Button>
                 </div>
             </div>

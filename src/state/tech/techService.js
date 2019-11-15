@@ -6,7 +6,11 @@ export const service = {
     async addTechToTeam(techEmail, teamId) {
         const team = (await db.collection('teams').doc(teamId).get()).data();
 
-        db.collection('teams').doc(teamId).update({ users: [ ...team.users, techEmail ] });
+        await db.collection('teams').doc(teamId).update({ users: [...team.users, techEmail] });
+    },
+
+    async archiveTech(techId) {
+        await db.collection('teams').doc(techId).update({ disabled: true });
     },
 
     inviteTech: ({ firstName, lastName, email, phone, address, notes, city, zip, }) => {
