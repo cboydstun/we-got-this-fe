@@ -5,8 +5,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Error from '../Error';
 import { TextField } from '@material-ui/core';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-
+// import TextareaAutoSizing from '@material-ui/core/TextareaAutosize';
+import { makeStyles } from '@material-ui/core';
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -22,8 +22,15 @@ const validationSchema = Yup.object().shape({
         .max(255, 'Text in this field must be shorter than 255 characters')
 })
 
+const useStyles = makeStyles({
+    root: {
+        display: "none",
+    }
+  });
 
 const InviteTech = () => {
+    
+    const classes = useStyles();
 
     return (
         <Formik
@@ -64,7 +71,7 @@ const InviteTech = () => {
                             <TextField error={errors.phone && touched.phone} onChange={handleChange} name='phone' value={values.phone} onBlur={handleBlur} className={touched.phone && errors.phone ? 'has-error' : null} label="Phone Number" margin="normal" variant="outlined" />
                             <Error touched={touched.phone} message={errors.phone} />
 
-                            <TextareaAutosize onChange={handleChange} name='notes' placeholder='Notes' value={values.notes} onBlur={handleBlur} className={touched.notes && errors.notes ? 'has-error' : null} />
+                            <textarea className={classes.root} onChange={handleChange} name='notes' placeholder='Banana' value={values.notes} onBlur={handleBlur} className={touched.notes && errors.notes ? 'has-error' : null} />
                             <Error touched={touched.notes} message={errors.notes} />
 
                         <div className='tech-buttons'>
