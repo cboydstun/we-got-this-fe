@@ -8,7 +8,14 @@ export const types = {
 };
 
 export const actions = {
-    async addTechToTeam(dispatch, techId, teamId) {
-           
+    async addTechToTeam(dispatch, techEmail, teamId) {
+        dispatch({ type: types.ADD_TECH_TO_TEAM_START });
+
+        await service.addTechToTeam(techEmail, teamId);
+
+        dispatch({
+            type: types.ADD_TECH_TO_TEAM_SUCCESS,
+            payload: { techEmail, teamId },
+        });
     }
 };

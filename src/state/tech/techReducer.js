@@ -1,5 +1,9 @@
 import { types } from './techActions';
 
+export const techState = {
+    techs: [],
+};
+
 export default function reducer(state, action) {
     const { type, payload } = action;
 

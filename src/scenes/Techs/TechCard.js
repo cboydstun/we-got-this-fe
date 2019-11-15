@@ -1,4 +1,5 @@
 import React from 'react';
+import { actions } from '../../state/tech/techActions';
 import {
     Card,
     Button,
@@ -8,6 +9,7 @@ import {
     FormControl,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useStateValue } from '../../state';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,6 +45,10 @@ const useStyles = makeStyles(theme => ({
 
 const TechCard = ({ displayName, photoUrl }) => {
     const classes = useStyles();
+    const [, dispatch] = useStateValue();
+    const handleTeamChange = e => {
+        actions.addTechToTeam(dispatch, 'example', e.target.value.toString());
+    };
 
     return (
         <Card className={classes.root}>
@@ -51,13 +57,13 @@ const TechCard = ({ displayName, photoUrl }) => {
                 <h2>{displayName}</h2>
                 <FormControl className={classes.dropdown}>
                     <InputLabel id="team">Team</InputLabel>
-                    <Select value={3} displayEmpty>
+                    <Select displayEmpty value={3} onChange={handleTeamChange}>
                         <MenuItem value="">
                             <em>None</em>
                         </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        <MenuItem value="2UHQpb30P1KtFKe5F5qK">Team A</MenuItem>
+                        <MenuItem value="Ewjs46GMdKVqBDPsqzK8">Team B</MenuItem>
+                        <MenuItem value="MnZEZUNX03kM3bUYVbH6">Team C</MenuItem>
                     </Select>
                 </FormControl>
                 <div className={classes.controls}>
