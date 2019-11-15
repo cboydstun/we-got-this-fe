@@ -13,6 +13,7 @@ import {
     SideBar,
     TopBar,
     CreateTeamForm,
+    JobsCards,
 } from '../components';
 
 //Forms
@@ -21,6 +22,7 @@ import Calendar from './Calendar';
 import Auth from './Auth';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
+import Techs from './Techs';
 
 //Styles
 import RootContainer from '../components/styles/containers/RootContainer';
@@ -84,11 +86,15 @@ function App() {
                     <SideBar />
                     <main className={classes.content}>
                         <div className={classes.toolbar} />
-
                         <Route exact path={routes.AUTH} component={Auth} />
                         <Route path={routes.HOME} component={Dashboard} />
                         <Route path={routes.PROFILE} component={Profile} />
                         <Route path={routes.CALENDAR} component={Calendar} />
+                        <Route path={routes.TECHS} component={Techs} />
+                        <Route
+                            path={routes.AUTH_REGISTER_COMPANY}
+                            component={RegisterCompany}
+                        />
                         <Route
                             path={routes.REGISTER_COMPANY}
                             component={RegisterCompany}
