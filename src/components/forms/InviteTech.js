@@ -5,19 +5,21 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Error from '../Error';
 import { TextField } from '@material-ui/core';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
-        .required('Must enter a Name'),
-    phone: Yup.number()
-        .required('Must enter a Phone Number'),
-    address: Yup.string()
-        .required('Must enter an Address'),
+        .required('Full Name Required'),
+
     email: Yup.string()
-        .required('Must enter an Email'),
+        .required('Email Required'),
+
+    phone: Yup.number()
+        .required('Phone Number Required'),
+
     notes: Yup.string()
-        .max(255, 'Must be shorter than 255')
+        .max(255, 'Text in this field must be shorter than 255 characters')
 })
 
 
@@ -27,9 +29,8 @@ const InviteTech = () => {
         <Formik
             initialValues={{
                 name: '',
-                phone: '',
-                address: '',
                 email: '',
+                phone: '',
                 notes: '',
             }}
 
@@ -49,7 +50,6 @@ const InviteTech = () => {
                 
 
                 <form className='Form' onSubmit={handleSubmit}>
-                    <div className='tech-form-left'>
 
                         <h1>
                             Invite Tech
@@ -58,30 +58,20 @@ const InviteTech = () => {
                             <TextField error={touched.name} onChange={handleChange} name='name' value={values.name} onBlur={handleBlur} className={touched.name && errors.name ? 'has-error' : null} label="Full Name" margin="normal" variant="outlined" />
                             <Error touched={touched.name} message={errors.name} />
 
-                        <div>
-                            <TextField error={touched.phone} onChange={handleChange} name='phone' value={values.phone} onBlur={handleBlur} className={touched.phone && errors.phone ? 'has-error' : null} label="Phone Number" margin="normal" variant="outlined" />
-                            <Error touched={touched.phone} message={errors.phone} />
-                        </div>
-
-                        <div>
-                            <textarea onChange={handleChange} name='notes' placeholder='Notes' value={values.notes} onBlur={handleBlur} className={touched.notes && errors.notes ? 'has-error' : null} />
-                            <Error touched={touched.notes} message={errors.notes} />
-                        </div>
-
-                    </div> {/* it-form-top-left end */}
-                    <div className='tech-form-right'>
-
-                        <div>
                             <TextField error={touched.email} onChange={handleChange} name='email' value={values.email} onBlur={handleBlur} className={touched.email && errors.email ? 'has-error' : null} label="Email" margin="normal" variant="outlined" />
                             <Error touched={touched.email} message={errors.email} />
-                        </div>
-                        
+
+                            <TextField error={touched.phone} onChange={handleChange} name='phone' value={values.phone} onBlur={handleBlur} className={touched.phone && errors.phone ? 'has-error' : null} label="Phone Number" margin="normal" variant="outlined" />
+                            <Error touched={touched.phone} message={errors.phone} />
+
+                            <TextareaAutosize onChange={handleChange} name='notes' placeholder='Notes' value={values.notes} onBlur={handleBlur} className={touched.notes && errors.notes ? 'has-error' : null} />
+                            <Error touched={touched.notes} message={errors.notes} />
+
                         <div className='tech-buttons'>
                             <button id='tech-cancel'>Cancel</button>
                             <button type='submit' disabled={isSubmitting}>Submit</button>
                         </div> {/* tech-buttons end */}
 
-                    </div> {/* tech-form-right end */}
                 </form> /* Form end */
             )}
         </Formik>
