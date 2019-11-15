@@ -26,4 +26,18 @@ export const service = {
         console.log('Customers from DB: ', customers);
         return customers;
     },
+
+    async getCustomerJobs(jobPaths) {
+        let jobs = [];
+        let promises = jobPaths.map(path => {
+            return db
+                .collection('jobs')
+                .doc(path)
+                .get();
+        });
+
+        Promise.all(promises).then(res => {
+            console.log(res);
+        });
+    },
 };

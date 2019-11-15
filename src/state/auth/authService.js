@@ -18,6 +18,7 @@ export const service = {
         if (!querySnapshot.empty) {
             console.log('Got Current User');
             querySnapshot.forEach(doc => {
+                console.log('Doc: ', doc, 'Doc Data ', doc.data());
                 let docRef = doc.id;
                 currentUser = { docRef, ...doc.data() };
             });
@@ -59,12 +60,12 @@ export const service = {
 
     async createCompany(values) {
         let docRef = await db.collection('accounts').add({
-           ...values
+            ...values,
         });
-        let company = {}
-        let doc = await docRef.get()
+        let company = {};
+        let doc = await docRef.get();
         let docId = doc.id;
-        company = {docId, ...doc.data()}
+        company = { docId, ...doc.data() };
         return company;
-    }
+    },
 };

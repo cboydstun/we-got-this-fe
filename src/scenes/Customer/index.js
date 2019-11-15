@@ -8,7 +8,7 @@ const Customer = ({ location }) => {
     return (
         <>
             <CustomerCard customer={location.state} />
-            <ServiceWrapper />
+            <ServiceWrapper jobs={location.state.jobPaths} />
         </>
     );
 };

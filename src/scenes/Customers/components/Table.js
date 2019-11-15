@@ -40,6 +40,27 @@ const useStyles = makeStyles(theme => ({
 const CustomerTable = ({ customers }) => {
     const classes = useStyles();
 
+    const pullCustomerData = ({
+        docId,
+        accountId,
+        firstServiceDate,
+        name,
+        nextServiceDate,
+        type,
+        jobs,
+    }) => {
+        let jobPaths = jobs.map(job => job.path);
+        return {
+            docId,
+            accountId,
+            firstServiceDate,
+            name,
+            nextServiceDate,
+            type,
+            jobPaths,
+        };
+    };
+
     return (
         <>
             <Table className={classes.table} size="small">
@@ -54,34 +75,40 @@ const CustomerTable = ({ customers }) => {
                 </TableHead>
                 <TableBody>
                     {customers.length &&
-                        customers.map(customer => (
-                            <TableRow key={customer.name}>
-                                <TableCell component="th" scope="row">
-                                    <Link
-                                        to={{
-                                            pathname: `${routes.CUSTOMERS}/${customer.docId}`,
-                                            state: customer,
-                                        }}
-                                    >
-                                        {customer.name}
-                                    </Link>
-                                </TableCell>
-                                <TableCell align="right">
-                                    {customer.firstServiceDate}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {customer.nextServiceDate}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {customer.type}
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Button variant="outlined" color="primary">
-                                        Schedule
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        customers.map(customer => {
+                            let customerData = pullCustomerData(customer);
+                            return (
+                                <TableRow key={customer.name}>
+                                    <TableCell component="th" scope="row">
+                                        <Link
+                                            to={{
+                                                pathname: `${routes.CUSTOMERS}/${customer.docId}`,
+                                                state: customerData,
+                                            }}
+                                        >
+                                            {customer.name}
+                                        </Link>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {customer.firstServiceDate}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {customer.nextServiceDate}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {customer.type}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Button
+                                            variant="outlined"
+                                            color="primary"
+                                        >
+                                            Schedule
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                 </TableBody>
             </Table>
         </>

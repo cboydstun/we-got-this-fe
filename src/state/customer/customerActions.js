@@ -37,4 +37,16 @@ export const actions = {
             return err;
         }
     },
+
+    async getCustomerJobs(jobPaths) {
+        try {
+            let jobs = await service.getCustomerJobs(jobPaths);
+            if (!jobs) {
+                throw new Error('Failed to get jobs');
+            }
+            return true;
+        } catch (err) {
+            return err;
+        }
+    },
 };

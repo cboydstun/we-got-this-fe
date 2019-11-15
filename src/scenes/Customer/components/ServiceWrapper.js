@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useStateValue } from '../../../state';
+// import ServiceTable from './ServiceTable';
+import { actions } from '../../../state/customer/customerActions';
 
-const ServiceWrapper = () => {
+const ServiceWrapper = ({ jobPaths }) => {
     const [loading, setLoading] = useState(true);
-    const [state, dispatch] = useStateValue();
+    const [jobs, setJobs] = useState(null);
+
+    useEffect(() => {
+        if (jobs == null) {
+            actions.getCustomerJobs(jobPaths).then(jobs => {
+                setJobs(jobs);
+            });
+        } else {
+            setLoading(false);
+        }
+    }, [jobPaths, jobs]);
 
     return (
         <div>
