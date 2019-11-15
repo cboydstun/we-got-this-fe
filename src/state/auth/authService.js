@@ -38,33 +38,45 @@ export const service = {
         return currentUser;
     },
 
-    //
-    //UPDATE CURRENT USER
-    async updateCurrentUser(updateUserInfo) {
+    //Edit Admin
+    async editAdmin(updateAdmin) {
         let docRef = await db
-            .collection('users')
-            .doc(`${updateUserInfo.docRef}`)
+            .collection('accounts')
+            .doc(`${updateAdmin.docRef}`)
             .put({
-                ...updateUserInfo,
+                ...updateAdmin,
             });
 
-        let updatedUser = null;
+        let updatedAdmin = null;
         docRef.get().then(doc => {
             let docRef = doc.id;
-            updatedUser = { docRef, ...doc.data() };
+            updatedAdmin = { docRef, ...doc.data() };
         });
-
-        return updatedUser;
+        return updatedAdmin;
     },
 
     async createCompany(values) {
         let docRef = await db.collection('accounts').add({
-           ...values
+            ...values,
         });
-        let company = {}
-        let doc = await docRef.get()
+        let company = {};
+        let doc = await docRef.get();
         let docId = doc.id;
-        company = {docId, ...doc.data()}
+        company = { docId, ...doc.data() };
         return company;
-    }
+    },
+
+    //GET COMPANY
+    async getCompany(accountId) {
+        let currentCompany;
+        let querySnapshot = await db
+            .collection('accounts')
+            .where('company', '==', accountId)
+            .get();
+        querySnapshot.forEach(function(doc) {
+            let docId = doc.id;
+            currentCompany = { docId, ...doc.data() };
+        });
+        return currentCompany;
+    },
 };

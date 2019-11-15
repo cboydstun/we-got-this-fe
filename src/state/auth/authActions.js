@@ -11,10 +11,9 @@ export const types = {
 
     AUTH_LOGOUT: 'AUTH_LOGOUT',
 
-    AUTH_UPDATE_USER_START: 'AUTH_UPDATE_USER_START',
-    AUTH_UPDATE_USER_SUCCESS: 'AUTH_UPDATE_USER_SUCCESS',
-    AUTH_UPDATE_USER_ERROR: 'AUTH_UPDATE_USER_ERROR',
-    CREATE_COMPANY: "CREATE_COMPANY"
+    CREATE_COMPANY: 'CREATE_COMPANY',
+    COMPANY_LIST: 'COMPANY_LIST',
+    EDIT_ADMIN: 'EDIT_ADMIN',
 };
 
 export const actions = {
@@ -56,36 +55,45 @@ export const actions = {
         dispatch({ type: types.AUTH_LOGOUT });
     },
 
-    async updateCurrentUser(dispatch, user) {
+    async editAdmin(dispatch, values) {
         try {
-            dispatch({ type: types.AUTH_UPDATE_USER_START });
-
-            let updatedUser = await service.updateCurrentUser(user);
-            if (!updatedUser) {
-                throw new Error('Failed to update User');
+            let updatedAdmin = await service.editAdmin(values);
+            if (!updatedAdmin) {
+                throw new Error('Failed to update Admin');
             }
             dispatch({
-                type: types.AUTH_UPDATE_USER_SUCCESS,
-                payload: updatedUser,
+                type: types.EDIT_ADMIN,
+                payload: updatedAdmin,
             });
+            return true;
         } catch (err) {
-            dispatch({ type: types.AUTH_UPDATE_USER_ERROR });
+            return err;
         }
     },
 
     async createCompany(dispatch, values) {
-        try{
+        try {
             let newCompany = await service.createCompany(values);
             if (!newCompany) {
-                throw new Error("Failed to create Company");
+                throw new Error('Failed to create Company');
             }
             dispatch({
                 type: types.CREATE_COMPANY,
                 payload: newCompany,
             });
-            return true
+            return true;
         } catch (err) {
             return Error;
         }
-    }
+    },
+    async getCompany(dispatch, values) {
+        try {
+            let companyInfo = await service.getCompany(values);
+            console.log('company info', companyInfo);
+
+            dispatch({ type: types.COMPANY_LIST, payload: companyInfo });
+        } catch (error) {
+            dispatch({ type: types.AUTH_ERROR });
+        }
+    },
 };
