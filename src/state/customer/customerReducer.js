@@ -7,7 +7,7 @@ export default function reducer(state, action) {
 
     switch (action.type) {
         case types.ADD_CUSTOMER:
-            return [...state, ...payload];
+            return [...state, payload];
 
         case types.GET_CUSTOMERS:
             return [...state, ...payload];

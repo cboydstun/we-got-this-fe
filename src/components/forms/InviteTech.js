@@ -1,11 +1,19 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Formik } from 'formik';
 // import { useForm } from '../hooks/useForm';
 // import { inviteTech } from '../state/reducers/techReducer';
 import * as Yup from 'yup';
+=======
+import { Formik } from "formik";
+import * as Yup from "yup";
+>>>>>>> dev
 import Error from '../Error';
+import { actions } from '../../state/auth/authActions';
+import { useStateValue } from '../../state';
 
 const validationSchema = Yup.object().shape({
+<<<<<<< HEAD
     firstName: Yup.string().required('Must enter a First Name'),
     lastName: Yup.string().required('Must enter a Last Name'),
     phone: Yup.number().required('Must enter a Number'),
@@ -18,6 +26,31 @@ const validationSchema = Yup.object().shape({
 });
 
 const InviteTech = () => {
+=======
+    firstName: Yup.string()
+        .required('Must enter a First Name'),
+    lastName: Yup.string()
+        .required('Must enter a Last Name'),
+    phone: Yup.number()
+        .required('Must enter a Number'),
+    address: Yup.string()
+        .required('Must enter an Address'),
+    email: Yup.string()
+        .required('Must enter an Email'),
+    city: Yup.string()
+        .required('Must enter an City'),
+    state: Yup.string()
+        .required('Must enter a State'),
+    zip: Yup.number()
+        .required('Must enter an Zip'),
+    notes: Yup.string()
+        .max(255, 'Must be shorter than 255')
+})
+
+const InviteTech = () => {
+const [state, dispatch] = useStateValue();
+
+>>>>>>> dev
     return (
         <Formik
             initialValues={{
@@ -34,12 +67,18 @@ const InviteTech = () => {
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 setSubmitting(true);
 
+                actions.inviteTech(dispatch, values)
+                .then(res => {
+                    console.log('RES...' , res)
+                })
+
                 setTimeout(() => {
                     alert(JSON.stringify(values, null, 2));
                     resetForm();
                     setSubmitting(false);
                     console.log('SS..', setSubmitting);
                 }, 500);
+<<<<<<< HEAD
             }}
         >
             {({
@@ -53,6 +92,16 @@ const InviteTech = () => {
             }) => (
                 <form className="Form" onSubmit={handleSubmit}>
                     <div className="tech-form-left">
+=======
+            }}>
+
+    
+            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+            
+                <form className='Form' onSubmit={handleSubmit}>
+                    <div className='tech-form-left'>
+
+>>>>>>> dev
                         <div>
                             <input
                                 onChange={handleChange}

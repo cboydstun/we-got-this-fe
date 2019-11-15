@@ -6,16 +6,17 @@ export const types = {
 };
 
 export const actions = {
-    async addCustomer(dispatch, customer) {
+    async addCustomer(dispatch, values) {
         try {
-            let newCustomer = await service.addCustomer(customer);
+            let newCustomer = await service.addCustomer(values);
             if (!newCustomer) {
-                throw new Error('Customer failed');
+                throw new Error('Adding customer failed');
             }
             dispatch({
                 type: types.ADD_CUSTOMER,
                 payload: newCustomer,
             });
+            return true;
         } catch (err) {
             return err;
         }

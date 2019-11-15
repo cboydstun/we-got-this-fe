@@ -2,6 +2,8 @@ import React from 'react';
 import { useStateValue } from '../../state';
 import { actions } from '../../state/auth/authActions';
 
+import { actions } from '../../state/auth/authActions';
+
 const Me = () => {
     const [{ auth }, dispatch] = useStateValue();
     return (

@@ -23,6 +23,7 @@ import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Customers from './Customers';
 import Customer from './Customer';
+import Techs from './Techs';
 
 //Styles
 import RootContainer from '../components/styles/containers/RootContainer';
@@ -91,6 +92,7 @@ function App() {
                         <Route path={routes.HOME} component={Dashboard} />
                         <Route path={routes.PROFILE} component={Profile} />
                         <Route path={routes.CALENDAR} component={Calendar} />
+                        <Route path={routes.TECHS} component={Techs} />
                         <Route
                             exact
                             path={routes.CUSTOMERS}
