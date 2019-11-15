@@ -44,17 +44,17 @@ const CustomerTable = ({ customers }) => {
         docId,
         accountId,
         firstServiceDate,
-        name,
+        firstName,
         nextServiceDate,
         type,
-        jobs,
+        jobs = [],
     }) => {
         let jobPaths = jobs.map(job => job.path);
         return {
             docId,
             accountId,
             firstServiceDate,
-            name,
+            firstName,
             nextServiceDate,
             type,
             jobPaths,
@@ -86,7 +86,7 @@ const CustomerTable = ({ customers }) => {
                                                 state: customerData,
                                             }}
                                         >
-                                            {customer.name}
+                                            {customer.firstName}
                                         </Link>
                                     </TableCell>
                                     <TableCell align="right">
