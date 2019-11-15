@@ -9,7 +9,6 @@ export default function reducer(state, action) {
                 ...state,
                 ...payload
             }
-        case types.
         default:
             return { ...state };
     };
