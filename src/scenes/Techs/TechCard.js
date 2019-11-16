@@ -1,5 +1,6 @@
 import React from 'react';
-import { actions } from '../../state/tech/techActions';
+import techService from '../../state/tech/techService';
+import { useService } from '../../state';
 import {
     Card,
     Button,
@@ -46,14 +47,10 @@ const useStyles = makeStyles(theme => ({
 const TechCard = ({ displayName, photoUrl, disabled }) => {
     const classes = useStyles();
     const [, dispatch] = useStateValue();
+    const service = useService(techService, dispatch);
 
-    const handleTeamChange = e => {
-        actions.addTechToTeam(dispatch, 'example', e.target.value.toString());
-    };
-
-    const handleArchiveClick = () => {
-        console.log(displayName);
-    };
+    const handleTeamChange = e => service.addTechToTeam('example', e.target.value.toString());
+    const handleArchiveClick = () => service.archiveTech('jq5Ijo6dpsgLOFsOTMeq');
 
     return (
         <Card className={classes.root}>

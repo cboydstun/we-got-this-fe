@@ -1,8 +1,8 @@
 import Firebase from '../../config/firebase';
+import { installActionNames } from '../../state';
 
 const db = Firebase.getFirestore();
-
-export const service = {
+const service = {
     async addTechToTeam(techEmail, teamId) {
         const team = (await db.collection('teams').doc(teamId).get()).data();
 
@@ -10,7 +10,7 @@ export const service = {
     },
 
     async archiveTech(techId) {
-        await db.collection('teams').doc(techId).update({ disabled: true });
+        await db.collection('techs').doc(techId).update({ disabled: true });
     },
 
     inviteTech: ({ firstName, lastName, email, phone, address, notes, city, zip, }) => {
@@ -26,3 +26,5 @@ export const service = {
         });
     }
 };
+
+export default installActionNames(service);
