@@ -10,16 +10,7 @@ When did they sign up / cancel?
     "accounts": {
         "jackies_cleaning_4321": {
             "name": "Jackies Cleaning",
-            "package": "Independent", //"Small Team", "Large Team"
-            "acquisition": {
-                "create_date": "11/5/19",
-                "source": "Phone Call" // "Customer Call"
-            },
-            "retention": {
-                "cancel_date": "2/2/25",
-                "reason": "They hate us"
-            },
-            "type": "free",
+            "create_date": "11/5/19",
             "users": [Users],
 			"teams": [
 				{
@@ -45,16 +36,14 @@ How do I contact this person?
 {
     "users": {
         "jackie_fention_12345": {
-            "name": "Jackie Fention",
-            "contact": {
-                "email": "jackie@jackiescleaning.com",
-                "primary_phone": "(432) 456-1940",
-                "secondary_phone": "(432) 456-1943",
-            },
+            "displayName": "Jackie Fention",
+            "email": "jackie@jackiescleaning.com",
+            "primary_phone": "(432) 456-1940",
+            "secondary_phone": "(432) 456-1943",
             "company": "jackies_cleaning_4321",
-            "password": **********
             "admin": true,
-            "disabled": true
+            "disabled": true,
+            "photoUrl": "string-the-photo.com"
         },
         "susy_smith_123124": {
             "name": "Susy Smith",
@@ -64,7 +53,6 @@ How do I contact this person?
             },
             "company": "jackies_cleaning_4321",
             "admin": false,
-            "password": **********
             "jobs": [
                 "job_frankie_customer_123342354",
                 "job_julia_customer_9829349",
