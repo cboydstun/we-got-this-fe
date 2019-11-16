@@ -25,7 +25,7 @@ export const actions = {
     async getCustomers(dispatch, accountId) {
         try {
             console.log('Action to get customers called');
-            let customers = await service.getCustomers(accountId);
+            let customers = await service.getCustomers();
             if (!customers) {
                 throw new Error('Failed to get customers');
             }

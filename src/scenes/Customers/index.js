@@ -4,6 +4,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import CustomerTable from './components/Table';
 import { useStateValue } from '../../state';
 import { actions } from '../../state/customer/customerActions';
+import NewCustomer from '../../components/dialogs/NewCustomer';
 
 const Customers = () => {
     const [loading, setLoading] = useState(true);
@@ -31,6 +32,7 @@ const Customers = () => {
                         <FilterListIcon />
                     </IconButton>
                 </Tooltip>{' '}
+                <NewCustomer />
             </div>
             {loading ? (
                 <h2>Loading...</h2>

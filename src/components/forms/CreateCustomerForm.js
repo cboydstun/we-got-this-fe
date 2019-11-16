@@ -35,22 +35,12 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                 <Grid item className={classes.column} xs={6}>
                     <Field
                         type="text"
-                        name="firstName"
+                        name="name"
                         placeholder="First Name"
-                        value={values.firstName}
+                        value={values.name}
                     />
                     {touched.name && errors.name && (
-                        <p className="error">{errors.firstname}</p>
-                    )}
-
-                    <Field
-                        type="text"
-                        name="lastName"
-                        placeholder="Last Name"
-                        value={values.lastName}
-                    />
-                    {touched.lastname && errors.name && (
-                        <p className="error">{errors.lastname}</p>
+                        <p className="error">{errors.name}</p>
                     )}
 
                     <Field
@@ -59,8 +49,8 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                         placeholder="Phone Number"
                         value={values.phoneNumber}
                     />
-                    {touched.phonenumber && errors.phonenumber && (
-                        <p className="error">{errors.phonenumber}</p>
+                    {touched.phoneNumber && errors.phoneNumber && (
+                        <p className="error">{errors.phoneNumber}</p>
                     )}
 
                     <Field
@@ -110,8 +100,8 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                         placeholder="Service Address"
                         value={values.street}
                     />
-                    {touched.serviceaddress && errors.serviceaddress && (
-                        <p className="error">{errors.serviceaddress}</p>
+                    {touched.street && errors.street && (
+                        <p className="error">{errors.street}</p>
                     )}
 
                     <Field
@@ -130,8 +120,8 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                         placeholder="State"
                         value={values.region}
                     />
-                    {touched.state && errors.state && (
-                        <p className="error">{errors.state}</p>
+                    {touched.region && errors.region && (
+                        <p className="error">{errors.region}</p>
                     )}
 
                     <Field
@@ -167,8 +157,7 @@ const CustomerForm = ({ errors, touched, values, status }) => {
 
 const CreateCustomerForm = withFormik({
     mapPropsToValues({
-        firstName,
-        lastName,
+        name,
         email,
         phoneNumber,
         street,
@@ -177,8 +166,7 @@ const CreateCustomerForm = withFormik({
         zipcode,
     }) {
         return {
-            firstName: firstName || '',
-            lastName: lastName || '',
+            name: name || '',
             email: email || '',
             phoneNumber: phoneNumber || '',
             street: street || '',
@@ -189,11 +177,9 @@ const CreateCustomerForm = withFormik({
     },
 
     validationSchema: Yup.object().shape({
-        firstName: Yup.string().required('Must enter a First Name'),
-        lastName: Yup.string().required('Must enter a Last Name'),
+        name: Yup.string().required('Must enter a First Name'),
         phoneNumber: Yup.number().required('Must enter a Number'),
         street: Yup.string().required('Must enter an Address'),
-        email: Yup.string().required('Must enter an Email'),
         city: Yup.string().required('Must enter an City'),
         region: Yup.string().required('Must enter a State'),
         zipcode: Yup.number().required('Must enter an Zip'),
@@ -207,7 +193,6 @@ const CreateCustomerForm = withFormik({
             .then(res => {
                 if (res == true) {
                     console.log('redirecting');
-                    props.history.push('/customers');
                 }
             });
         resetForm();

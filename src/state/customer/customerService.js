@@ -17,10 +17,7 @@ export const service = {
 
     async getCustomers(accountId) {
         let customers = [];
-        let querySnapshot = await db
-            .collection('customers')
-            .where('accountId', '==', accountId)
-            .get();
+        let querySnapshot = await db.collection('customers').get();
         console.log('Query Snapshot: ', querySnapshot);
         querySnapshot.forEach(doc => {
             let docId = doc.id;

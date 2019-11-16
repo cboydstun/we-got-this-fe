@@ -1,7 +1,15 @@
 import React from 'react';
-import { AppBar, Toolbar, InputBase } from '@material-ui/core';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import {
+    AppBar,
+    Toolbar,
+    InputBase,
+    useMediaQuery,
+    Icon,
+} from '@material-ui/core';
+import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 150;
 
@@ -49,24 +57,32 @@ const useStyles = makeStyles(theme => ({
 
 const TopBar = () => {
     const classes = useStyles();
+    const theme = useTheme();
+    const smallWidth = useMediaQuery(theme.breakpoints.down('xs'));
 
     return (
         <AppBar position="fixed" className={classes.appBar}>
             <Toolbar variant="dense">
                 Search Bar
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
+                {smallWidth ? (
+                    <IconButton edge="start" color="inherit">
+                        <MenuIcon />
+                    </IconButton>
+                ) : (
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
                     </div>
-                    <InputBase
-                        placeholder="Search…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </div>
+                )}
             </Toolbar>
         </AppBar>
     );

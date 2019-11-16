@@ -90,13 +90,15 @@ const CustomerTable = ({ customers }) => {
                                         </Link>
                                     </TableCell>
                                     <TableCell align="right">
-                                        {customer.firstServiceDate}
+                                        {customer.firstServiceDate ||
+                                            'No services'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        {customer.nextServiceDate}
+                                        {customer.nextServiceDate ||
+                                            'No service scheduled'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        {customer.type}
+                                        {customer.type || 'Unknown'}
                                     </TableCell>
                                     <TableCell align="right">
                                         <Button
