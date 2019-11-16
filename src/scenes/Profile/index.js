@@ -3,7 +3,7 @@ import { useStateValue } from '../../state';
 
 import { actions } from '../../state/auth/authActions';
 
-const Me = () => {
+const Profile = () => {
     const [{ auth }, dispatch] = useStateValue();
     return (
         <>
@@ -19,4 +19,4 @@ const Me = () => {
     );
 };
 
-export default Me;
+export default Profile;

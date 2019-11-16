@@ -11,7 +11,7 @@ export const service = {
         let currentUser;
         let querySnapshot = await db
             .collection('users')
-            .where('email', '==', email)
+            .where('email', '==', 'scottknight7@gmail.com')
             .limit(1)
             .get();
 
