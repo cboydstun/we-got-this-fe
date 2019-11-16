@@ -10,13 +10,14 @@ export const StateProvider = ({ reducer, initialState, children }) => {
     );
 };
 
-const createActionName = functionName => functionName.replace(/[A-Z]/g, match => `_${match}`).toUpperCase();
+const createActionName = functionName =>
+    functionName.replace(/[A-Z]/g, match => `_${match}`).toUpperCase();
 const createActionNames = functionName => {
     return {
         start: `${createActionName(functionName)}_START`,
         success: `${createActionName(functionName)}_SUCCESS`,
         error: `${createActionName(functionName)}_ERROR`,
-    }
+    };
 };
 
 export const installActionNames = service => {
@@ -31,7 +32,8 @@ export const installActionNames = service => {
     return service;
 };
 
-export const useService = (service, dispatch) => {
+export const useService = service => {
+    const [, dispatch] = useStateValue();
     const wrapper = {};
 
     for (const [key, value] of Object.entries(service)) {
@@ -44,12 +46,11 @@ export const useService = (service, dispatch) => {
                 dispatch({ type: value.success, payload: result });
 
                 return result;
-            }
-            catch (error) {
+            } catch (error) {
                 dispatch({ type: value.error, payload: error });
             }
-        }
-    };
+        };
+    }
 
     return wrapper;
 };

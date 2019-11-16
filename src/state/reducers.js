@@ -1,9 +1,9 @@
 //
 //Import in individual reducers here
-import authReducer, { authState } from '../auth/authReducer';
-import customerReducer, { customerState } from '../customer/customerReducer';
-import teamReducer, { teamState } from '../team/teamReducer';
-import techReducer, { techState } from '../tech/techReducer';
+import authReducer, { authState } from './auth/authReducer';
+import customerReducer, { customerState } from './customer/customerReducer';
+import teamReducer, { teamState } from './team/teamReducer';
+import techReducer, { techState } from './tech/techReducer';
 
 //
 //Destructure state object here

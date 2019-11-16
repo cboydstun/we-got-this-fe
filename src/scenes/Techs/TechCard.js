@@ -46,11 +46,12 @@ const useStyles = makeStyles(theme => ({
 
 const TechCard = ({ displayName, photoUrl, disabled }) => {
     const classes = useStyles();
-    const [, dispatch] = useStateValue();
-    const service = useService(techService, dispatch);
+    const service = useService(techService);
 
-    const handleTeamChange = e => service.addTechToTeam('example', e.target.value.toString());
-    const handleArchiveClick = () => service.archiveTech('jq5Ijo6dpsgLOFsOTMeq');
+    const handleTeamChange = e =>
+        service.addTechToTeam('example', e.target.value.toString());
+    const handleArchiveClick = () =>
+        service.archiveTech('jq5Ijo6dpsgLOFsOTMeq');
 
     return (
         <Card className={classes.root}>
