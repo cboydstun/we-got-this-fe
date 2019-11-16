@@ -74,8 +74,10 @@ What jobs do we have scheduled for them?
 {
     "customers": {
         "customer_id_1234423": {
-		    “account_id”: "jackies_cleaning_4321",
             "name": "Frank Sinatra",
+            "payment": "Cash/Check",
+            "paymentAmount": 140,
+            "schedule": "Monthly",
             "contact": {
                 "email": "Frank@fankies.com",
                 "phone": "(456) 456-1234"

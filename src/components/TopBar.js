@@ -63,7 +63,9 @@ const useStyles = makeStyles(theme => ({
             width: 200,
         },
     },
-    title: {
+    routes: {
+        display: 'flex',
+        flexDirection: 'row',
         flexGrow: 1,
     },
 }));
@@ -95,6 +97,11 @@ const TopBar = () => {
                         >
                             <List>
                                 <ListItem>
+                                    <NavLink to={routes.CALENDAR}>
+                                        Dashboard
+                                    </NavLink>
+                                </ListItem>
+                                <ListItem>
                                     <NavLink to={routes.CUSTOMERS}>
                                         Customers
                                     </NavLink>
@@ -110,13 +117,17 @@ const TopBar = () => {
                     </>
                 ) : (
                     <>
-                        <Typography variant="h5" className={classes.flexGrow}>
-                            <Link to="/dashboard">We Got This!</Link>
-                        </Typography>
-                        <NavLink to={routes.CUSTOMERS}>Customers</NavLink>
-                        <NavLink to={routes.TECHS}>Techs</NavLink>
-                        <NavLink to={routes.HOME}>Dashboard</NavLink>
-                        <div className={classes.search}>
+                        <div className={classes.routes}>
+                            <Typography
+                                variant="h5"
+                                className={classes.flexGrow}
+                            >
+                                <Link to={routes.CALENDAR}>We Got This!</Link>
+                            </Typography>
+                            <NavLink to={routes.CALENDAR}>Dashboard</NavLink>
+                            <NavLink to={routes.CUSTOMERS}>Customers</NavLink>
+                            <NavLink to={routes.TECHS}>Techs</NavLink>
+                            {/* <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <SearchIcon />
                             </div>
@@ -128,17 +139,14 @@ const TopBar = () => {
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
                             />
+                        </div> */}
                         </div>
                         {auth.currentUser ? (
                             <IconButton component={Link} to={routes.PROFILE}>
                                 <AccountCircle />
                             </IconButton>
                         ) : (
-                            <Button
-                                color="inherir"
-                                component={Link}
-                                to={routes.AUTH}
-                            >
+                            <Button component={Link} to={routes.AUTH}>
                                 Login
                             </Button>
                         )}
