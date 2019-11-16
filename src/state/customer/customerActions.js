@@ -22,7 +22,7 @@ export const actions = {
         }
     },
 
-    async getCustomers(dispatch, accountId) {
+    async getCustomers(dispatch) {
         try {
             console.log('Action to get customers called');
             let customers = await service.getCustomers();

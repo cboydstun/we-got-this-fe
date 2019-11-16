@@ -2,9 +2,7 @@ import { types } from './authActions';
 
 export const authState = {
     loadingUser: false,
-    currentUser: {
-        accountId: 'test-account',
-    },
+    currentUser: null,
     errorMessage: null,
 };
 

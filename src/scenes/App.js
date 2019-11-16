@@ -84,7 +84,6 @@ function App() {
                 <div className={classes.root}>
                     <CssBaseline />
                     <TopBar />
-                    <SideBar />
                     <main className={classes.content}>
                         <div className={classes.toolbar} />
 

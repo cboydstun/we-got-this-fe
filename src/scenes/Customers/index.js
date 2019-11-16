@@ -13,15 +13,13 @@ const Customers = () => {
     useEffect(() => {
         if (customers.length == 0) {
             console.log('asking for customers');
-            actions
-                .getCustomers(dispatch, auth.currentUser.accountId)
-                .then(res => {
-                    if (res) setLoading(false);
-                });
+            actions.getCustomers(dispatch).then(res => {
+                if (res) setLoading(false);
+            });
         } else {
             setLoading(false);
         }
-    }, [auth.currentUser.accountId, customers.length, dispatch]);
+    }, [customers.length, dispatch]);
 
     return (
         <div>

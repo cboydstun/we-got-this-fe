@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     AppBar,
     Toolbar,
+    Button,
     InputBase,
     useMediaQuery,
     Icon,
+    Typography,
+    Drawer,
+    List,
+    ListItem,
+    ListItemText,
 } from '@material-ui/core';
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const drawerWidth = 150;
+import { NavLink, Link } from 'react-router-dom';
+import { routes } from '../constants/routes';
+
+import { useStateValue } from '../state';
+import { setState } from 'expect/build/jestMatchersObject';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
+        width: '100%',
     },
     search: {
         position: 'relative',
@@ -53,9 +63,14 @@ const useStyles = makeStyles(theme => ({
             width: 200,
         },
     },
+    title: {
+        flexGrow: 1,
+    },
 }));
 
 const TopBar = () => {
+    const [open, setOpen] = useState(false);
+    const [{ auth }] = useStateValue();
     const classes = useStyles();
     const theme = useTheme();
     const smallWidth = useMediaQuery(theme.breakpoints.down('xs'));
@@ -63,25 +78,71 @@ const TopBar = () => {
     return (
         <AppBar position="fixed" className={classes.appBar}>
             <Toolbar variant="dense">
-                Search Bar
                 {smallWidth ? (
-                    <IconButton edge="start" color="inherit">
-                        <MenuIcon />
-                    </IconButton>
+                    <>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={() => setOpen(true)}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+
+                        <Drawer
+                            anchor="top"
+                            open={open}
+                            onClose={() => setOpen(false)}
+                        >
+                            <List>
+                                <ListItem>
+                                    <NavLink to={routes.CUSTOMERS}>
+                                        Customers
+                                    </NavLink>
+                                </ListItem>
+                                <ListItem>
+                                    <NavLink to={routes.TECHS}>Techs</NavLink>
+                                </ListItem>
+                                <ListItem>
+                                    <NavLink to={routes.ADMIN}>Admin</NavLink>
+                                </ListItem>
+                            </List>
+                        </Drawer>
+                    </>
                 ) : (
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
+                    <>
+                        <Typography variant="h5" className={classes.flexGrow}>
+                            <Link to="/dashboard">We Got This!</Link>
+                        </Typography>
+                        <NavLink to={routes.CUSTOMERS}>Customers</NavLink>
+                        <NavLink to={routes.TECHS}>Techs</NavLink>
+                        <NavLink to={routes.HOME}>Dashboard</NavLink>
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
                         </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
+                        {auth.currentUser ? (
+                            <IconButton component={Link} to={routes.PROFILE}>
+                                <AccountCircle />
+                            </IconButton>
+                        ) : (
+                            <Button
+                                color="inherir"
+                                component={Link}
+                                to={routes.AUTH}
+                            >
+                                Login
+                            </Button>
+                        )}
+                    </>
                 )}
             </Toolbar>
         </AppBar>
