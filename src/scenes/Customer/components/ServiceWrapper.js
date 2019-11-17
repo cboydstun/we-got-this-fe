@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from 'react';
-// import ServiceTable from './ServiceTable';
+import ServiceTable from './ServiceTable';
+import { useStateValue } from '../../../state';
 import { actions } from '../../../state/customer/customerActions';
 
-const ServiceWrapper = ({ jobPaths }) => {
+const ServiceWrapper = ({ jobPaths, customer }) => {
     const [loading, setLoading] = useState(true);
-    const [jobs, setJobs] = useState(null);
+    const [{ customers }, dispatch] = useStateValue();
 
     useEffect(() => {
-        if (jobs == null) {
-            actions.getCustomerJobs(jobPaths).then(jobs => {
-                setJobs(jobs);
-            });
-        } else {
+        // if (customers.customerJobs == null) {
+        console.log('calling action to get jobs');
+        actions.getCustomerJobs(dispatch, jobPaths).then(res => {
             setLoading(false);
-        }
-    }, [jobPaths, jobs]);
+        });
+        // } else {
+        // setLoading(false);
+        // }
+    }, [dispatch, jobPaths]);
 
+    let renderServices = () => {
+        if (loading) {
+            return <h2>Loading...</h2>;
+        } else if (!customers.customerJobs.length) {
+            return <h2>No Services Performed</h2>;
+        } else {
+            return <ServiceTable />;
+        }
+    };
     return (
         <div>
             <h2>Service History</h2>
+            {renderServices()}
         </div>
     );
 };

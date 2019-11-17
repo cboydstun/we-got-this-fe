@@ -19,7 +19,7 @@ import {
 
 import Calendar from './Calendar';
 import Auth from './Auth';
-import Dashboard from './Dashboard';
+import Jobs from './Jobs';
 import Profile from './Profile';
 import Customers from './Customers';
 import Customer from './Customer';
@@ -87,11 +87,11 @@ function App() {
                     <main className={classes.content}>
                         <div className={classes.toolbar} />
 
+                        <Route exact path={routes.HOME} component={Calendar} />
                         <Route exact path={routes.AUTH} component={Auth} />
-                        <Route path={routes.HOME} component={Dashboard} />
                         <Route path={routes.PROFILE} component={Profile} />
-                        <Route path={routes.CALENDAR} component={Calendar} />
                         <Route path={routes.TECHS} component={Techs} />
+                        <Route path={routes.JOBS} component={Jobs} />
                         <Route
                             exact
                             path={routes.CUSTOMERS}

@@ -28,47 +28,34 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         width: '100%',
     },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(3),
-            width: 'auto',
-        },
-    },
-    searchIcon: {
-        width: theme.spacing(7),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
-        },
-    },
     routes: {
         display: 'flex',
         flexDirection: 'row',
         flexGrow: 1,
+        alignItems: 'center',
+    },
+    link: {
+        textDecoration: 'none',
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        color: theme.palette.common.white,
+        fontSize: 16,
+    },
+    logo: {
+        textDecoration: 'none',
+        fontWeight: theme.typography.fontWeightBold,
+        color: theme.palette.common.white,
+        marginRight: theme.spacing(2),
+    },
+    login: {
+        color: theme.palette.common.white,
     },
 }));
+
+const activeStyles = {
+    fontWeight: 600,
+    textDecoration: 'underline',
+};
 
 const TopBar = () => {
     const [open, setOpen] = useState(false);
@@ -76,6 +63,10 @@ const TopBar = () => {
     const classes = useStyles();
     const theme = useTheme();
     const smallWidth = useMediaQuery(theme.breakpoints.down('xs'));
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <AppBar position="fixed" className={classes.appBar}>
@@ -90,6 +81,12 @@ const TopBar = () => {
                             <MenuIcon />
                         </IconButton>
 
+                        <Typography variant="h5">
+                            <Link to={routes.CALENDAR} className={classes.logo}>
+                                We Got This!
+                            </Link>
+                        </Typography>
+
                         <Drawer
                             anchor="top"
                             open={open}
@@ -97,20 +94,36 @@ const TopBar = () => {
                         >
                             <List>
                                 <ListItem>
-                                    <NavLink to={routes.CALENDAR}>
+                                    <NavLink
+                                        to={routes.CALENDAR}
+                                        onClick={handleClose}
+                                    >
                                         Dashboard
                                     </NavLink>
                                 </ListItem>
                                 <ListItem>
-                                    <NavLink to={routes.CUSTOMERS}>
+                                    <NavLink
+                                        to={routes.CUSTOMERS}
+                                        onClick={handleClose}
+                                    >
                                         Customers
                                     </NavLink>
                                 </ListItem>
                                 <ListItem>
-                                    <NavLink to={routes.TECHS}>Techs</NavLink>
+                                    <NavLink
+                                        to={routes.TECHS}
+                                        onClick={handleClose}
+                                    >
+                                        Techs
+                                    </NavLink>
                                 </ListItem>
                                 <ListItem>
-                                    <NavLink to={routes.ADMIN}>Admin</NavLink>
+                                    <NavLink
+                                        to={routes.PROFILE}
+                                        onClick={handleClose}
+                                    >
+                                        Admin
+                                    </NavLink>
                                 </ListItem>
                             </List>
                         </Drawer>
@@ -118,35 +131,50 @@ const TopBar = () => {
                 ) : (
                     <>
                         <div className={classes.routes}>
-                            <Typography
-                                variant="h5"
-                                className={classes.flexGrow}
-                            >
-                                <Link to={routes.CALENDAR}>We Got This!</Link>
+                            <Typography variant="h5">
+                                <Link to={routes.HOME} className={classes.logo}>
+                                    We Got This!
+                                </Link>
                             </Typography>
-                            <NavLink to={routes.CALENDAR}>Dashboard</NavLink>
-                            <NavLink to={routes.CUSTOMERS}>Customers</NavLink>
-                            <NavLink to={routes.TECHS}>Techs</NavLink>
-                            {/* <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </div> */}
+                            <NavLink
+                                to={routes.HOME}
+                                className={classes.link}
+                                activeStyle={activeStyles}
+                            >
+                                Dashboard
+                            </NavLink>
+                            <NavLink
+                                to={routes.CUSTOMERS}
+                                className={classes.link}
+                                activeStyle={activeStyles}
+                            >
+                                Customers
+                            </NavLink>
+                            <NavLink
+                                to={routes.TECHS}
+                                className={classes.link}
+                                activeStyle={activeStyles}
+                            >
+                                Techs
+                            </NavLink>
+                            <NavLink
+                                to={routes.JOBS}
+                                className={classes.link}
+                                activeStyle={activeStyles}
+                            >
+                                Jobs
+                            </NavLink>
                         </div>
                         {auth.currentUser ? (
                             <IconButton component={Link} to={routes.PROFILE}>
-                                <AccountCircle />
+                                <AccountCircle style={{ color: 'white' }} />
                             </IconButton>
                         ) : (
-                            <Button component={Link} to={routes.AUTH}>
+                            <Button
+                                component={Link}
+                                to={routes.AUTH}
+                                className={classes.login}
+                            >
                                 Login
                             </Button>
                         )}

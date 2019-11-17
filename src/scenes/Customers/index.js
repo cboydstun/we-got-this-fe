@@ -8,10 +8,10 @@ import NewCustomer from '../../components/dialogs/NewCustomer';
 
 const Customers = () => {
     const [loading, setLoading] = useState(true);
-    const [{ auth, customers }, dispatch] = useStateValue();
+    const [{ customers }, dispatch] = useStateValue();
 
     useEffect(() => {
-        if (customers.length == 0) {
+        if (customers.customers.length == 0) {
             console.log('asking for customers');
             actions.getCustomers(dispatch).then(res => {
                 if (res) setLoading(false);
@@ -19,7 +19,7 @@ const Customers = () => {
         } else {
             setLoading(false);
         }
-    }, [customers.length, dispatch]);
+    }, [customers.customers.length, customers.length, dispatch]);
 
     return (
         <div>
@@ -35,7 +35,7 @@ const Customers = () => {
             {loading ? (
                 <h2>Loading...</h2>
             ) : (
-                <CustomerTable customers={customers} />
+                <CustomerTable customers={customers.customers} />
             )}
         </div>
     );

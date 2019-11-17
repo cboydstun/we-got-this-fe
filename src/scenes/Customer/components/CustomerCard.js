@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
 const CustomerCard = ({ customer }) => {
     const classes = useStyles();
 
+    let { address } = customer.locations[0];
+    let fullAddress = `${address.street} ${address.city}, ${address.state} ${address.zipcode}`;
+
     return (
         <Grid container spacing={2}>
             <Grid item>
@@ -35,8 +38,8 @@ const CustomerCard = ({ customer }) => {
             <Grid item xs={6} sm container>
                 <Grid item xs>
                     <h2>{customer.name}</h2>
-                    <p>123 Cherry St. Boise, ID 8345</p>
-                    <p>(234) 546-1234</p>
+                    <p>{fullAddress}</p>
+                    <p>{customer.contact.phone}</p>
                 </Grid>
             </Grid>
         </Grid>

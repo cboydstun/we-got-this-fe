@@ -1,8 +1,9 @@
 export const routes = {
     AUTH: '/auth',
-    HOME: '/dashboard',
+    HOME: '/',
     PROFILE: '/profile',
-    CALENDAR: '/calendar',
+    DASHBOARD: '/dashboard',
+    JOBS: '/jobs',
     TECHS: '/techs',
     CREATE_CUSTOMER_FORM: '/create-customer',
     CREATE_TEAM_FORM: '/team/create',

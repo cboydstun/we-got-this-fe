@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
-const CustomerForm = ({ errors, touched, values, status }) => {
+const CustomerForm = ({ errors, touched, values, status, setFieldValue }) => {
     const [state, setState] = useState([]);
     const classes = useStyles();
     useEffect(() => {
@@ -47,7 +47,17 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                         type="text"
                         name="phoneNumber"
                         placeholder="Phone Number"
-                        value={values.phoneNumber}
+                        render={({ field, value, onChange }) => (
+                            <input
+                                {...field}
+                                type="tel"
+                                placeholder="(713) 264-1320"
+                                onChange={e => {
+                                    let formatted = checkPhone(e);
+                                    setFieldValue('phoneNumber', formatted);
+                                }}
+                            />
+                        )}
                     />
                     {touched.phoneNumber && errors.phoneNumber && (
                         <p className="error">{errors.phoneNumber}</p>
@@ -74,6 +84,7 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                         <option value="cash">Cash</option>
                         <option value="check">Check</option>
                         <option value="debit/credit">Debit/Credit Card</option>
+                        <option value="ach">ACH</option>
                     </Field>
 
                     <Field
@@ -97,7 +108,7 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                     <Field
                         type="text"
                         name="street"
-                        placeholder="Service Address"
+                        placeholder="Street"
                         value={values.street}
                     />
                     {touched.street && errors.street && (
@@ -155,6 +166,24 @@ const CustomerForm = ({ errors, touched, values, status }) => {
     );
 };
 
+function checkPhone(obj) {
+    let str = obj.target.value.replace(/[^0-9]+?/g, '');
+    switch (str.length) {
+        case 10:
+            str =
+                '(' +
+                str.substr(0, 3) +
+                ') ' +
+                str.substr(3, 3) +
+                '-' +
+                str.substr(6, 4);
+            break;
+        default:
+            return;
+    }
+    return str;
+}
+
 const CreateCustomerForm = withFormik({
     mapPropsToValues({
         name,
@@ -164,6 +193,7 @@ const CreateCustomerForm = withFormik({
         city,
         region,
         zipcode,
+        notes,
     }) {
         return {
             name: name || '',
@@ -171,14 +201,15 @@ const CreateCustomerForm = withFormik({
             phoneNumber: phoneNumber || '',
             street: street || '',
             city: city || '',
-            region: region || '',
+            region: region || 'ID',
             zipcode: zipcode || '',
+            notes: notes || '',
         };
     },
 
     validationSchema: Yup.object().shape({
         name: Yup.string().required('Must enter a First Name'),
-        phoneNumber: Yup.number().required('Must enter a Number'),
+        phoneNumber: Yup.string().required('Must enter a Phone Number'),
         street: Yup.string().required('Must enter an Address'),
         city: Yup.string().required('Must enter an City'),
         region: Yup.string().required('Must enter a State'),
@@ -186,15 +217,11 @@ const CreateCustomerForm = withFormik({
     }),
 
     handleSubmit(values, { setStatus, props, resetForm }) {
-        let accountId = props.state.auth.currentUser.accountId;
-        console.log('Account ID: ', accountId);
-        actions
-            .addCustomer(props.dispatch, { accountId, ...values })
-            .then(res => {
-                if (res == true) {
-                    console.log('redirecting');
-                }
-            });
+        actions.addCustomer(props.dispatch, { ...values }).then(res => {
+            if (res == true) {
+                console.log('redirecting');
+            }
+        });
         resetForm();
     },
 })(CustomerForm);

@@ -40,27 +40,6 @@ const useStyles = makeStyles(theme => ({
 const CustomerTable = ({ customers }) => {
     const classes = useStyles();
 
-    const pullCustomerData = ({
-        docId,
-        accountId,
-        firstServiceDate,
-        firstName,
-        nextServiceDate,
-        type,
-        jobs = [],
-    }) => {
-        let jobPaths = jobs.map(job => job.path);
-        return {
-            docId,
-            accountId,
-            firstServiceDate,
-            firstName,
-            nextServiceDate,
-            type,
-            jobPaths,
-        };
-    };
-
     return (
         <>
             <Table className={classes.table} size="small">
@@ -76,17 +55,16 @@ const CustomerTable = ({ customers }) => {
                 <TableBody>
                     {customers.length &&
                         customers.map(customer => {
-                            let customerData = pullCustomerData(customer);
                             return (
                                 <TableRow key={customer.name}>
                                     <TableCell component="th" scope="row">
                                         <Link
                                             to={{
                                                 pathname: `${routes.CUSTOMERS}/${customer.docId}`,
-                                                state: customerData,
+                                                state: customer,
                                             }}
                                         >
-                                            {customer.firstName}
+                                            {customer.name}
                                         </Link>
                                     </TableCell>
                                     <TableCell align="right">
