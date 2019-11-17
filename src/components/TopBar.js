@@ -137,6 +137,7 @@ const TopBar = () => {
                                 </Link>
                             </Typography>
                             <NavLink
+                                exact
                                 to={routes.HOME}
                                 className={classes.link}
                                 activeStyle={activeStyles}
