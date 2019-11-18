@@ -1,25 +1,36 @@
 import { types } from './customerActions';
+// import service from './customerService';
 
 export const customerState = {
-    loadingNewCustomer: false,
     customers: [],
-    errorMessage: null,
+    customerJobs: [],
 };
 
 export default function reducer(state, action) {
     let { payload } = action;
 
     switch (action.type) {
-        case types.ADD_CUSTOMER_START:
+        case types.GET_CUSTOMERS:
             return {
                 ...state,
-                loadingNewCustomer: true,
+                customers: [...payload],
             };
-        case types.ADD_CUSTOMER_SUCCESS:
+
+        case types.ADD_CUSTOMER:
             return {
                 ...state,
-                loadingNewCustomer: false,
                 customers: [...state.customers, payload],
+            };
+
+        case types.GET_CUSTOMER_JOBS:
+            return {
+                ...state,
+                customerJobs: payload,
+            };
+        case types.SET_CURRENT_CUSTOMER:
+            return {
+                ...state,
+                currentCustomer: payload,
             };
         default:
             return {

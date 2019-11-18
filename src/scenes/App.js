@@ -19,8 +19,11 @@ import {
 
 import Calendar from './Calendar';
 import Auth from './Auth';
-import Dashboard from './Dashboard';
+import Jobs from './Jobs';
 import Profile from './Profile';
+import Customers from './Customers';
+import Customer from './Customer';
+import Techs from './Techs';
 
 //Styles
 import RootContainer from '../components/styles/containers/RootContainer';
@@ -81,14 +84,23 @@ function App() {
                 <div className={classes.root}>
                     <CssBaseline />
                     <TopBar />
-                    <SideBar />
                     <main className={classes.content}>
                         <div className={classes.toolbar} />
 
+                        <Route exact path={routes.HOME} component={Calendar} />
                         <Route exact path={routes.AUTH} component={Auth} />
-                        <Route path={routes.HOME} component={Dashboard} />
                         <Route path={routes.PROFILE} component={Profile} />
-                        <Route path={routes.CALENDAR} component={Calendar} />
+                        <Route path={routes.TECHS} component={Techs} />
+                        <Route path={routes.JOBS} component={Jobs} />
+                        <Route
+                            exact
+                            path={routes.CUSTOMERS}
+                            component={Customers}
+                        />
+                        <Route
+                            path={routes.CUSTOMER_PROFILE}
+                            component={Customer}
+                        />
                         <Route
                             path={routes.AUTH_REGISTER_COMPANY}
                             component={RegisterCompany}
@@ -100,10 +112,6 @@ function App() {
                         <Route
                             path={routes.INVITE_TECH}
                             component={InviteTech}
-                        />
-                        <Route
-                            path={routes.CREATE_CUSTOMER_FORM}
-                            component={CreateCustomerForm}
                         />
                         <Route
                             path={routes.CREATE_TEAM_FORM}

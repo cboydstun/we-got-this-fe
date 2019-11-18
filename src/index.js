@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import './index.css';
 
 import { StateProvider } from './state';
-import { mainReducer, initialState } from './state/reducers';
+import { mainReducer, initialState } from './state/reducers.js';
 
 // require('dotenv').config();
 

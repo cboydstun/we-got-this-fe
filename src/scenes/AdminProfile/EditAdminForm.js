@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState,useEffect} from 'react';
 import { withFormik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { withState } from '../../state';
-import { actions } from '../../state/auth/authActions';
-import { routes } from '../../constants/routes';
+import * as Yup from 'yup';
+import Error from "../../components/Error";
+import {actions} from "../../state/auth/authActions";
 
-const RegisterCompany = ({ errors, touched, values, status }) => {
+const EditAdminForm = ({ errors, touched, values, status }) => {
     const [forms, setForms] = useState([]);
     console.log('this is touched', touched);
     useEffect(() => {
@@ -17,7 +17,7 @@ const RegisterCompany = ({ errors, touched, values, status }) => {
     return (
         <div>
             <div>
-                <h1>RegisterCompany</h1>
+                <h1>EditAdminForm</h1>
             </div>
             <div>
                 <Form>
@@ -86,11 +86,9 @@ const FormikForm = withFormik({
 
     handleSubmit(values, { setStatus, props }) {
         actions.createCompany(props.dispatch, values).then(res => {
-            if (res == true) {
-                props.history.push(routes.HOME);
-            }
+            console.log(res);
         });
     },
-})(RegisterCompany);
+})(EditAdminForm);
 
 export default withState(FormikForm);

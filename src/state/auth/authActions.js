@@ -5,23 +5,18 @@ import { service } from './authService';
 let gapi = window.gapi;
 
 export const types = {
-    AUTH_START: 'AUTH_START',
     AUTH_SUCCESS: 'AUTH_SUCCESS',
-    AUTH_ERROR: 'AUTH_ERROR',
-
     AUTH_LOGOUT: 'AUTH_LOGOUT',
 
-    AUTH_UPDATE_USER_START: 'AUTH_UPDATE_USER_START',
-    AUTH_UPDATE_USER_SUCCESS: 'AUTH_UPDATE_USER_SUCCESS',
-    AUTH_UPDATE_USER_ERROR: 'AUTH_UPDATE_USER_ERROR',
     CREATE_COMPANY: 'CREATE_COMPANY',
-    ADMIN_INFO: 'ADMIN_INFO'
+    COMPANY_LIST: 'COMPANY_LIST',
+    EDIT_ADMIN: 'EDIT_ADMIN',
+    SET_CURRENT_USER: 'SET_CURRENT_USER',
 };
 
 export const actions = {
     async login(dispatch) {
         try {
-            dispatch({ type: types.AUTH_START });
             const googleAuth = gapi.auth2.getAuthInstance();
             const googleUser = await googleAuth.signIn();
 
@@ -39,8 +34,6 @@ export const actions = {
 
     async getOrCreateCurrentUser(dispatch, user) {
         try {
-            dispatch({ type: types.AUTH_START });
-
             let data = await service.getOrCreateCurrentUser(user);
             console.log(data);
 
@@ -49,7 +42,7 @@ export const actions = {
                 payload: data,
             });
         } catch (error) {
-            dispatch({ type: types.AUTH_ERROR });
+            return error;
         }
     },
 
@@ -60,20 +53,19 @@ export const actions = {
         dispatch({ type: types.AUTH_LOGOUT });
     },
 
-    async updateCurrentUser(dispatch, user) {
+    async editAdmin(dispatch, values) {
         try {
-            dispatch({ type: types.AUTH_UPDATE_USER_START });
-
-            let updatedUser = await service.updateCurrentUser(user);
-            if (!updatedUser) {
-                throw new Error('Failed to update User');
+            let updatedAdmin = await service.editAdmin(values);
+            if (!updatedAdmin) {
+                throw new Error('Failed to update Admin');
             }
             dispatch({
-                type: types.AUTH_UPDATE_USER_SUCCESS,
-                payload: updatedUser,
+                type: types.EDIT_ADMIN,
+                payload: updatedAdmin,
             });
+            return true;
         } catch (err) {
-            dispatch({ type: types.AUTH_UPDATE_USER_ERROR });
+            return err;
         }
     },
 
@@ -92,19 +84,34 @@ export const actions = {
             return Error;
         }
     },
-
-    async getAdmin(dispatch, values) {
+    async getCompany(dispatch, values) {
         try {
-         let adminInfo = await service.getAdmin(values);
-         dispatch({
-             type: types.ADMIN_INFO,
-             payload: adminInfo
-         });
-        } catch (err) {
-            dispatch({
-                type: types.AUTH_ERROR
-            });
-        }
+            let companyInfo = await service.getCompany(values);
+            console.log('company info', companyInfo);
 
-    }
+            dispatch({ type: types.COMPANY_LIST, payload: companyInfo });
+        } catch (error) {
+            dispatch({ type: types.AUTH_ERROR });
+        }
+    },
+    async getUsers(dispatch) {
+        try {
+            console.log('Action to get Users');
+            let users = await service.getUsers();
+            if (!users) {
+                throw new Error('Failed to get users');
+            }
+            dispatch({
+                type: types.GET_USERS,
+                payload: users,
+            });
+            return true;
+        } catch (err) {
+            return err;
+        }
+    },
+    async setCurrentUser(dispatch, user) {
+       await dispatch({type: types.SET_CURRENT_USER, payload: user});
+       return true;
+    },
 };

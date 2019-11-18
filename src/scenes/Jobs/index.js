@@ -3,7 +3,7 @@ import Firebase from '../../config/firebase';
 
 const storageRef = Firebase.getStorageRef();
 
-const Dashboard = () => {
+const Jobs = () => {
     const [files, setFiles] = useState(null);
 
     const handleFiles = e => {
@@ -41,4 +41,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Jobs;

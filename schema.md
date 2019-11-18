@@ -10,16 +10,7 @@ When did they sign up / cancel?
     "accounts": {
         "jackies_cleaning_4321": {
             "name": "Jackies Cleaning",
-            "package": "Independent", //"Small Team", "Large Team"
-            "acquisition": {
-                "create_date": "11/5/19",
-                "source": "Phone Call" // "Customer Call"
-            },
-            "retention": {
-                "cancel_date": "2/2/25",
-                "reason": "They hate us"
-            },
-            "type": "free",
+            "create_date": "11/5/19",
             "users": [Users],
 			"teams": [
 				{
@@ -45,30 +36,21 @@ How do I contact this person?
 {
     "users": {
         "jackie_fention_12345": {
-            "name": "Jackie Fention",
-            "contact": {
-                "email": "jackie@jackiescleaning.com",
-                "primary_phone": "(432) 456-1940",
-                "secondary_phone": "(432) 456-1943",
-            },
-            "company": "jackies_cleaning_4321",
-            "password": **********
-            "admin": true,
+            "displayName": "Jackie Fention",
+            "email": "jackie@jackiescleaning.com",
+            "primary_phone": "(432) 456-1940",
+            "secondary_phone": "(432) 456-1943",
+            "role": ["admin", "tech", "superadmin"],
+            "disabled": true,
+            "photoUrl": "string-the-photo.com"
         },
         "susy_smith_123124": {
             "name": "Susy Smith",
-            "contact": {
-                "email": "susy@jackiescleaning.com",
-                "primary_phone": "(432) 863-1293
-            },
-            "company": "jackies_cleaning_4321",
-            "admin": false,
-            "password": **********
-            "jobs": [
-                "job_frankie_customer_123342354",
-                "job_julia_customer_9829349",
-                "job_julia_customer_98938973",
-            ]
+            "email": "susy@jackiescleaning.com",
+            "primary_phone": "(432) 863-1293
+            "role": ["admin", "tech", "superadmin"],
+            "disabled": false,
+            "photoUrl": null
         }
 }
 ```
@@ -85,8 +67,10 @@ What jobs do we have scheduled for them?
 {
     "customers": {
         "customer_id_1234423": {
-		    “account_id”: "jackies_cleaning_4321",
             "name": "Frank Sinatra",
+            "payment": "Cash/Check",
+            "paymentAmount": 140,
+            "schedule": "Monthly",
             "contact": {
                 "email": "Frank@fankies.com",
                 "phone": "(456) 456-1234"
@@ -151,6 +135,24 @@ What jobs do we have scheduled for them?
 
 ```
 
+# Teams
+
+"teams": {
+"doc-id": {
+"name": "420 Blazers",
+"users": [
+"user_id_1",
+"user_id_2",
+"user_id_3
+]
+}
+}
+
+```
+
+
+```
+
 # Jobs
 
 Who was on this job?
@@ -167,11 +169,6 @@ Who worked this job?
         "customer": "customer_id_1234423",
         "details": {
             "scheduled_date": "10/31/19",
-            "rescheduled_dates": [
-                "11/4/19",
-                "11/5/19",
-                "11/19/19"
-            ],
             "time": "9:00 A.M.",
 			"start_time": 9434582903423,
 			"end_time": 9874589032345,
@@ -182,6 +179,7 @@ Who worked this job?
             "state": "ID",
             "zip": "87540"
         },
+        "team": "Team B",
         "techs": [
             {
                 "user_id": "susy_smith_123124",

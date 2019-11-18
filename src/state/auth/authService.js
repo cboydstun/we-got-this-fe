@@ -11,13 +11,14 @@ export const service = {
         let currentUser;
         let querySnapshot = await db
             .collection('users')
-            .where('email', '==', email)
+            .where('email', '==', 'scottknight7@gmail.com')
             .limit(1)
             .get();
 
         if (!querySnapshot.empty) {
             console.log('Got Current User');
             querySnapshot.forEach(doc => {
+                console.log('Doc: ', doc, 'Doc Data ', doc.data());
                 let docRef = doc.id;
                 currentUser = { docRef, ...doc.data() };
             });
@@ -38,46 +39,59 @@ export const service = {
         return currentUser;
     },
 
-    //
-    //UPDATE CURRENT USER
-    async updateCurrentUser(updateUserInfo) {
+    //Edit Admin
+    async editAdmin(updateAdmin) {
         let docRef = await db
-            .collection('users')
-            .doc(`${updateUserInfo.docRef}`)
+            .collection('accounts')
+            .doc(`${updateAdmin.docRef}`)
             .put({
-                ...updateUserInfo,
+                ...updateAdmin,
             });
 
-        let updatedUser = null;
+        let updatedAdmin = null;
         docRef.get().then(doc => {
             let docRef = doc.id;
-            updatedUser = { docRef, ...doc.data() };
+            updatedAdmin = { docRef, ...doc.data() };
         });
-
-        return updatedUser;
+        return updatedAdmin;
     },
 
-    //Create Company
     async createCompany(values) {
         let docRef = await db.collection('accounts').add({
-           ...values
+            ...values,
         });
-        let company = {}
-        let doc = await docRef.get()
+        let company = {};
+        let doc = await docRef.get();
         let docId = doc.id;
-        company = {docId, ...doc.data()}
+        company = { docId, ...doc.data() };
         return company;
     },
-
-    //Getting Admin Info
-    async getAdmin(adminId) {
-        let currentAdmin;
-        let querySnapshot = await db.collection('accounts').where('firstName', '==', adminId)
-        .get()
+    //GET COMPANY
+    async getCompany(accountId) {
+        let currentCompany;
+        let querySnapshot = await db
+            .collection('accounts')
+            .where('company', '==', accountId)
+            .get();
         querySnapshot.forEach(function(doc) {
             let docId = doc.id;
-            currentAdmin={docId, ...doc.data()};
-        })
-        return currentAdmin;
-    }
+            currentCompany = { docId, ...doc.data() };
+        });
+        return currentCompany;
+    },
+
+    //GET USERS
+    async getUsers() {
+        let users = [];
+        let querySnapshot = await db.collection('users').get();
+        querySnapshot.forEach(doc => {
+            let docId = doc.id;
+            let userData = doc.data();
+            // let jobPaths = customerData.jobs.map(job => job.path);
+            // customerData.jobs = jobPaths;
+            let user = { docId, ...userData };
+            users.push(user);
+        });
+        return users;
+    },
 };
