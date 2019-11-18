@@ -16,6 +16,8 @@ import {
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { Link } from 'react-router-dom';
 import { routes } from '../../../constants/routes';
+import { actions } from '../../../state/customer/customerActions';
+import { useStateValue } from '../../../state';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CustomerTable = ({ customers }) => {
+    const [, dispatch] = useStateValue();
     const classes = useStyles();
 
     return (
@@ -61,8 +64,17 @@ const CustomerTable = ({ customers }) => {
                                         <Link
                                             to={{
                                                 pathname: `${routes.CUSTOMERS}/${customer.docId}`,
-                                                state: customer,
                                             }}
+                                            //Set Current Customer from here
+                                            //Can't use state on location because
+                                            //otherwise the /customers/:customer_id
+                                            //will reload and check location.state on /customers/:customer_id/:job_id
+                                            onClick={() =>
+                                                actions.setCurrentCustomer(
+                                                    dispatch,
+                                                    customer
+                                                )
+                                            }
                                         >
                                             {customer.name}
                                         </Link>

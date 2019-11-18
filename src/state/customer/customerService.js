@@ -19,41 +19,41 @@ export const service = {
     async getCustomers() {
         let customers = [];
         let querySnapshot = await db.collection('customers').get();
-        console.log('Query Snapshot: ', querySnapshot);
         querySnapshot.forEach(doc => {
             let docId = doc.id;
             let customerData = doc.data();
             let jobPaths = customerData.jobs.map(job => job.path);
             customerData.jobs = jobPaths;
-            console.log(customerData);
             let customer = { docId, ...customerData };
             customers.push(customer);
         });
-        console.log('Customers from DB: ', customers);
         return customers;
     },
 
-    getCustomerJobs(jobPaths) {
-        console.log('Getting Customer Jobs!: ', jobPaths);
-        let jobs = [];
-        try {
-            let promises = jobPaths.map(async path => {
-                path = path.slice(path.indexOf('/'));
-                console.log(path);
-                return await db
+    async getCustomerJobs(jobPaths) {
+        let promises = [];
+
+        //Create a promise for each job Path
+        jobPaths.forEach(path => {
+            path = path.slice(path.indexOf('/') + 1);
+            promises.push(
+                db
                     .collection('jobs')
                     .doc(path)
-                    .get();
-            });
-            Promise.all(promises).then(docSnaps => {
-                docSnaps.forEach(docSnap => {
-                    jobs.push(docSnap.data());
-                });
-            });
-            return jobs;
-        } catch (err) {
-            return err;
-        }
+                    .get()
+            );
+        });
+
+        //Resolve all the promises
+        let docSnaps = await Promise.all(promises);
+
+        //map each resolved promise to the jobs table
+        let jobs = docSnaps.map(docSnap => {
+            let docId = docSnap.id;
+            return { docId, ...docSnap.data() };
+        });
+
+        return jobs;
     },
 };
 

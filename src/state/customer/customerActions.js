@@ -4,6 +4,7 @@ export const types = {
     ADD_CUSTOMER: 'ADD_CUSTOMERS',
     GET_CUSTOMERS: 'GET_CUSTOMERS',
     GET_CUSTOMER_JOBS: 'GET_CUSTOMER_JOBS',
+    SET_CURRENT_CUSTOMER: 'SET_CURRENT_CUSTOMER',
 };
 
 export const actions = {
@@ -74,6 +75,7 @@ export const actions = {
             if (!jobs) {
                 throw new Error('Failed to get jobs');
             }
+            console.log('Returned Action Jobs: ', jobs);
             dispatch({
                 type: types.GET_CUSTOMER_JOBS,
                 payload: jobs,
@@ -82,5 +84,13 @@ export const actions = {
         } catch (err) {
             return err;
         }
+    },
+
+    async setCurrentCustomer(dispatch, customer) {
+        await dispatch({
+            type: types.SET_CURRENT_CUSTOMER,
+            payload: customer,
+        });
+        return true;
     },
 };

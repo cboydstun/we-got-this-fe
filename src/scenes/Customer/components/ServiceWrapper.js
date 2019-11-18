@@ -2,29 +2,34 @@ import React, { useState, useEffect } from 'react';
 import ServiceTable from './ServiceTable';
 import { useStateValue } from '../../../state';
 import { actions } from '../../../state/customer/customerActions';
+import { withRouter } from 'react-router-dom';
 
-const ServiceWrapper = ({ jobPaths, customer }) => {
+const ServiceWrapper = ({ jobPaths, customer, location, match }) => {
     const [loading, setLoading] = useState(true);
     const [{ customers }, dispatch] = useStateValue();
 
     useEffect(() => {
-        // if (customers.customerJobs == null) {
-        console.log('calling action to get jobs');
         actions.getCustomerJobs(dispatch, jobPaths).then(res => {
             setLoading(false);
         });
-        // } else {
-        // setLoading(false);
-        // }
-    }, [dispatch, jobPaths]);
+    }, [location.pathname, dispatch, jobPaths]);
 
     let renderServices = () => {
         if (loading) {
             return <h2>Loading...</h2>;
-        } else if (!customers.customerJobs.length) {
+        } else if (
+            !customers.customerJobs ||
+            customers.customerJobs.length == 0
+        ) {
             return <h2>No Services Performed</h2>;
         } else {
-            return <ServiceTable />;
+            return (
+                <ServiceTable
+                    jobs={customers.customerJobs}
+                    match={match}
+                    location={location}
+                />
+            );
         }
     };
     return (
@@ -35,4 +40,4 @@ const ServiceWrapper = ({ jobPaths, customer }) => {
     );
 };
 
-export default ServiceWrapper;
+export default withRouter(ServiceWrapper);

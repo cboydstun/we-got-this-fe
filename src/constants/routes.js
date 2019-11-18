@@ -2,7 +2,6 @@ export const routes = {
     AUTH: '/auth',
     HOME: '/',
     PROFILE: '/profile',
-    DASHBOARD: '/dashboard',
     JOBS: '/jobs',
     TECHS: '/techs',
     CREATE_CUSTOMER_FORM: '/create-customer',
@@ -11,7 +10,8 @@ export const routes = {
     REGISTER_COMPANY: '/register-company',
     AUTH_REGISTER_COMPANY: '/auth/register-company',
     CUSTOMERS: '/customers',
-    CUSTOMER_PROFILE: '/customers/:id',
+    CUSTOMER_PROFILE: '/customers/:customer_id',
+    JOB_DETAILS: '/customers/:customer_id/:job_id',
 };
 
 export const privateRoutes = [

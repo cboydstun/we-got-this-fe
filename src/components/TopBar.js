@@ -82,7 +82,7 @@ const TopBar = () => {
                         </IconButton>
 
                         <Typography variant="h5">
-                            <Link to={routes.CALENDAR} className={classes.logo}>
+                            <Link to={routes.HOME} className={classes.logo}>
                                 We Got This!
                             </Link>
                         </Typography>
@@ -95,7 +95,7 @@ const TopBar = () => {
                             <List>
                                 <ListItem>
                                     <NavLink
-                                        to={routes.CALENDAR}
+                                        to={routes.HOME}
                                         onClick={handleClose}
                                     >
                                         Dashboard

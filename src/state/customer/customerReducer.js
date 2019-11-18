@@ -3,7 +3,7 @@ import { types } from './customerActions';
 
 export const customerState = {
     customers: [],
-    customerJobs: null,
+    customerJobs: [],
 };
 
 export default function reducer(state, action) {
@@ -23,10 +23,14 @@ export default function reducer(state, action) {
             };
 
         case types.GET_CUSTOMER_JOBS:
-            console.log(payload);
             return {
                 ...state,
                 customerJobs: payload,
+            };
+        case types.SET_CURRENT_CUSTOMER:
+            return {
+                ...state,
+                currentCustomer: payload,
             };
         default:
             return {

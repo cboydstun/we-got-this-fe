@@ -114,10 +114,6 @@ function App() {
                             component={InviteTech}
                         />
                         <Route
-                            path={routes.CREATE_CUSTOMER_FORM}
-                            component={CreateCustomerForm}
-                        />
-                        <Route
                             path={routes.CREATE_TEAM_FORM}
                             component={CreateTeamForm}
                         />
