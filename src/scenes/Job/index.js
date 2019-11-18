@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { useStateValue } from '../../state';
+import { Tab, Tabs } from '@material-ui/core';
 
 const useStyles = makeStyles({
     column: {
@@ -10,7 +11,17 @@ const useStyles = makeStyles({
     },
 });
 
+const teams = techsArray => {
+    let team = techsArray.reduce((acc, curr) => {
+        return acc + curr.name + ' & ';
+    }, 'Serviced By: ');
+
+    //Remove the last & because I'm lazy
+    return team.slice(0, -2);
+};
+
 const Job = ({ location }) => {
+    const [values, setValues] = useState();
     const [{ customers }, dipatch] = useStateValue();
     const [job, setJob] = useState(null);
     const classes = useStyles();
@@ -28,9 +39,16 @@ const Job = ({ location }) => {
             {!job ? (
                 <h2>Loading...</h2>
             ) : (
-                <div className={classes.column}>
-                    <h1>{job.details.schedule_date}</h1>
-                </div>
+                <>
+                    <div className={classes.column}>
+                        <h1>{job.details.schedule_date}</h1>
+                        <p>{teams(job.techs)}</p>
+                    </div>
+                    <Tabs indicatorColor="primary" textColor="primary">
+                        <Tab label="Photos" />
+                        <Tab label="Notes" />
+                    </Tabs>
+                </>
             )}
         </>
     );
