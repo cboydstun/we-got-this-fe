@@ -3,18 +3,27 @@ import { installActionNames } from '../../state';
 
 const db = Firebase.getFirestore();
 const service = {
-    async addTechToTeam(techEmail, teamId) {
-        const team = (
-            await db
-                .collection('teams')
-                .doc(teamId)
-                .get()
-        ).data();
+    async getAllTechs() {
+        return (await db.collection('techs').get()).docs.map(doc => {
+            return { docId: doc.id, ...doc.data() }
+        });
+    },
+
+    async addTechToTeam(techId, teamId) {
+        const team = {
+            docId: teamId,
+            ...(
+                await db
+                    .collection('teams')
+                    .doc(teamId)
+                    .get()
+            ).data()
+        };
 
         await db
             .collection('teams')
             .doc(teamId)
-            .update({ users: [...team.users, techEmail] });
+            .update({ users: [...team.users, techId] });
     },
 
     async archiveTech(techId) {
@@ -24,27 +33,14 @@ const service = {
             .update({ disabled: true });
     },
 
-    inviteTech: ({
-        firstName,
-        lastName,
-        email,
-        phone,
-        address,
-        notes,
-        city,
-        zip,
-    }) => {
-        db.collection('techs').add({
-            firstName,
-            lastName,
-            email,
-            phone,
-            address,
-            notes,
-            city,
-            zip,
-        });
-    },
+    async inviteTech(tech) {
+        const doc = (await (await db.collection('techs').add(tech)).get());
+
+        return {
+            docId: doc.id,
+            ...doc.data()
+        }
+    }
 };
 
 export default installActionNames(service);

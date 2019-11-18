@@ -32,8 +32,7 @@ export const installActionNames = service => {
     return service;
 };
 
-export const useService = service => {
-    const [, dispatch] = useStateValue();
+export const useService = (service, dispatch) => {
     const wrapper = {};
 
     for (const [key, value] of Object.entries(service)) {

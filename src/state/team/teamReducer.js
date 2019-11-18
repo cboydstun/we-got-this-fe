@@ -9,7 +9,9 @@ export default function reducer(state, action) {
 
     switch (type) {
         case types.TEAM_CREATE:
-            return { ...state, teams: { ...state.teams, payload } };
+            return { ...state, teams: [...state.teams, payload] };
+        case types.TEAM_GET_ALL_SUCCESS:
+            return { ...state, teams: payload };
         default:
             return { ...state };
     };

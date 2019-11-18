@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Button, Select, InputLabel, MenuItem, FormControl } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TechCard from './TechCard';
+import { useStateValue } from '../../state';
+import { actions as teamActions } from '../../state/team/teamActions';
+import { useService } from '../../state';
+import techService from '../../state/tech/techService';
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -12,23 +16,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Techs = ({ techs }) => {
+const Techs = () => {
     const classes = useStyles();
+    const [{ techs }, dispatch] = useStateValue();
+    const service = useService(techService, dispatch);
 
-    techs = [
-        {
-            displayName: 'Sanny Sherief',
-            photoUrl: 'https://i.imgur.com/l5YJgol.png',
-        },
-        {
-            displayName: 'Sanny Sherief',
-            photoUrl: 'https://i.imgur.com/l5YJgol.png',
-        },
-        {
-            displayName: 'Sanny Sherief',
-            photoUrl: 'https://i.imgur.com/l5YJgol.png',
-        },
-    ];
+    useEffect(() => {
+        teamActions.getAllTeams(dispatch);
+        service.getAllTechs();
+    }, []);
 
     return (
         <>
@@ -36,20 +32,20 @@ const Techs = ({ techs }) => {
                 <h1>Technicians</h1>
                 <FormControl>
                     <InputLabel id="team">Team</InputLabel>
-                    <Select value={3} displayEmpty>
+                    <Select displayEmpty>
                         <MenuItem value="">
                             <em>None</em>
                         </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        <MenuItem>Ten</MenuItem>
+                        <MenuItem>Twenty</MenuItem>
+                        <MenuItem>Thirty</MenuItem>
                     </Select>
                 </FormControl>
                 <Button variant="contained">New Tech</Button>
             </div>
             <Grid container xs={12} spacing={3} justify='space-between' >
                 {
-                    techs.map((tech, index) => {
+                    techs && techs.techs && techs.techs.map((tech, index) => {
                         return (
                             <Grid item sm={12} md={5} key={index}>
                                 <TechCard {...tech} />
