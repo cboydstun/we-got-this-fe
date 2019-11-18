@@ -1,72 +1,186 @@
-import React from 'react';
-import { AppBar, Toolbar, InputBase } from '@material-ui/core';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import {
+    AppBar,
+    Toolbar,
+    Button,
+    InputBase,
+    useMediaQuery,
+    Icon,
+    Typography,
+    Drawer,
+    List,
+    ListItem,
+    ListItemText,
+} from '@material-ui/core';
+import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuIcon from '@material-ui/icons/Menu';
 
-const drawerWidth = 150;
+import { NavLink, Link } from 'react-router-dom';
+import { routes } from '../constants/routes';
+
+import { useStateValue } from '../state';
+import { setState } from 'expect/build/jestMatchersObject';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-    },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
         width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(3),
-            width: 'auto',
-        },
     },
-    searchIcon: {
-        width: theme.spacing(7),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
+    routes: {
         display: 'flex',
+        flexDirection: 'row',
+        flexGrow: 1,
         alignItems: 'center',
-        justifyContent: 'center',
     },
-    inputRoot: {
-        color: 'inherit',
+    link: {
+        textDecoration: 'none',
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        color: theme.palette.common.white,
+        fontSize: 16,
     },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
-        },
+    logo: {
+        textDecoration: 'none',
+        fontWeight: theme.typography.fontWeightBold,
+        color: theme.palette.common.white,
+        marginRight: theme.spacing(2),
+    },
+    login: {
+        color: theme.palette.common.white,
     },
 }));
 
+const activeStyles = {
+    fontWeight: 600,
+    textDecoration: 'underline',
+};
+
 const TopBar = () => {
+    const [open, setOpen] = useState(false);
+    const [{ auth }] = useStateValue();
     const classes = useStyles();
+    const theme = useTheme();
+    const smallWidth = useMediaQuery(theme.breakpoints.down('xs'));
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <AppBar position="fixed" className={classes.appBar}>
             <Toolbar variant="dense">
-                Search Bar
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
-                    </div>
-                    <InputBase
-                        placeholder="Search…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </div>
+                {smallWidth ? (
+                    <>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={() => setOpen(true)}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+
+                        <Typography variant="h5">
+                            <Link to={routes.HOME} className={classes.logo}>
+                                We Got This!
+                            </Link>
+                        </Typography>
+
+                        <Drawer
+                            anchor="top"
+                            open={open}
+                            onClose={() => setOpen(false)}
+                        >
+                            <List>
+                                <ListItem>
+                                    <NavLink
+                                        to={routes.HOME}
+                                        onClick={handleClose}
+                                    >
+                                        Dashboard
+                                    </NavLink>
+                                </ListItem>
+                                <ListItem>
+                                    <NavLink
+                                        to={routes.CUSTOMERS}
+                                        onClick={handleClose}
+                                    >
+                                        Customers
+                                    </NavLink>
+                                </ListItem>
+                                <ListItem>
+                                    <NavLink
+                                        to={routes.TECHS}
+                                        onClick={handleClose}
+                                    >
+                                        Techs
+                                    </NavLink>
+                                </ListItem>
+                                <ListItem>
+                                    <NavLink
+                                        to={routes.PROFILE}
+                                        onClick={handleClose}
+                                    >
+                                        Admin
+                                    </NavLink>
+                                </ListItem>
+                            </List>
+                        </Drawer>
+                    </>
+                ) : (
+                    <>
+                        <div className={classes.routes}>
+                            <Typography variant="h5">
+                                <Link to={routes.HOME} className={classes.logo}>
+                                    We Got This!
+                                </Link>
+                            </Typography>
+                            <NavLink
+                                exact
+                                to={routes.HOME}
+                                className={classes.link}
+                                activeStyle={activeStyles}
+                            >
+                                Dashboard
+                            </NavLink>
+                            <NavLink
+                                to={routes.CUSTOMERS}
+                                className={classes.link}
+                                activeStyle={activeStyles}
+                            >
+                                Customers
+                            </NavLink>
+                            <NavLink
+                                to={routes.TECHS}
+                                className={classes.link}
+                                activeStyle={activeStyles}
+                            >
+                                Techs
+                            </NavLink>
+                            <NavLink
+                                to={routes.JOBS}
+                                className={classes.link}
+                                activeStyle={activeStyles}
+                            >
+                                Jobs
+                            </NavLink>
+                        </div>
+                        {auth.currentUser ? (
+                            <IconButton component={Link} to={routes.PROFILE}>
+                                <AccountCircle style={{ color: 'white' }} />
+                            </IconButton>
+                        ) : (
+                            <Button
+                                component={Link}
+                                to={routes.AUTH}
+                                className={classes.login}
+                            >
+                                Login
+                            </Button>
+                        )}
+                    </>
+                )}
             </Toolbar>
         </AppBar>
     );

@@ -11,13 +11,14 @@ export const service = {
         let currentUser;
         let querySnapshot = await db
             .collection('users')
-            .where('email', '==', email)
+            .where('email', '==', 'scottknight7@gmail.com')
             .limit(1)
             .get();
 
         if (!querySnapshot.empty) {
             console.log('Got Current User');
             querySnapshot.forEach(doc => {
+                console.log('Doc: ', doc, 'Doc Data ', doc.data());
                 let docRef = doc.id;
                 currentUser = { docRef, ...doc.data() };
             });
@@ -65,7 +66,6 @@ export const service = {
         company = { docId, ...doc.data() };
         return company;
     },
-
     //GET COMPANY
     async getCompany(accountId) {
         let currentCompany;

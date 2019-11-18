@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+import moment from 'moment';
 
-const Calendar = () => {
+const AllCalendar = () => {
     //Get Google API
     let gapi = window.gapi;
+    const DraggableCalendar = withDragAndDrop(Calendar);
+    const localizer = momentLocalizer(moment);
+    let allViews = Object.keys(Views).map(k => Views[k]);
+
+    const [events, setEvents] = useState([
+        {
+            id: 0,
+            title: 'Hello',
+            allDay: true,
+            start: new Date(Date.now()).toDateString(),
+            end: new Date(Date.now() + 3 * 1000 * 60 * 60).toDateString(),
+        },
+    ]);
 
     async function getCalendar() {
-        const events = await gapi.client.calendar.events.list({
-            calendarId: 'primary',
+        const calendar = await gapi.client.calendar.events.list({
+            calendarId:
+                'lambdaschool.com_5ql54gdu6bsdug0i05q61cq610@group.calendar.google.com',
             timeMin: new Date().toISOString(),
             showDeleted: false,
             singleEvents: true,
@@ -14,15 +33,33 @@ const Calendar = () => {
             orderBy: 'startTime',
         });
 
-        console.log(events);
-        console.log(events.result.items);
+        console.log(calendar);
+        console.log(calendar.result.items);
 
-        const list = await gapi.client.calendar.calendarList.list({
-            maxResults: 10,
+        let calEvents = [];
+        calendar.result.items.forEach(calEvent => {
+            console.log(calEvent);
+            calEvents.push({
+                id: calEvent.id,
+                title: calEvent.summary,
+                start: new Date(calEvent.start.date || calEvent.start.dateTime),
+                end: new Date(calEvent.end.date || calEvent.end.dateTime),
+                details: {
+                    name: 'Customer Name',
+                    customerId: '1231234234',
+                    serviceID: '123480912384',
+                },
+            });
         });
+        console.log(calEvents);
+        setEvents([...events, ...calEvents]);
 
-        console.log(list);
-        console.log(list.result.items);
+        // const list = await gapi.client.calendar.calendarList.list({
+        //     maxResults: 10,
+        // });
+
+        // console.log(list);
+        // console.log(list.result.items);
     }
 
     async function insertEvent() {
@@ -64,8 +101,37 @@ const Calendar = () => {
             >
                 Insert Event
             </button>
+            <div style={{ height: 50 }}></div>
+            <DraggableCalendar
+                localizer={localizer}
+                events={events}
+                style={{ height: 500 }}
+                draggableAccessor={event => true}
+                resizable
+                selectable
+                onEventResize={event => {
+                    console.log(event);
+                }}
+                onSelectSlot={event => {
+                    console.log(event);
+                    setEvents([
+                        ...events,
+                        {
+                            id: 1,
+                            title: 'This Event',
+                            start: event.start,
+                            end: event.end,
+                        },
+                    ]);
+                }}
+                min={new Date(2019, 11, 13, 8)}
+                max={new Date(2019, 11, 13, 18)}
+                onSelectEvent={event => {
+                    console.log(event);
+                }}
+            />
         </div>
     );
 };
 
-export default Calendar;
+export default AllCalendar;

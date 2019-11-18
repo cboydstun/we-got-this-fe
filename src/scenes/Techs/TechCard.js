@@ -1,4 +1,6 @@
 import React from 'react';
+import techService from '../../state/tech/techService';
+import { useService } from '../../state';
 import {
     Card,
     Button,
@@ -8,6 +10,7 @@ import {
     FormControl,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useStateValue } from '../../state';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,8 +44,14 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const TechCard = ({ displayName, photoUrl }) => {
+const TechCard = ({ displayName, photoUrl, disabled }) => {
     const classes = useStyles();
+    const service = useService(techService);
+
+    const handleTeamChange = e =>
+        service.addTechToTeam('example', e.target.value.toString());
+    const handleArchiveClick = () =>
+        service.archiveTech('jq5Ijo6dpsgLOFsOTMeq');
 
     return (
         <Card className={classes.root}>
@@ -51,17 +60,17 @@ const TechCard = ({ displayName, photoUrl }) => {
                 <h2>{displayName}</h2>
                 <FormControl className={classes.dropdown}>
                     <InputLabel id="team">Team</InputLabel>
-                    <Select value={3} displayEmpty>
+                    <Select displayEmpty value={3} onChange={handleTeamChange}>
                         <MenuItem value="">
                             <em>None</em>
                         </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        <MenuItem value="2UHQpb30P1KtFKe5F5qK">Team A</MenuItem>
+                        <MenuItem value="Ewjs46GMdKVqBDPsqzK8">Team B</MenuItem>
+                        <MenuItem value="MnZEZUNX03kM3bUYVbH6">Team C</MenuItem>
                     </Select>
                 </FormControl>
                 <div className={classes.controls}>
-                    <Button>Archive</Button>
+                    <Button onClick={handleArchiveClick}>Archive</Button>
                     <Button>Edit</Button>
                 </div>
             </div>

@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
-const CustomerForm = ({ errors, touched, values, status }) => {
+const CustomerForm = ({ errors, touched, values, status, setFieldValue }) => {
     const [state, setState] = useState([]);
     const classes = useStyles();
     useEffect(() => {
@@ -35,32 +35,32 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                 <Grid item className={classes.column} xs={6}>
                     <Field
                         type="text"
-                        name="firstName"
+                        name="name"
                         placeholder="First Name"
-                        value={values.firstName}
+                        value={values.name}
                     />
                     {touched.name && errors.name && (
-                        <p className="error">{errors.firstname}</p>
-                    )}
-
-                    <Field
-                        type="text"
-                        name="lastName"
-                        placeholder="Last Name"
-                        value={values.lastName}
-                    />
-                    {touched.lastname && errors.name && (
-                        <p className="error">{errors.lastname}</p>
+                        <p className="error">{errors.name}</p>
                     )}
 
                     <Field
                         type="text"
                         name="phoneNumber"
                         placeholder="Phone Number"
-                        value={values.phoneNumber}
+                        render={({ field, value, onChange }) => (
+                            <input
+                                {...field}
+                                type="tel"
+                                placeholder="(713) 264-1320"
+                                onChange={e => {
+                                    let formatted = checkPhone(e);
+                                    setFieldValue('phoneNumber', formatted);
+                                }}
+                            />
+                        )}
                     />
-                    {touched.phonenumber && errors.phonenumber && (
-                        <p className="error">{errors.phonenumber}</p>
+                    {touched.phoneNumber && errors.phoneNumber && (
+                        <p className="error">{errors.phoneNumber}</p>
                     )}
 
                     <Field
@@ -84,6 +84,7 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                         <option value="cash">Cash</option>
                         <option value="check">Check</option>
                         <option value="debit/credit">Debit/Credit Card</option>
+                        <option value="ach">ACH</option>
                     </Field>
 
                     <Field
@@ -107,11 +108,11 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                     <Field
                         type="text"
                         name="street"
-                        placeholder="Service Address"
+                        placeholder="Street"
                         value={values.street}
                     />
-                    {touched.serviceaddress && errors.serviceaddress && (
-                        <p className="error">{errors.serviceaddress}</p>
+                    {touched.street && errors.street && (
+                        <p className="error">{errors.street}</p>
                     )}
 
                     <Field
@@ -130,8 +131,8 @@ const CustomerForm = ({ errors, touched, values, status }) => {
                         placeholder="State"
                         value={values.region}
                     />
-                    {touched.state && errors.state && (
-                        <p className="error">{errors.state}</p>
+                    {touched.region && errors.region && (
+                        <p className="error">{errors.region}</p>
                     )}
 
                     <Field
@@ -165,51 +166,62 @@ const CustomerForm = ({ errors, touched, values, status }) => {
     );
 };
 
+function checkPhone(obj) {
+    let str = obj.target.value.replace(/[^0-9]+?/g, '');
+    switch (str.length) {
+        case 10:
+            str =
+                '(' +
+                str.substr(0, 3) +
+                ') ' +
+                str.substr(3, 3) +
+                '-' +
+                str.substr(6, 4);
+            break;
+        default:
+            return;
+    }
+    return str;
+}
+
 const CreateCustomerForm = withFormik({
     mapPropsToValues({
-        firstName,
-        lastName,
+        name,
         email,
         phoneNumber,
         street,
         city,
         region,
         zipcode,
+        notes,
     }) {
         return {
-            firstName: firstName || '',
-            lastName: lastName || '',
+            name: name || '',
             email: email || '',
             phoneNumber: phoneNumber || '',
             street: street || '',
             city: city || '',
-            region: region || '',
+            region: region || 'ID',
             zipcode: zipcode || '',
+            notes: notes || '',
         };
     },
 
     validationSchema: Yup.object().shape({
-        firstName: Yup.string().required('Must enter a First Name'),
-        lastName: Yup.string().required('Must enter a Last Name'),
-        phoneNumber: Yup.number().required('Must enter a Number'),
+        name: Yup.string().required('Must enter a First Name'),
+        phoneNumber: Yup.string().required('Must enter a Phone Number'),
         street: Yup.string().required('Must enter an Address'),
-        email: Yup.string().required('Must enter an Email'),
         city: Yup.string().required('Must enter an City'),
         region: Yup.string().required('Must enter a State'),
         zipcode: Yup.number().required('Must enter an Zip'),
     }),
 
     handleSubmit(values, { setStatus, props, resetForm }) {
-        let accountId = props.state.auth.currentUser.accountId;
-        console.log('Account ID: ', accountId);
-        actions
-            .addCustomer(props.dispatch, { accountId, ...values })
-            .then(res => {
-                if (res == true) {
-                    console.log('redirecting');
-                    props.history.push('/customers');
-                }
-            });
+        actions.addCustomer(props.dispatch, { ...values }).then(res => {
+            if (res == true) {
+                console.log('redirecting');
+            }
+        });
         resetForm();
     },
 })(CustomerForm);

@@ -5,10 +5,7 @@ import { service } from './authService';
 let gapi = window.gapi;
 
 export const types = {
-    AUTH_START: 'AUTH_START',
     AUTH_SUCCESS: 'AUTH_SUCCESS',
-    AUTH_ERROR: 'AUTH_ERROR',
-
     AUTH_LOGOUT: 'AUTH_LOGOUT',
 
     CREATE_COMPANY: 'CREATE_COMPANY',
@@ -19,23 +16,23 @@ export const types = {
 export const actions = {
     async login(dispatch) {
         try {
-            dispatch({ type: types.AUTH_START });
             const googleAuth = gapi.auth2.getAuthInstance();
             const googleUser = await googleAuth.signIn();
 
             const token = googleUser.getAuthResponse().id_token;
             const credential = auth.GoogleAuthProvider.credential(token);
 
-            await Firebase.signInWithCredential(credential);
+            let result = await Firebase.signInWithCredential(credential);
+            console.log('Firebase credential: ', result);
+            return true;
         } catch (error) {
-            dispatch({ type: types.AUTH_ERROR });
+            console.log(error);
+            return false;
         }
     },
 
     async getOrCreateCurrentUser(dispatch, user) {
         try {
-            dispatch({ type: types.AUTH_START });
-
             let data = await service.getOrCreateCurrentUser(user);
             console.log(data);
 
@@ -44,7 +41,7 @@ export const actions = {
                 payload: data,
             });
         } catch (error) {
-            dispatch({ type: types.AUTH_ERROR });
+            return error;
         }
     },
 

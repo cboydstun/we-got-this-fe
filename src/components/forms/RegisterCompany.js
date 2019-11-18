@@ -3,6 +3,7 @@ import { withFormik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { withState } from '../../state';
 import { actions } from '../../state/auth/authActions';
+import { routes } from '../../constants/routes';
 
 const RegisterCompany = ({ errors, touched, values, status }) => {
     const [forms, setForms] = useState([]);
@@ -85,7 +86,9 @@ const FormikForm = withFormik({
 
     handleSubmit(values, { setStatus, props }) {
         actions.createCompany(props.dispatch, values).then(res => {
-            console.log(res);
+            if (res == true) {
+                props.history.push(routes.HOME);
+            }
         });
     },
 })(RegisterCompany);
