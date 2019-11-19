@@ -6,6 +6,7 @@ import { withState } from '../../state';
 import { actions } from '../../state/customer/customerActions';
 import { Form, Field, withFormik, Formik } from 'formik';
 import * as Yup from 'yup';
+import { classExpression } from '../../../node_modules/@babel/types';
 
 const useStyles = makeStyles({
     column: {
@@ -17,7 +18,22 @@ const useStyles = makeStyles({
         justifyContent: 'space-between',
     },
     marginBottom: {
-        marginBottom: '30px;'
+        marginBottom: '30px;',
+        marginTop: '10px',
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    inputWidth: {
+        width: '300px',
+        height: '30px',
+        cursor: 'pointer',
+    },
+    buttonStyle: {
+        height: '40px',
+        width: '65px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontSize: '15px'
     }
 });
 
@@ -33,10 +49,11 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
     console.log('Values: ', values, 'Status: ', status);
 
     return (
-        <Form>
+        <Form className={classes.marginBottom}>
             <Grid container spacing={3}>
                 <Grid item className={classes.column} xs={6}>
                     <Field
+                        className={classes.inputWidth}
                         type="text"
                         name="name"
                         placeholder="First Name"
@@ -52,6 +69,7 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                         placeholder="Phone Number"
                         render={({ field, value, onChange }) => (
                             <input
+                                className={classes.inputWidth}
                                 {...field}
                                 type="tel"
                                 placeholder="(713) 264-1320"
@@ -67,6 +85,7 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                     )}
 
                     <Field
+                        className={classes.inputWidth}
                         type="text"
                         name="email"
                         placeholder="Email"
@@ -78,7 +97,7 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
 
                     <Field
                         component="select"
-                        className="payment-select"
+                        className={classes.inputWidth}
                         name="payment"
                         placeholder="Choose a Payment Method"
                         value={values.payment}
@@ -91,9 +110,8 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
             
                     </Field>
                         <div className={classes.marginBottom}>
-                            {' '}
-                            <button type="button">Cancel</button>{' '}
-                            <button type="submit">Submit</button>{' '}
+                            <button className={classes.buttonStyle} type="button">Cancel</button>{' '}
+                            <button className={classes.buttonStyle} type="submit">Submit</button>{' '}
                         </div>
                 </Grid>
             </Grid>
