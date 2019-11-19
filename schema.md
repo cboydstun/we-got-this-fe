@@ -40,15 +40,15 @@ How do I contact this person?
             "email": "jackie@jackiescleaning.com",
             "primary_phone": "(432) 456-1940",
             "secondary_phone": "(432) 456-1943",
-            "role": ["admin", "tech", "superadmin"],
+            "roles": ["admin", "tech", "superadmin"],
             "disabled": true,
             "photoUrl": "string-the-photo.com"
         },
         "susy_smith_123124": {
-            "name": "Susy Smith",
+            "displayName": "Susy Smith",
             "email": "susy@jackiescleaning.com",
             "primary_phone": "(432) 863-1293
-            "role": ["admin", "tech", "superadmin"],
+            "roles": ["admin", "tech", "superadmin"],
             "disabled": false,
             "photoUrl": null
         }
