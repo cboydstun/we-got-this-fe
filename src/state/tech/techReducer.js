@@ -8,12 +8,14 @@ export default function reducer(state, action) {
     const { type, payload } = action;
 
     switch (type) {
-        case service.addTechToTeam.success: {
+        case service.addTechToTeam.success:
             return { ...state };
-        }
-        case service.archiveTech.error: {
-            return { ...state };
-        }
+        case service.getAllTechs.success:
+            return { ...state, techs: payload };
+        case service.inviteTech.success:
+            return { ...state, techs: [...state.techs, payload] }
+        case service.archiveTech.success:
+            return { ...state }
         default:
             return { ...state };
     }
