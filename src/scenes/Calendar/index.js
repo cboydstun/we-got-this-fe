@@ -88,7 +88,6 @@ const AllCalendar = () => {
     return (
         <>
             <SideBar>
-                <h1>Calendar</h1>
                 <button
                     onClick={() => {
                         getCalendar();

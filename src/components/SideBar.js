@@ -64,21 +64,24 @@ const SideBar = ({ children }) => {
                 {loading ? (
                     <h3>Loading</h3>
                 ) : (
-                    <List>
-                        {teams.teams &&
-                            teams.teams.length &&
-                            teams.teams.map((team, index) => {
-                                return (
-                                    <ListItem
-                                        button
-                                        key={index}
-                                        onClick={() => alert('clicked')}
-                                    >
-                                        {team.name}
-                                    </ListItem>
-                                );
-                            })}
-                    </List>
+                    <>
+                        <h3>Teams</h3>
+                        <List>
+                            {teams.teams &&
+                                teams.teams.length &&
+                                teams.teams.map((team, index) => {
+                                    return (
+                                        <ListItem
+                                            button
+                                            key={index}
+                                            onClick={() => alert('clicked')}
+                                        >
+                                            {team.name}
+                                        </ListItem>
+                                    );
+                                })}
+                        </List>
+                    </>
                 )}
             </Drawer>
             <div className={classes.appBar}>{children}</div>

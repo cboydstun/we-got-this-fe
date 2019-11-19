@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, TextareaAutosize } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
 import { withState } from '../../state';
 
 import { actions } from '../../state/customer/customerActions';
-import { Form, Field, withFormik, Formik } from 'formik';
+import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 
 const useStyles = makeStyles({

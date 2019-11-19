@@ -1,52 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles, TextareaAutosize } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import { withState } from '../../state';
-
-import { actions } from '../../state/customer/customerActions';
-import { Form, Field, withFormik, Formik } from 'formik';
+import React from 'react';
+import { withFormik, Form, Field } from 'formik';
+import _ from 'lodash';
 import * as Yup from 'yup';
+import { withRouter } from 'react-router-dom';
+import { withState } from '../../state';
+import { Grid, TextField } from '@material-ui/core';
 
-const useStyles = makeStyles({
-    column: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    controls: {
-        display: 'flex',
-        justifyContent: 'space-between',
-    },
-});
-
-const CustomerForm = ({ errors, touched, values, status, setFieldValue }) => {
-    const [state, setState] = useState([]);
-    const classes = useStyles();
-    useEffect(() => {
-        if (status) {
-            setState([...state, status]);
-        }
-    }, [status, state]);
-
-    console.log('Values: ', values, 'Status: ', status);
-
+const NewJob = ({
+    errors,
+    touched,
+    values,
+    status,
+    userCreated,
+    setFieldValue,
+    history,
+}) => {
     return (
-        <Form>
-            <Grid container spacing={3}>
-                <Grid item className={classes.column} xs={6}>
-                    <Field
-                        type="text"
-                        name="name"
-                        placeholder="First Name"
-                        value={values.name}
-                    />
-                    {touched.name && errors.name && (
-                        <p className="error">{errors.name}</p>
-                    )}
+        <Form style={{ maxWidth: 450 }}>
+            {!_.isEmpty(
+                _.intersection(Object.keys(touched), Object.keys(errors))
+            ) && (
+                <div>
+                    <p>There's some issues</p>
+                    <p>
+                        {_.intersection(
+                            Object.keys(touched),
+                            Object.keys(errors)
+                        ).map(key => errors[key])}
+                    </p>
+                </div>
+            )}
 
+            <div>
+                <label>
+                    Customer Name
+                    <Field type="Text" name="name" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Customer Phone Number
                     <Field
-                        type="text"
                         name="phoneNumber"
-                        placeholder="Phone Number"
                         render={({ field, value, onChange }) => (
                             <input
                                 {...field}
@@ -59,109 +54,23 @@ const CustomerForm = ({ errors, touched, values, status, setFieldValue }) => {
                             />
                         )}
                     />
-                    {touched.phoneNumber && errors.phoneNumber && (
-                        <p className="error">{errors.phoneNumber}</p>
-                    )}
+                </label>
+            </div>
+            <div>
+                <label>
+                    Customer Email
+                    <Field type="email" name="email" />
+                </label>
+            </div>
 
-                    <Field
-                        type="text"
-                        name="email"
-                        placeholder="Email"
-                        value={values.email}
-                    />
-                    {touched.email && errors.email && (
-                        <p className="error">{errors.email}</p>
-                    )}
-
-                    <Field
-                        component="select"
-                        className="payment-select"
-                        name="payment"
-                        placeholder="Choose a Payment Method"
-                        value={values.payment}
-                    >
-                        <option>Choose a Payment Method </option>
-                        <option value="cash">Cash</option>
-                        <option value="check">Check</option>
-                        <option value="debit/credit">Debit/Credit Card</option>
-                        <option value="ach">ACH</option>
-                    </Field>
-
-                    <Field
-                        component="select"
-                        className="hearabout-select"
-                        name="hearabout"
-                        value={values.hearabout}
-                    >
-                        <option>How Did You Hear About Us</option>
-                        <option value="customer referral">
-                            Customer Referral
-                        </option>
-                        <option value="internet">Internet</option>
-                        <option value="employee referral">
-                            Employee Refferal
-                        </option>
-                    </Field>
-                </Grid>
-
-                <Grid item className={classes.column} xs={6}>
-                    <Field
-                        type="text"
-                        name="street"
-                        placeholder="Street"
-                        value={values.street}
-                    />
-                    {touched.street && errors.street && (
-                        <p className="error">{errors.street}</p>
-                    )}
-
-                    <Field
-                        type="text"
-                        name="city"
-                        placeholder="City"
-                        value={values.city}
-                    />
-                    {touched.city && errors.city && (
-                        <p className="error">{errors.city}</p>
-                    )}
-
-                    <Field
-                        type="text"
-                        name="region"
-                        placeholder="State"
-                        value={values.region}
-                    />
-                    {touched.region && errors.region && (
-                        <p className="error">{errors.region}</p>
-                    )}
-
-                    <Field
-                        type="text"
-                        name="zipcode"
-                        placeholder="Zip Code"
-                        value={values.zipcode}
-                    />
-                    {touched.zipcode && errors.state && (
-                        <p className="error">{errors.zipcode}</p>
-                    )}
-
-                    <textarea
-                        type="text"
-                        name="notes"
-                        placeholder="Special Notes"
-                        value={values.notes}
-                    />
-                    {touched.zipcode && errors.notes && (
-                        <p className="error">{errors.notes}</p>
-                    )}
-
-                    <div className={classes.controls}>
-                        {' '}
-                        <button type="button">Cancel</button>{' '}
-                        <button type="submit">Submit</button>{' '}
-                    </div>
-                </Grid>
-            </Grid>
+            <button type="submit">Submit</button>
+            <button
+                onClick={() => {
+                    history.push('/');
+                }}
+            >
+                Cancel
+            </button>
         </Form>
     );
 };
@@ -184,46 +93,30 @@ function checkPhone(obj) {
     return str;
 }
 
-const CreateCustomerForm = withFormik({
-    mapPropsToValues({
-        name,
-        email,
-        phoneNumber,
-        street,
-        city,
-        region,
-        zipcode,
-        notes,
-    }) {
+const NewJobForm = withFormik({
+    mapPropsToValues: ({ name, phoneNumber, email }) => {
         return {
             name: name || '',
-            email: email || '',
             phoneNumber: phoneNumber || '',
-            street: street || '',
-            city: city || '',
-            region: region || 'ID',
-            zipcode: zipcode || '',
-            notes: notes || '',
+            email: email || '',
         };
     },
 
     validationSchema: Yup.object().shape({
-        name: Yup.string().required('Must enter a First Name'),
-        phoneNumber: Yup.string().required('Must enter a Phone Number'),
-        street: Yup.string().required('Must enter an Address'),
-        city: Yup.string().required('Must enter an City'),
-        region: Yup.string().required('Must enter a State'),
-        zipcode: Yup.number().required('Must enter an Zip'),
+        name: Yup.string()
+            .required('You must have a Customer Name')
+            .min(4, 'Your customer name cannot be less than 3 letters.'),
+        phoneNumber: Yup.string()
+            .required('You must provide a customer phone number')
+            .min(10, 'Your phone must be at least 10 digits'),
+        email: Yup.string()
+            .email('The email provided is not valid')
+            .required('You must provide an email'),
     }),
 
-    handleSubmit(values, { setStatus, props, resetForm }) {
-        actions.addCustomer(props.dispatch, { ...values }).then(res => {
-            if (res == true) {
-                console.log('redirecting');
-            }
-        });
-        resetForm();
+    handleSubmit: function(values, { props, resetForm }) {
+        console.log('Submitting');
     },
-})(CustomerForm);
+})(NewJob);
 
-export default withState(CreateCustomerForm);
+export default withState(withRouter(NewJobForm));
