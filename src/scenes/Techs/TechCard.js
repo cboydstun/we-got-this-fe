@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const TechCard = ({ docId, displayName, photoUrl, disabled }) => {
+const TechCard = ({ docId, displayName, photoUrl, disabled, team }) => {
     const classes = useStyles({ disabled });
     const [{ teams }, dispatch] = useStateValue();
     const service = useService(techService, dispatch);
@@ -60,7 +60,7 @@ const TechCard = ({ docId, displayName, photoUrl, disabled }) => {
                 <h2>{displayName}</h2>
                 <FormControl className={classes.dropdown}>
                     <InputLabel id="team">Team</InputLabel>
-                    <Select displayEmpty onChange={handleTeamChange}>
+                    <Select displayEmpty value={team && team.docId} disabled={disabled} onChange={handleTeamChange}>
                         {
                             teams && teams.teams.map(team => {
                                 return <MenuItem value={team.docId} key={team.docId}>{team.name}</MenuItem>
@@ -69,8 +69,8 @@ const TechCard = ({ docId, displayName, photoUrl, disabled }) => {
                     </Select>
                 </FormControl>
                 <div className={classes.controls}>
-                    <Button onClick={handleArchiveClick}>Archive</Button>
-                    <Button>Edit</Button>
+                    <Button onClick={handleArchiveClick} disabled={disabled}>Archive</Button>
+                    <Button disabled={disabled}>Edit</Button>
                 </div>
             </div>
         </Card>

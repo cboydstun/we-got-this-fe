@@ -4,9 +4,18 @@ import { installActionNames } from '../../state';
 const db = Firebase.getFirestore();
 const service = {
     async getAllTechs() {
-        return (await db.collection('techs').get()).docs.map(doc => {
-            return { docId: doc.id, ...doc.data() }
-        });
+        const techDocs = (await db.collection('techs').get()).docs;
+
+        return await Promise.all(techDocs.map(async techDoc => {
+            const teamDoc = (await db.collection('teams').where('users', 'array-contains', techDoc.id).get()).docs[0];
+            const tech = {
+                docId: techDoc.id,
+                team: teamDoc.exists && { docId: teamDoc.id, ...teamDoc.data() },
+                ...techDoc.data()
+            }
+
+            return tech;
+        }));
     },
 
     async addTechToTeam(techId, teamId) {

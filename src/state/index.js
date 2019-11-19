@@ -44,10 +44,9 @@ export const useService = (service, dispatch) => {
 
                 dispatch({ type: value.success, payload: result });
 
-                return true;
+                return result;
             } catch (error) {
                 dispatch({ type: value.error, payload: error });
-                return false;
             }
         };
     }

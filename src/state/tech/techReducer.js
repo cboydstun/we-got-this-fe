@@ -15,10 +15,7 @@ export default function reducer(state, action) {
         case service.inviteTech.success:
             return { ...state, techs: [...state.techs, payload] }
         case service.archiveTech.success:
-            {
-                console.log('STATE HERE IS ', state)
-                return { ...state }
-            }
+            return { ...state }
         default:
             return { ...state };
     }
