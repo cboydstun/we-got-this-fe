@@ -16,6 +16,9 @@ const useStyles = makeStyles({
         display: 'flex',
         justifyContent: 'space-between',
     },
+    marginBottom: {
+        marginBottom: '30px;'
+    }
 });
 
 const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
@@ -83,9 +86,15 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                         <option>Choose a type </option>
                         <option value="cash">Admin</option>
                         <option value="check">User</option>
+
+                        
             
                     </Field>
-
+                        <div className={classes.marginBottom}>
+                            {' '}
+                            <button type="button">Cancel</button>{' '}
+                            <button type="submit">Submit</button>{' '}
+                        </div>
                 </Grid>
             </Grid>
         </Form>

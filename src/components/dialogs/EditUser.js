@@ -30,7 +30,7 @@ export default function NewCustomer() {
                 fullWidth={true}
                 maxWidth="sm"
             >
-                <DialogTitle>Create New Customer</DialogTitle>
+                <DialogTitle>Edit User</DialogTitle>
                 <DialogContent>
                     <EditUserForm />
                 </DialogContent>
