@@ -11,6 +11,7 @@ export const types = {
     CREATE_COMPANY: 'CREATE_COMPANY',
     COMPANY_LIST: 'COMPANY_LIST',
     EDIT_ADMIN: 'EDIT_ADMIN',
+    GET_USERS: 'GET_USERS',
     SET_CURRENT_USER: 'SET_CURRENT_USER',
 };
 
@@ -89,7 +90,11 @@ export const actions = {
             let companyInfo = await service.getCompany(values);
             console.log('company info', companyInfo);
 
-            dispatch({ type: types.COMPANY_LIST, payload: companyInfo });
+            dispatch({ 
+                type: types.COMPANY_LIST, 
+                payload: companyInfo 
+            });
+            return true;
         } catch (error) {
             dispatch({ type: types.AUTH_ERROR });
         }

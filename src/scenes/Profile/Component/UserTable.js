@@ -63,27 +63,11 @@ const UserTable = ({ users }) => {
                             return (
                                 <TableRow key={user.name}>
                                     <TableCell component="th" scope="row">
-                                        <Link
-                                            to={{
-                                                pathname: `${routes.USERS}/${user.docId}`,
-                                            }}
-                                            //Set Current Customer from here
-                                            //Can't use state on location because
-                                            //otherwise the /customers/:customer_id
-                                            //will reload and check location.state on /customers/:customer_id/:job_id
-                                            onClick={() =>
-                                                actions.setCurrentUser(
-                                                    dispatch,
-                                                    user
-                                                )
-                                            }
-                                        >
-                                            {user.name}
-                                        </Link>
+                                        {user.displayName ||
+                                            'No name provided'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        {user.name ||
-                                            'No name provided'}
+                                        
                                     </TableCell>
                                     <TableCell align="right">
                                         {user.email ||

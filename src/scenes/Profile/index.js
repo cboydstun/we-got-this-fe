@@ -5,11 +5,11 @@ import { actions } from '../../state/auth/authActions';
 import UserTable from '../Profile/Component/UserTable';
 
 const Profile = () => {
-    const [{ users }, dispatch] = useStateValue();
+    const [{ auth }, dispatch] = useStateValue();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (users.users.length == 0) {
+        if (!auth.users || auth.users.length == 0) {
             console.log('asking for users');
             actions.getUsers(dispatch).then(res => {
                 if (res) setLoading(false);
@@ -23,7 +23,9 @@ const Profile = () => {
         <>
             {/* <h1>{auth.currentUser && auth.currentUser.displayName} </h1>
             <p>{auth.currentUser && auth.currentUser.email}</p> */}
-            <UserTable users={users.users} />
+            {loading || !auth.users ? <h2>Loading...</h2> : (
+            <UserTable users={auth.users} />
+            )}
             <button
                 onClick={() => {
                     actions.logout(dispatch);
