@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Drawer, Divider, List, ListItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import { privateRoutes, publicRoutes } from '../constants/routes';
+import { actions } from '../state/team/teamActions';
+import { useStateValue } from '../state';
 
 const drawerWidth = 150;
 
@@ -20,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
     drawerPaper: {
         width: drawerWidth,
+        zIndex: 0,
     },
     toolbar: {
         height: 48,
@@ -31,42 +34,55 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const SideBar = () => {
+const SideBar = ({ children }) => {
+    const [loading, setLoading] = useState(true);
+    const [{ teams }, dispatch] = useStateValue();
     const classes = useStyles();
     const history = useHistory();
 
+    useEffect(() => {
+        if (!teams.teams || teams.teams.length == 0) {
+            actions.getTeams(dispatch).then(res => {
+                if (res) {
+                    setLoading(false);
+                }
+            });
+        } else {
+            setLoading(false);
+        }
+    }, [dispatch, teams.teams]);
+
     return (
-        <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{ paper: classes.drawerPaper }}
-            anchor="left"
-        >
-            <div className={classes.toolbar}>
-                <h2 style={{ margin: 0, padding: 0 }}>We Got This!</h2>
-            </div>
-            <Divider />
-            <List>
-                {privateRoutes.map((route, index) => (
-                    <ListItem
-                        button
-                        key={index}
-                        onClick={() => history.push(route.path)}
-                    >
-                        {route.name}
-                    </ListItem>
-                ))}
-                {publicRoutes.map((route, index) => (
-                    <ListItem
-                        button
-                        key={index}
-                        onClick={() => history.push(route.path)}
-                    >
-                        {route.name}
-                    </ListItem>
-                ))}
-            </List>
-        </Drawer>
+        <>
+            <Drawer
+                className={classes.drawer}
+                variant="permanent"
+                classes={{ paper: classes.drawerPaper }}
+                anchor="left"
+            >
+                <div className={classes.toolbar}></div>
+                {loading ? (
+                    <h3>Loading</h3>
+                ) : (
+                    <List>
+                        {teams.teams &&
+                            teams.teams.length &&
+                            teams.teams.map((team, index) => {
+                                return (
+                                    <ListItem
+                                        button
+                                        key={index}
+                                        onClick={() => alert('clicked')}
+                                    >
+                                        {team.name}
+                                    </ListItem>
+                                );
+                            })}
+                    </List>
+                )}
+            </Drawer>
+            <div className={classes.appBar}>{children}</div>
+        </>
     );
 };
 

@@ -27,6 +27,7 @@ import { setState } from 'expect/build/jestMatchersObject';
 const useStyles = makeStyles(theme => ({
     appBar: {
         width: '100%',
+        zIndex: 99,
     },
     routes: {
         display: 'flex',

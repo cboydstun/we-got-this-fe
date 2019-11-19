@@ -4,6 +4,7 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import moment from 'moment';
+import { SideBar } from '../../components';
 
 const AllCalendar = () => {
     //Get Google API
@@ -85,52 +86,54 @@ const AllCalendar = () => {
     }
 
     return (
-        <div>
-            <h1>Calendar</h1>
-            <button
-                onClick={() => {
-                    getCalendar();
-                }}
-            >
-                Get Calendar
-            </button>
-            <button
-                onClick={() => {
-                    insertEvent();
-                }}
-            >
-                Insert Event
-            </button>
-            <div style={{ height: 50 }}></div>
-            <DraggableCalendar
-                localizer={localizer}
-                events={events}
-                style={{ height: 500 }}
-                draggableAccessor={event => true}
-                resizable
-                selectable
-                onEventResize={event => {
-                    console.log(event);
-                }}
-                onSelectSlot={event => {
-                    console.log(event);
-                    setEvents([
-                        ...events,
-                        {
-                            id: 1,
-                            title: 'This Event',
-                            start: event.start,
-                            end: event.end,
-                        },
-                    ]);
-                }}
-                min={new Date(2019, 11, 13, 8)}
-                max={new Date(2019, 11, 13, 18)}
-                onSelectEvent={event => {
-                    console.log(event);
-                }}
-            />
-        </div>
+        <>
+            <SideBar>
+                <h1>Calendar</h1>
+                <button
+                    onClick={() => {
+                        getCalendar();
+                    }}
+                >
+                    Get Calendar
+                </button>
+                <button
+                    onClick={() => {
+                        insertEvent();
+                    }}
+                >
+                    Insert Event
+                </button>
+                <div style={{ height: 50 }}></div>
+                <DraggableCalendar
+                    localizer={localizer}
+                    events={events}
+                    style={{ height: 500 }}
+                    draggableAccessor={event => true}
+                    resizable
+                    selectable
+                    onEventResize={event => {
+                        console.log(event);
+                    }}
+                    onSelectSlot={event => {
+                        console.log(event);
+                        setEvents([
+                            ...events,
+                            {
+                                id: 1,
+                                title: 'This Event',
+                                start: event.start,
+                                end: event.end,
+                            },
+                        ]);
+                    }}
+                    min={new Date(2019, 11, 13, 8)}
+                    max={new Date(2019, 11, 13, 18)}
+                    onSelectEvent={event => {
+                        console.log(event);
+                    }}
+                />
+            </SideBar>
+        </>
     );
 };
 
