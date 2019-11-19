@@ -43,9 +43,15 @@ export default function NewCustomer() {
                     </DialogContentText>
                     <NewJobForm />
                 </DialogContent>
-                {/* <DialogActions>
-                    <Button onClick={handleClose}>Create!</Button>
-                </DialogActions> */}
+                <DialogActions>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClose}
+                    >
+                        Find Times
+                    </Button>
+                </DialogActions>
             </Dialog>
         </div>
     );

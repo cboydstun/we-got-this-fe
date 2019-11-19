@@ -12,6 +12,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const typeOptions = ['Recurring', 'Groupon', 'One-off'];
+
 const NewJobForm = () => {
     const [loading, setLoading] = useState(true);
     const [{ customers }, dispatch] = useStateValue();
@@ -32,6 +34,20 @@ const NewJobForm = () => {
         <form>
             <TextField
                 select
+                id="customer"
+                label="Customer"
+                margin="normal"
+                className={classes.textField}
+            >
+                {customers.customers &&
+                    customers.customers.map((customer, index) => (
+                        <MenuItem key={index} value={customer.name}>
+                            {customer.name}
+                        </MenuItem>
+                    ))}
+            </TextField>
+            <TextField
+                select
                 id="zipcode"
                 label="Zipcode"
                 margin="normal"
@@ -45,23 +61,16 @@ const NewJobForm = () => {
             </TextField>
             <TextField
                 select
-                id="customer"
-                label="Customer"
+                id="type"
+                label="Cleaning Type"
                 margin="normal"
                 className={classes.textField}
             >
-                {/* {!customers.customers.length ? (
-                    <MenuItem>Loading...</MenuItem>
-                ) : (
-                    <> */}
-                {customers.customers &&
-                    customers.customers.map((customer, index) => (
-                        <MenuItem key={index} value={customer.name}>
-                            {customer.name}
-                        </MenuItem>
-                    ))}
-                {/* </>
-                )} */}
+                {typeOptions.map(option => (
+                    <MenuItem key={option} value={option}>
+                        {option}
+                    </MenuItem>
+                ))}
             </TextField>
         </form>
     );

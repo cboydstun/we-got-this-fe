@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Drawer, Divider, List, ListItem } from '@material-ui/core';
+import {
+    Drawer,
+    Divider,
+    List,
+    ListItem,
+    TextField,
+    MenuItem,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import { privateRoutes, publicRoutes } from '../constants/routes';
-import { actions } from '../state/team/teamActions';
+import { actions as teamActions } from '../state/team/teamActions';
+import { actions as jobActions } from '../state/jobs/jobsActions';
 import { useStateValue } from '../state';
+
+import zipcodes from '../constants/zipcodes';
 
 const drawerWidth = 150;
 
@@ -22,6 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
     drawerPaper: {
         width: drawerWidth,
+        padding: theme.spacing(1),
         zIndex: 0,
     },
     toolbar: {
@@ -42,7 +53,7 @@ const SideBar = ({ children }) => {
 
     useEffect(() => {
         if (!teams.teams || teams.teams.length == 0) {
-            actions.getTeams(dispatch).then(res => {
+            teamActions.getTeams(dispatch).then(res => {
                 if (res) {
                     setLoading(false);
                 }
@@ -61,11 +72,26 @@ const SideBar = ({ children }) => {
                 anchor="left"
             >
                 <div className={classes.toolbar}></div>
+                <h3>Filters</h3>
+                <TextField
+                    id="zipcode-filter"
+                    select
+                    label="Zipcode"
+                    onChange={e =>
+                        jobActions.setZipFilter(dispatch, e.target.value)
+                    }
+                >
+                    {zipcodes.map(zipcode => (
+                        <MenuItem key={zipcode} value={zipcode}>
+                            {zipcode}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <h4>Teams</h4>
                 {loading ? (
                     <h3>Loading</h3>
                 ) : (
                     <>
-                        <h3>Teams</h3>
                         <List>
                             {teams.teams &&
                                 teams.teams.length &&
