@@ -15,7 +15,7 @@ import { useStateValue } from '../../state';
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
-        background: props => props.disabled && '#a4a4a4',
+        background: props => props.disabled && '#dcdbdb',
 
         '& .photo': {
             maxWidth: '150px',
