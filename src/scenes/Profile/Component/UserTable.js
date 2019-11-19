@@ -69,7 +69,7 @@ const UserTable = ({ users }) => {
                                             'No name provided'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        
+                                        <input type='checkbox' />
                                     </TableCell>
                                     <TableCell align="right">
                                         {user.email ||
