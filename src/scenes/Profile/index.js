@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useStateValue } from '../../state';
 import { actions } from '../../state/auth/authActions';
-// import { actions } from '../../state/customer/customerActions';
+
 import UserTable from '../Profile/Component/UserTable';
 
 const Profile = () => {
@@ -21,8 +21,8 @@ const Profile = () => {
 
     return (
         <>
-            {/* <h1>{auth.currentUser && auth.currentUser.displayName} </h1>
-            <p>{auth.currentUser && auth.currentUser.email}</p> */}
+            <h1>{auth.currentUser && auth.currentUser.displayName} </h1>
+            <p>{auth.currentUser && auth.currentUser.email}</p>
             {loading || !auth.users ? <h2>Loading...</h2> : (
             <UserTable users={auth.users} />
             )}

@@ -17,6 +17,8 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { Link } from 'react-router-dom';
 import { routes } from '../../../constants/routes';
 import { actions } from '../../../state/auth/authActions';
+import EditUser from '../../../components/dialogs/EditUser';
+
 
 import { useStateValue } from '../../../state';
 
@@ -77,12 +79,7 @@ const UserTable = ({ users }) => {
                                         {customer.type || 'Unknown'}
                                     </TableCell> */}
                                     <TableCell align="right">
-                                        <Button
-                                            variant="outlined"
-                                            color="primary"
-                                        >
-                                            Schedule
-                                        </Button>
+                                        <EditUser />
                                     </TableCell>
                                 </TableRow>
                             );
