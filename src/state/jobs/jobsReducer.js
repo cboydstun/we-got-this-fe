@@ -5,6 +5,8 @@ export const jobsState = {
     dateFilter: null,
     zipcodeFilter: null,
     teamFilter: null,
+    newServiceFormOpen: false,
+    slotEvent: null,
 };
 
 export default function reducer(state, action) {
@@ -24,6 +26,16 @@ export default function reducer(state, action) {
                 zipcodeFilter: payload,
             };
         }
+        case types.SET_NEW_SERVICE_FORM_OPEN:
+            return {
+                ...state,
+                newServiceFormOpen: payload,
+            };
+        case types.SET_SLOT_EVENT:
+            return {
+                ...state,
+                slotEvent: payload,
+            };
         default: {
             return {
                 ...state,

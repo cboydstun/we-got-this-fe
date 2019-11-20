@@ -9,14 +9,18 @@ import {
 } from '@material-ui/core';
 
 import NewJobForm from '../forms/NewJobForm';
+import { useStateValue } from '../../state';
+
+import { actions } from '../../state/jobs/jobsActions';
 
 export default function NewCustomer() {
     const [open, setOpen] = useState(false);
+    const [{ jobs }, dispatch] = useStateValue();
     const handleOpen = () => {
-        setOpen(true);
+        actions.setNewServiceFormOpen(dispatch, true);
     };
     const handleClose = () => {
-        setOpen(false);
+        actions.setNewServiceFormOpen(dispatch, false);
     };
 
     return (
@@ -30,13 +34,11 @@ export default function NewCustomer() {
                 New Job
             </Button>
             <Dialog
-                open={open}
+                open={jobs.newServiceFormOpen}
                 onClose={handleClose}
                 fullWidth={true}
                 maxWidth="xs"
             >
-                <DialogTitle>Create New Job</DialogTitle>
-
                 <NewJobForm handleClose={handleClose} />
             </Dialog>
         </div>

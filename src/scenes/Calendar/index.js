@@ -5,12 +5,16 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import moment from 'moment';
 import { SideBar } from '../../components';
+import { actions } from '../../state/jobs/jobsActions';
+import { useStateValue } from '../../state';
 
 const AllCalendar = () => {
     //Get Google API
     let gapi = window.gapi;
     const DraggableCalendar = withDragAndDrop(Calendar);
     const localizer = momentLocalizer(moment);
+    const [{ jobs }, dispatch] = useStateValue();
+
     let allViews = Object.keys(Views).map(k => Views[k]);
 
     const [events, setEvents] = useState([
@@ -85,6 +89,11 @@ const AllCalendar = () => {
         return new Date(Date.now() + n * 1000 * 60 * 60).toISOString();
     }
 
+    function openScheduleForm(event) {
+        actions.setSlotEvent(dispatch, event);
+        actions.setNewServiceFormOpen(dispatch, true);
+    }
+
     return (
         <>
             <SideBar>
@@ -105,7 +114,7 @@ const AllCalendar = () => {
                 <DraggableCalendar
                     localizer={localizer}
                     events={events}
-                    style={{ height: 800 }}
+                    style={{ height: 600 }}
                     draggableAccessor={event => true}
                     resizable
                     selectable
@@ -113,16 +122,7 @@ const AllCalendar = () => {
                         console.log(event);
                     }}
                     onSelectSlot={event => {
-                        console.log(event);
-                        setEvents([
-                            ...events,
-                            {
-                                id: 1,
-                                title: 'This Event',
-                                start: event.start,
-                                end: event.end,
-                            },
-                        ]);
+                        openScheduleForm(event);
                     }}
                     min={new Date(2019, 11, 13, 8)}
                     max={new Date(2019, 11, 13, 18)}
