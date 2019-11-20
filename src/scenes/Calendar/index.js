@@ -102,11 +102,10 @@ const AllCalendar = () => {
                 >
                     Insert Event
                 </button>
-                <div style={{ height: 50 }}></div>
                 <DraggableCalendar
                     localizer={localizer}
                     events={events}
-                    style={{ height: 500 }}
+                    style={{ height: 800 }}
                     draggableAccessor={event => true}
                     resizable
                     selectable

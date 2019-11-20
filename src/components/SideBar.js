@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
+    Button,
     Drawer,
     Divider,
     List,
@@ -13,6 +14,12 @@ import { privateRoutes, publicRoutes } from '../constants/routes';
 import { actions as teamActions } from '../state/team/teamActions';
 import { actions as jobActions } from '../state/jobs/jobsActions';
 import { useStateValue } from '../state';
+
+import MomentUtils from '@date-io/moment';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 import zipcodes from '../constants/zipcodes';
 
@@ -47,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 
 const SideBar = ({ children }) => {
     const [loading, setLoading] = useState(true);
-    const [{ teams }, dispatch] = useStateValue();
+    const [{ teams, jobs }, dispatch] = useStateValue();
     const classes = useStyles();
     const history = useHistory();
 
@@ -77,16 +84,41 @@ const SideBar = ({ children }) => {
                     id="zipcode-filter"
                     select
                     label="Zipcode"
+                    value={jobs.zipcodeFilter || ''}
                     onChange={e =>
                         jobActions.setZipFilter(dispatch, e.target.value)
                     }
                 >
+                    {/* <MenuItem key={0} value={null}>
+                        None
+                    </MenuItem> */}
                     {zipcodes.map(zipcode => (
                         <MenuItem key={zipcode} value={zipcode}>
                             {zipcode}
                         </MenuItem>
                     ))}
                 </TextField>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-filter"
+                        label="Date Filter"
+                        onChange={date =>
+                            jobActions.setDateFilter(dispatch, date)
+                        }
+                    />
+                </MuiPickersUtilsProvider>
+                <Button
+                    size="small"
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => jobActions.clearFilters(dispatch)}
+                >
+                    Clear Filters
+                </Button>
                 <h4>Teams</h4>
                 {loading ? (
                     <h3>Loading</h3>

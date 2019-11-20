@@ -36,22 +36,8 @@ export default function NewCustomer() {
                 maxWidth="xs"
             >
                 <DialogTitle>Create New Job</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        If you wish to see all unscheduled times, leave
-                        everything blank and just click schedule
-                    </DialogContentText>
-                    <NewJobForm />
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleClose}
-                    >
-                        Find Times
-                    </Button>
-                </DialogActions>
+
+                <NewJobForm handleClose={handleClose} />
             </Dialog>
         </div>
     );

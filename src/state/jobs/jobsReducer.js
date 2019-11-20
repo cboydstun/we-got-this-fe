@@ -9,7 +9,6 @@ export const jobsState = {
 
 export default function reducer(state, action) {
     let { payload } = action;
-    console.log('Payload: ', payload);
     switch (action.type) {
         case types.CLEAR_FILTERS: {
             return {
