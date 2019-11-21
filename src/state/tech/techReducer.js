@@ -9,11 +9,16 @@ export default function reducer(state, action) {
 
     switch (type) {
         case service.addTechToTeam.success: {
-            return { ...state };
+            const techs = [...state.techs];
+            techs[techs.findIndex(tech => tech.docId === payload.techId)].team = payload.team;
+            return { ...state, techs };
         }
-        case service.archiveTech.error: {
-            return { ...state };
-        }
+        case service.getAllTechs.success:
+            return { ...state, techs: payload };
+        case service.createTech.success:
+            return { ...state, techs: [...state.techs, payload] }
+        case service.archiveTech.success:
+            return { ...state }
         default:
             return { ...state };
     }

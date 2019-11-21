@@ -7,7 +7,7 @@ import techReducer, { techState } from './tech/techReducer';
 
 //
 //Destructure state object here
-export const mainReducer = ({ auth, customers, teams }, action) => {
+export const mainReducer = ({ auth, customers, teams, techs }, action) => {
     console.log('Auth state', auth, 'Auth Action', action);
     return {
         //
@@ -18,7 +18,7 @@ export const mainReducer = ({ auth, customers, teams }, action) => {
         auth: authReducer(auth, action),
         customers: customerReducer(customers, action),
         teams: teamReducer(teams, action),
-        techs: techReducer(teams, action),
+        techs: techReducer(techs, action),
     };
 };
 

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { useStateValue } from '../../state';
+import { useStateValue, useService } from '../../state';
 import { useForm } from '../../hooks/useForm';
 import UserList from '../UserList';
-import { actions } from '../../state/team/teamActions';
+import service from '../../state/team/teamService';
+import teamService from '../../state/team/teamService';
 
 const CreateTeamForm = () => {
     const [, dispatch] = useStateValue();
+    const server = useService(teamService);
     const [techs, setTechs] = useState([]);
     const submitForm = values => {
-        actions.createTeam(dispatch, {
+        service.createTeam({
             name: values.name,
             users: techs.map(tech => tech.email),
         });
