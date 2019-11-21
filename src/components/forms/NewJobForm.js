@@ -24,8 +24,6 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const typeOptions = ['Recurring', 'Groupon', 'One-off', 'Initial Assessment'];
-
 const NewJobForm = ({
     handleClose,
     errors,
@@ -39,8 +37,16 @@ const NewJobForm = ({
 
     const classes = useStyles();
 
+    const typeOptions = [
+        'Recurring',
+        'Groupon',
+        'One-off',
+        'Initial Assessment',
+    ];
+
     //
     //If there are no customers, get the customers from the database
+    //So they're available for the form
     useEffect(() => {
         if (!customers.customers.length) {
             actions.getCustomers(dispatch).then(res => {
@@ -53,10 +59,16 @@ const NewJobForm = ({
 
     //
     //If the times haven't been generated yet, generate them based on the slot
+    //on the calendar that has been selected
     let day = (jobs.slotEvent && jobs.slotEvent.start) || null;
     let times = createTimes(day);
 
+    //
+    //If a customer is selected, set the customer docId to the customer field
+    //And all the other data related to the customer in the form.
     const setFormToCustomer = async docId => {
+        //
+        //Check
         let index = customers.customers.findIndex(
             customer => customer.docId == docId
         );
