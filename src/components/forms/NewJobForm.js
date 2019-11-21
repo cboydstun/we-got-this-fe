@@ -332,6 +332,22 @@ const FormikNewJobForm = withFormik({
             cleaningType: cleaningType || '',
         };
     },
+
+    validationSchema: Yup.object().shape({
+        name: Yup.string().required('Must enter a First Name'),
+        email: Yup.string().email(),
+        street: Yup.string().required('Must enter an Address'),
+        city: Yup.string().required('Must enter an City'),
+        region: Yup.string().required('Must enter a State'),
+        zipcode: Yup.number().required('Must enter an Zip'),
+        arrivalWindowStart: Yup.string().required(
+            'Please select an arrival window start time'
+        ),
+        arrivalWindowEnd: Yup.string().required(
+            'Please select an arrival window end time'
+        ),
+    }),
+
     handleSubmit(values, { props, resetForm }) {
         console.log(values);
     },
