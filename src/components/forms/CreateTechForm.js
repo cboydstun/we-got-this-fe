@@ -12,6 +12,15 @@ const useStyles = makeStyles(theme => ({
     },
     controls: {
         display: 'flex',
+        flexDirection: 'column',
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
+    topControls: {
+        textAlign: 'right',
+    },
+    bottomControls: {
+        display: 'flex',
         justifyContent: 'space-between',
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
@@ -32,12 +41,8 @@ const CreateTechForm = () => {
         setTechs(newTechs);
     };
 
-    const handleSave = async () => {
-        return await Promise.all(techs.map(tech => {
-            const { displayName, email } = tech;
-            return services.tech.createTech({ displayName, email }, tech.teamId);
-        }));
-    };
+    const handleSave = async () => await Promise.all(techs.map(tech => services.tech.createTech(tech)));
+    const handleAddTech = () => setTechs([...techs, { displayName: '', email: '', teamId: '' }]);
 
     useEffect(() => {
         services.team.getAllTeams();
@@ -50,17 +55,26 @@ const CreateTechForm = () => {
                     techs.map((tech, index) => {
                         return (
                             <Grid item xs={7} key={index}>
-                                <CreateTechCard onChange={newTech => handleChange(newTech, index)} {...tech} />
+                                <CreateTechCard
+                                    onChange={newTech => handleChange(newTech, index)}
+                                    index={index}
+                                    {...tech}
+                                />
                             </Grid>
                         )
                     })
                 }
             </Grid>
             <Grid container xs={7} spacing={3}>
-                <Grid item xs={7}>
+                <Grid item xs={7} justify="flex-end">
                     <div className={classes.controls}>
-                        <Button variant="contained">Cancel</Button>
-                        <Button variant="contained" onClick={handleSave}>Save</Button>
+                        <div className={classes.topControls}>
+                            <Button onClick={handleAddTech}>Add another technician</Button>
+                        </div>
+                        <div className={classes.bottomControls}>
+                            <Button variant="contained">Cancel</Button>
+                            <Button variant="contained" onClick={handleSave}>Save</Button>
+                        </div>
                     </div>
                 </Grid>
             </Grid>

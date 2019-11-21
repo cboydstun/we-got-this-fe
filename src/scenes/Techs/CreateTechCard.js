@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 
         '& .photo': {
             maxWidth: '150px',
+            height: '100%',
             cursor: 'pointer',
         },
     },
@@ -27,16 +28,19 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
         paddingBottom: theme.spacing(3),
+    },
+    imageInput: {
+        display: 'none',
     }
 }));
 
-const CreateTechCard = ({ displayName, email, teamId, onChange }) => {
+const CreateTechCard = ({ displayName, email, teamId, onChange, index }) => {
     const classes = useStyles();
     const [{ teams }] = useStateValue();
     const [data, setData] = useState({ displayName, email, teamId });
 
     const handleChange = e => {
-        const newData = { ...data, [e.target.name]: e.target.value };
+        const newData = { ...data, [e.target.name]: e.target.files && e.target.files[0] || e.target.value };
 
         if (onChange) {
             onChange(newData)
@@ -47,7 +51,10 @@ const CreateTechCard = ({ displayName, email, teamId, onChange }) => {
 
     return (
         <Card className={classes.root}>
-            <img className="photo" src="http://via.placeholder.com/150x150" alt="test" />
+            <label htmlFor={`photo_${index}`}>
+                <img className="photo" src="http://via.placeholder.com/150x150" alt="test" />
+            </label>
+            <input className={classes.imageInput} name="photo" id={`photo_${index}`} type="file" onChange={handleChange} />
             <div className={classes.info}>
                 <TextField id="displayName" name="displayName" label="Name" value={data.displayName} onChange={handleChange} />
                 <TextField id="email" name="email" label="Email" value={data.email} onChange={handleChange} />
