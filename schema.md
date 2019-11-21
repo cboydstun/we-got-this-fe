@@ -38,17 +38,21 @@ How do I contact this person?
         "jackie_fention_12345": {
             "displayName": "Jackie Fention",
             "email": "jackie@jackiescleaning.com",
-            "primary_phone": "(432) 456-1940",
-            "secondary_phone": "(432) 456-1943",
-            "role": ["admin", "tech", "superadmin"],
+            "phone": {
+                primary: "(432) 456-1940",
+                secondary: "(432) 456-1943",
+            }
+            "roles": ["admin", "tech", "superadmin"],
             "disabled": true,
             "photoUrl": "string-the-photo.com"
         },
         "susy_smith_123124": {
-            "name": "Susy Smith",
+            "displayName": "Susy Smith",
             "email": "susy@jackiescleaning.com",
-            "primary_phone": "(432) 863-1293
-            "role": ["admin", "tech", "superadmin"],
+            "phone": {
+                primary: "(432) 456-1940",
+            }
+            "roles": ["admin", "tech", "superadmin"],
             "disabled": false,
             "photoUrl": null
         }
