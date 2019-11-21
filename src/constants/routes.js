@@ -5,8 +5,8 @@ export const routes = {
     JOBS: '/jobs',
     TECHS: '/techs',
     CREATE_CUSTOMER_FORM: '/create-customer',
-    CREATE_TEAM_FORM: '/team/create',
-    INVITE_TECH: '/invite-tech',
+    CREATE_TEAM_FORM: '/teams/create',
+    CREATE_TECH: '/techs/create',
     REGISTER_COMPANY: '/register-company',
     AUTH_REGISTER_COMPANY: '/auth/register-company',
     CUSTOMERS: '/customers',
@@ -40,8 +40,8 @@ export const privateRoutes = [
         path: routes.CREATE_TEAM_FORM,
     },
     {
-        name: 'Invite Tech',
-        path: routes.INVITE_TECH,
+        name: 'Create Tech',
+        path: routes.CREATE_TECH,
     },
     {
         name: 'Register Company',

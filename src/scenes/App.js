@@ -9,7 +9,7 @@ import {
     CreateCustomerForm,
     SplashLoading,
     RegisterCompany,
-    InviteTech,
+    CreateTechForm,
     SideBar,
     TopBar,
     CreateTeamForm,
@@ -90,7 +90,7 @@ function App() {
                         <Route exact path={routes.HOME} component={Calendar} />
                         <Route exact path={routes.AUTH} component={Auth} />
                         <Route path={routes.PROFILE} component={Profile} />
-                        <Route path={routes.TECHS} component={Techs} />
+                        <Route exact path={routes.TECHS} component={Techs} />
                         <Route path={routes.JOBS} component={Jobs} />
                         <Route
                             exact
@@ -110,8 +110,8 @@ function App() {
                             component={RegisterCompany}
                         />
                         <Route
-                            path={routes.INVITE_TECH}
-                            component={InviteTech}
+                            path={routes.CREATE_TECH}
+                            component={CreateTechForm}
                         />
                         <Route
                             path={routes.CREATE_TEAM_FORM}

@@ -54,12 +54,16 @@ const service = {
             .update({ disabled: true });
     },
 
-    async inviteTech(tech) {
-        const doc = (await (await db.collection('users').add(tech)).get());
+    async createTech(tech, teamId) {
+        const techDoc = (await (await db.collection('users').add({ ...tech, roles: ['tech'] })).get());
+
+        if (teamId) {
+            await service.addTechToTeam(techDoc.id, teamId);
+        };
 
         return {
-            docId: doc.id,
-            ...doc.data()
+            docId: techDoc.id,
+            ...techDoc.data(),
         }
     }
 };

@@ -3,9 +3,10 @@ import { Grid, Button, Select, InputLabel, MenuItem, FormControl } from '@materi
 import { makeStyles } from '@material-ui/core/styles';
 import TechCard from './TechCard';
 import { useStateValue } from '../../state';
-import { actions as teamActions } from '../../state/team/teamActions';
+import teamService from '../../state/team/teamService';
 import { useService } from '../../state';
 import techService from '../../state/tech/techService';
+import { routes } from '../../constants/routes';
 
 const useStyles = makeStyles(theme => ({
     filter: {
@@ -19,17 +20,18 @@ const filters = {
     disabled: tech => tech.disabled,
 };
 
-const Techs = () => {
+const Techs = ({ history }) => {
     const classes = useStyles();
     const [{ techs }, dispatch] = useStateValue();
-    const service = useService(techService, dispatch);
+    const services = { tech: useService(techService, dispatch), team: useService(teamService, dispatch) }
     const [filter, setFilter] = useState('all');
 
     const handleFilterChange = e => setFilter(e.target.value);
+    const handleNewTechClick = () => history.push(routes.CREATE_TECH);
 
     useEffect(() => {
-        teamActions.getAllTeams(dispatch);
-        service.getAllTechs();
+        services.team.getAllTeams();
+        services.tech.getAllTechs();
     }, []);
 
     return (
@@ -47,9 +49,8 @@ const Techs = () => {
                         </Select>
                     </FormControl>
                 </Grid>
-
                 <Grid item xs={4}>
-                    <Button variant="contained">New Tech</Button>
+                    <Button variant="contained" onClick={handleNewTechClick}>New Tech</Button>
                 </Grid>
             </Grid>
             <Grid container xs={12} spacing={3} justify="space-between" >

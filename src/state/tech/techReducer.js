@@ -15,7 +15,7 @@ export default function reducer(state, action) {
         }
         case service.getAllTechs.success:
             return { ...state, techs: payload };
-        case service.inviteTech.success:
+        case service.createTech.success:
             return { ...state, techs: [...state.techs, payload] }
         case service.archiveTech.success:
             return { ...state }
