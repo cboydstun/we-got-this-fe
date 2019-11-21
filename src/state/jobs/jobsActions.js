@@ -1,4 +1,4 @@
-import { services } from './jobsService';
+import { service } from './jobsService';
 
 export const types = {
     SET_DATE_FILTER: 'calendar/set_date_filter',
@@ -27,5 +27,45 @@ export const actions = {
     },
     setSlotEvent(dispatch, slotEvent) {
         dispatch({ type: types.SET_SLOT_EVENT, payload: slotEvent });
+    },
+    async scheduleNewJob(dispatch, values) {
+        try {
+            //Check if we need to create a new customer
+            if (values.customer !== undefined && values.customer !== '') {
+                //If not, create the job with the customer ID
+                let newJobDocId = await service.scheduleNewJob(values);
+
+                if (!newJobDocId) {
+                    throw new Error('Failed to create job record');
+                }
+
+                //Get the new Job ID and add it to the customer
+                let updatedCustomer = await service.addJobToCustomer(
+                    values.customer,
+                    newJobDocId
+                );
+
+                return true;
+            }
+        } catch (error) {
+            console.log('Scheduling Job Error: ', error);
+            return error;
+        }
+
+        //If yes, create the customer first
+
+        //Get the customer ID
+
+        //Create the job and add the customer ID
+
+        //Get the job ID and add back to the customer
+
+        //If successful, add the event to their google calendar
+
+        //then, update the global state of events that are upcoming
+
+        //If successful, return true,
+
+        //or return error
     },
 };
