@@ -45,6 +45,7 @@ const useStyles = makeStyles(theme => ({
 const UserTable = ({ users }) => {
     const [, dispatch] = useStateValue();
     const classes = useStyles();
+    const []
     
 
     return (

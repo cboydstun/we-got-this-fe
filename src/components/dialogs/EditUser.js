@@ -21,6 +21,7 @@ export default function NewUser() {
         setOpen(false);
     };
 
+
     return (
         <div>
             <IconButton onClick={handleOpen}><EditIcon/></IconButton>
