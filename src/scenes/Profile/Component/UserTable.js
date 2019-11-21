@@ -21,6 +21,7 @@ import EditUser from '../../../components/dialogs/EditUser';
 
 
 import { useStateValue } from '../../../state';
+import { auth } from 'firebase';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,9 +44,26 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserTable = ({ users }) => {
-    const [, dispatch] = useStateValue();
+    const [{auth}, dispatch] = useStateValue();
+    const [state, setState] = useState(); 
     const classes = useStyles();
+    // const [aprroved, setApproved] = useState({
+    //     admin: true,
+    // })
+    // const [denied, setDenied] = useState({
+    //     admin: false,
+    // })
+
+
     
+
+// const adminSatus = event => {
+//         console.log("checked",event.target.checked)
+//         if(auth.users.roles === "null"){
+//             console.log("Not an Admin");
+//             actions.GIVE_ADMIN_STATUS
+//         }
+//     }
 
     return (
         <>
@@ -69,7 +87,7 @@ const UserTable = ({ users }) => {
                                             'No name provided'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        <input type='checkbox' />
+                                        <input  type='checkbox' />
                                     </TableCell>
                                     <TableCell align="right">
                                         {user.email ||

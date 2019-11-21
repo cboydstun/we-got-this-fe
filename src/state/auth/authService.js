@@ -94,4 +94,16 @@ export const service = {
         });
         return users;
     },
+    // GIVE ADMIN STATUS
+    // async giveAdminStatus(){
+    //     let docRef = await db.collection('users').add({
+    //         ...values,
+    //     });
+    //     let adminRole = {};
+    //     let doc = await docRef.get();
+    //     let docId = doc.id;
+    //     adminRole = { docId, ...doc.data() };
+    //     return adminRole;
+    // }
+    
 };

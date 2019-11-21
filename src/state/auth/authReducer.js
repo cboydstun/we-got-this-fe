@@ -41,7 +41,12 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 currentUsers: [...payload],
-            }
+            };
+        case types.GIVE_ADMIN_STATUS:
+            return {
+                ...state,
+                admin: payload,
+            };
         default:
             return {
                 ...state,

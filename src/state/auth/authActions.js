@@ -13,6 +13,7 @@ export const types = {
     EDIT_ADMIN: 'EDIT_ADMIN',
     GET_USERS: 'GET_USERS',
     SET_CURRENT_USER: 'SET_CURRENT_USER',
+    GIVE_ADMIN_STATUS: "GIVE_ADMIN_STATUS",
 };
 
 export const actions = {
@@ -119,4 +120,20 @@ export const actions = {
        await dispatch({type: types.SET_CURRENT_USER, payload: user});
        return true;
     },
+    async giveAdminStatus(dispatch, values) {
+        try {
+            let adminStatus = await service.giveAdminStatus(values);
+            if (!adminStatus) {
+                throw new Error('Not an Admin');
+            }
+            dispatch({
+                type: types.GIVE_ADMIN_STATUS,
+                payload: adminStatus,
+            });
+            return true;
+        } catch (err) {
+            return Error;
+        }
+    }
+
 };
