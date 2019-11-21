@@ -136,7 +136,7 @@ const CustomerForm = ({ errors, touched, values, status, setFieldValue }) => {
                     )}
 
                     <Field
-                        type="text"
+                        type="number"
                         name="zipcode"
                         placeholder="Zip Code"
                         value={values.zipcode}
