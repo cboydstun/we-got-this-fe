@@ -97,7 +97,7 @@ function App() {
                             />
                             <Route exact path={routes.AUTH} component={Auth} />
                             <Route path={routes.PROFILE} component={Profile} />
-                            <Route path={routes.TECHS} component={Techs} />
+                            <Route exact path={routes.TECHS} component={Techs} />
                             <Route path={routes.JOBS} component={Jobs} />
                             <Route
                                 exact
