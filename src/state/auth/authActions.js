@@ -13,7 +13,8 @@ export const types = {
     EDIT_ADMIN: 'EDIT_ADMIN',
     GET_USERS: 'GET_USERS',
     SET_CURRENT_USER: 'SET_CURRENT_USER',
-    GIVE_ADMIN_STATUS: "GIVE_ADMIN_STATUS",
+    GIVE_ADMIN_STATUS: 'GIVE_ADMIN_STATUS',
+    UPDATE_USER: 'UPDATE_USER',
 };
 
 export const actions = {
@@ -91,9 +92,9 @@ export const actions = {
             let companyInfo = await service.getCompany(values);
             console.log('company info', companyInfo);
 
-            dispatch({ 
-                type: types.COMPANY_LIST, 
-                payload: companyInfo 
+            dispatch({
+                type: types.COMPANY_LIST,
+                payload: companyInfo,
             });
             return true;
         } catch (error) {
@@ -117,8 +118,8 @@ export const actions = {
         }
     },
     async setCurrentUser(dispatch, user) {
-       await dispatch({type: types.SET_CURRENT_USER, payload: user});
-       return true;
+        await dispatch({ type: types.SET_CURRENT_USER, payload: user });
+        return true;
     },
     async giveAdminStatus(dispatch, values) {
         try {
@@ -134,6 +135,20 @@ export const actions = {
         } catch (err) {
             return Error;
         }
-    }
-
+    },
+    async updateUser(dispatch, values) {
+        try {
+            let updatedUser = await service.updateUser(values);
+            console.log(
+                'UpdatedUser returned from service in Action: ',
+                updatedUser
+            );
+            dispatch({
+                type: types.UPDATE_USER,
+                payload: updatedUser,
+            });
+        } catch (error) {
+            return error;
+        }
+    },
 };

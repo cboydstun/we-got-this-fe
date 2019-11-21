@@ -3,7 +3,7 @@ import { makeStyles, TextareaAutosize } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { withState } from '../../state';
 
-import { actions } from '../../state/customer/customerActions';
+import { actions } from '../../state/auth/authActions';
 import { Form, Field, withFormik, Formik } from 'formik';
 import * as Yup from 'yup';
 import { classExpression } from '../../../node_modules/@babel/types';
@@ -33,8 +33,8 @@ const useStyles = makeStyles({
         width: '65px',
         borderRadius: '5px',
         cursor: 'pointer',
-        fontSize: '15px'
-    }
+        fontSize: '15px',
+    },
 });
 
 const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
@@ -45,9 +45,6 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
             setState([...state, status]);
         }
     }, [status, state]);
-
-    console.log('Values: ', values, 'Status: ', status);
-
     return (
         <Form className={classes.marginBottom}>
             <Grid container spacing={3}>
@@ -55,12 +52,12 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                     <Field
                         className={classes.inputWidth}
                         type="text"
-                        name="name"
+                        name="displayName"
                         placeholder="First Name"
-                        value={values.name}
+                        value={values.displayName}
                     />
-                    {touched.name && errors.name && (
-                        <p className="error">{errors.name}</p>
+                    {touched.displayName && errors.displayName && (
+                        <p className="error">{errors.displayName}</p>
                     )}
 
                     <Field
@@ -98,21 +95,25 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                     <Field
                         component="select"
                         className={classes.inputWidth}
-                        name="payment"
-                        placeholder="Choose a Payment Method"
-                        value={values.payment}
+                        name="type"
+                        placeholder="Choose role"
+                        value={values.type}
                     >
                         <option>Choose a type </option>
-                        <option value="cash">Admin</option>
-                        <option value="check">User</option>
-
-                        
-            
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
                     </Field>
-                        <div className={classes.marginBottom}>
-                            <button className={classes.buttonStyle} type="button">Cancel</button>{' '}
-                            <button className={classes.buttonStyle} type="submit">Submit</button>{' '}
-                        </div>
+
+                    {/* Add in form error here for type */}
+
+                    <div className={classes.marginBottom}>
+                        <button className={classes.buttonStyle} type="button">
+                            Cancel
+                        </button>{' '}
+                        <button className={classes.buttonStyle} type="submit">
+                            Submit
+                        </button>{' '}
+                    </div>
                 </Grid>
             </Grid>
         </Form>
@@ -138,32 +139,26 @@ function checkPhone(obj) {
 }
 
 const EditUserForm = withFormik({
-    mapPropsToValues({
-        name,
-        email,
-        phoneNumber,
-        type,
-        
-    }) {
+    mapPropsToValues({ displayName, email, phoneNumber, type, user }) {
         return {
-            name: name || '',
-            email: email || '',
-            phoneNumber: phoneNumber || '',
+            docId: user.docId || '',
+            displayName: displayName || user.displayName || '',
+            email: email || user.email || '',
+            phoneNumber:
+                phoneNumber || (user.phone && user.phone.primary) || '',
             type: type || '',
-            
         };
     },
 
     validationSchema: Yup.object().shape({
-        name: Yup.string().required('Must enter a Name'),
+        displayName: Yup.string().required('Must enter a Name'),
         phoneNumber: Yup.string().required('Must enter a Phone Number'),
         email: Yup.string().required('Must enter an Email'),
         type: Yup.string().required('Must select a Type'),
-        
     }),
 
     handleSubmit(values, { setStatus, props, resetForm }) {
-        actions.addCustomer(props.dispatch, { ...values }).then(res => {
+        actions.updateUser(props.dispatch, { ...values }).then(res => {
             if (res == true) {
                 console.log('redirecting');
             }

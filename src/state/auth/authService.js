@@ -105,5 +105,11 @@ export const service = {
     //     adminRole = { docId, ...doc.data() };
     //     return adminRole;
     // }
-    
+    async updateUser(values) {
+        let updatedUser = await db
+            .collection('users')
+            .doc(`${values.docId}`)
+            .update({ ...values });
+        return updatedUser;
+    },
 };
