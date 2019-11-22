@@ -49,7 +49,7 @@ export const service = {
         let updatedJobs = await db
             .collection('customers')
             .doc(`${customerDocId}`)
-            .update({ jobs: [...customer.jobs, `/jobs/${jobDocId}`] });
+            .update({ jobs: [...customer.jobs, `jobs/${jobDocId}`] });
 
         console.log('UpdatedJobs: ', updatedJobs);
     },
