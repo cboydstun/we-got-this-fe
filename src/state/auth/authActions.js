@@ -11,6 +11,10 @@ export const types = {
     CREATE_COMPANY: 'CREATE_COMPANY',
     COMPANY_LIST: 'COMPANY_LIST',
     EDIT_ADMIN: 'EDIT_ADMIN',
+    GET_USERS: 'GET_USERS',
+    SET_CURRENT_USER: 'SET_CURRENT_USER',
+    GIVE_ADMIN_STATUS: 'GIVE_ADMIN_STATUS',
+    UPDATE_USER: 'UPDATE_USER',
 };
 
 export const actions = {
@@ -88,9 +92,63 @@ export const actions = {
             let companyInfo = await service.getCompany(values);
             console.log('company info', companyInfo);
 
-            dispatch({ type: types.COMPANY_LIST, payload: companyInfo });
+            dispatch({
+                type: types.COMPANY_LIST,
+                payload: companyInfo,
+            });
+            return true;
         } catch (error) {
             dispatch({ type: types.AUTH_ERROR });
+        }
+    },
+    async getUsers(dispatch) {
+        try {
+            console.log('Action to get Users');
+            let users = await service.getUsers();
+            if (!users) {
+                throw new Error('Failed to get users');
+            }
+            dispatch({
+                type: types.GET_USERS,
+                payload: users,
+            });
+            return true;
+        } catch (err) {
+            return err;
+        }
+    },
+    async setCurrentUser(dispatch, user) {
+        await dispatch({ type: types.SET_CURRENT_USER, payload: user });
+        return true;
+    },
+    async giveAdminStatus(dispatch, values) {
+        try {
+            let adminStatus = await service.giveAdminStatus(values);
+            if (!adminStatus) {
+                throw new Error('Not an Admin');
+            }
+            dispatch({
+                type: types.GIVE_ADMIN_STATUS,
+                payload: adminStatus,
+            });
+            return true;
+        } catch (err) {
+            return Error;
+        }
+    },
+    async updateUser(dispatch, values) {
+        try {
+            let updatedUser = await service.updateUser(values);
+            console.log(
+                'UpdatedUser returned from service in Action: ',
+                updatedUser
+            );
+            dispatch({
+                type: types.UPDATE_USER,
+                payload: updatedUser,
+            });
+        } catch (error) {
+            return error;
         }
     },
 };

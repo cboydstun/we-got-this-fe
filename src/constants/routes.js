@@ -12,6 +12,8 @@ export const routes = {
     CUSTOMERS: '/customers',
     CUSTOMER_PROFILE: '/customers/:customer_id',
     JOB_DETAILS: '/customers/:customer_id/:job_id',
+    USERS: '/users',
+    USER_PROFILE: '/users/:user_id',
 };
 
 export const privateRoutes = [
@@ -55,6 +57,14 @@ export const privateRoutes = [
         name: 'Specific Customer',
         path: routes.CUSTOMER_PROFILE,
     },
+    {
+        name: 'Users',
+        path: routes.USERS,
+    },
+    {
+        name: 'Specific User',
+        path: routes.USER_PROFILE,
+    }
 ];
 
 export const publicRoutes = [
