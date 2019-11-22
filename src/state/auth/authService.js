@@ -29,6 +29,11 @@ export const service = {
                 email,
                 displayName,
                 photoURL,
+                disabled: false,
+                phone: {
+                    primary: '3233233232',
+                    secondary: '3233233232',
+                },
             });
 
             docRef.get().then(doc => {

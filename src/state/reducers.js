@@ -12,6 +12,7 @@ export const mainReducer = (
     { auth, customers, teams, techs, jobs },
     action
 ) => {
+    console.log('Auth state', auth, 'Auth Action', action);
     return {
         //
         //Middleware goes here, i.e. calling analytic, etc...
@@ -21,7 +22,7 @@ export const mainReducer = (
         auth: authReducer(auth, action),
         customers: customerReducer(customers, action),
         teams: teamReducer(teams, action),
-        techs: techReducer(teams, action),
+        techs: techReducer(techs, action),
         jobs: jobsReducer(jobs, action),
     };
 };
