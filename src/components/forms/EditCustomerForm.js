@@ -6,6 +6,7 @@ import { withState } from "../../state";
 import { actions } from "../../state/customer/customerActions";
 import { Form, Field, withFormik, Formik } from "formik";
 import * as Yup from "yup";
+import { userInfo } from "os";
 
 const useStyles = makeStyles({
   column: {
@@ -210,6 +211,7 @@ const CreateCustomerForm = withFormik({
     let initialZipCode = state.customers.currentCustomer.locations[0].address.zipcode;
 
     return {
+      docID: customer.docId || '',
       name: name || state.customers.currentCustomer.name || "",
       email: email || initialEmail,
       phoneNumber: phoneNumber || initialPhone,
@@ -233,7 +235,7 @@ const CreateCustomerForm = withFormik({
   }),
 
   handleSubmit(values, { setStatus, props, resetForm }) {
-    actions.addCustomer(props.dispatch, { ...values }).then(res => {
+    actions.updateCustomer(props.dispatch, { ...values }).then(res => {
       if (res == true) {
         console.log("redirecting");
       }
