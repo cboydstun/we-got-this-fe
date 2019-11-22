@@ -51,8 +51,8 @@ export default function reducer(state, action) {
             //get the docId from payload
             let { docId } = payload;
             //find user in global state
-            let index = state.auth.users.findIndex(user => user.docId == docId);
-            let updatedUser = state.auth.users[index];
+            let index = state.users.findIndex(user => user.docId == docId);
+            let updatedUser = state.users[index];
             //update user in global state
 
             updatedUser = payload;
@@ -60,7 +60,7 @@ export default function reducer(state, action) {
             //return
             return {
                 ...state,
-                users: [...state.auth.users, updatedUser],
+                users: [...state.users],
             };
         default:
             return {

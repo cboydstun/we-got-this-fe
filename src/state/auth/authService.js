@@ -111,10 +111,30 @@ export const service = {
     //     return adminRole;
     // }
     async updateUser(values) {
-        let updatedUser = await db
+        let docId = values.docId;
+        const formatData = values => {
+            return {
+                displayName: values.displayName,
+                phone: {
+                    primary: values.phone,
+                },
+                email: values.email,
+                role: [values.role || 'tech'],
+            };
+        };
+        //Don't set the docId to the actual record... like an idiot.
+        delete values.docId;
+        //Update the user
+        await db
             .collection('users')
-            .doc(`${values.docId}`)
-            .update({ ...values });
+            .doc(`${docId}`)
+            .update(formatData(values));
+
+        let doc = await db
+            .collection('users')
+            .doc(`${docId}`)
+            .get();
+        let updatedUser = { docId: doc.id, ...doc.data() };
         return updatedUser;
     },
 };

@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    Toolbar,
-    Tooltip,
     Table,
     TableBody,
     TableCell,
@@ -13,10 +11,6 @@ import {
     IconButton,
     Typography,
 } from '@material-ui/core';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import { Link } from 'react-router-dom';
-import { routes } from '../../../constants/routes';
-import { actions } from '../../../state/auth/authActions';
 import EditUser from '../../../components/dialogs/EditUser';
 
 import { useStateValue } from '../../../state';
@@ -46,20 +40,6 @@ const UserTable = ({ users }) => {
     const [{ auth }, dispatch] = useStateValue();
     const [state, setState] = useState();
     const classes = useStyles();
-    // const [aprroved, setApproved] = useState({
-    //     admin: true,
-    // })
-    // const [denied, setDenied] = useState({
-    //     admin: false,
-    // })
-
-    // const adminSatus = event => {
-    //         console.log("checked",event.target.checked)
-    //         if(auth.users.roles === "null"){
-    //             console.log("Not an Admin");
-    //             actions.GIVE_ADMIN_STATUS
-    //         }
-    //     }
 
     return (
         <>
@@ -69,7 +49,6 @@ const UserTable = ({ users }) => {
                         <TableCell>User List</TableCell>
                         <TableCell align="right">Admin</TableCell>
                         <TableCell align="right">Email</TableCell>
-                        {/* <TableCell align="right">Type</TableCell> */}
                         <TableCell> </TableCell>
                     </TableRow>
                 </TableHead>
@@ -82,14 +61,11 @@ const UserTable = ({ users }) => {
                                         {user.displayName || 'No name provided'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        <input type="checkbox" />
+                                        <input type="checkbox" checked={true} />
                                     </TableCell>
                                     <TableCell align="right">
                                         {user.email || 'No email included'}
                                     </TableCell>
-                                    {/* <TableCell align="right">
-                                        {customer.type || 'Unknown'}
-                                    </TableCell> */}
                                     <TableCell align="right">
                                         <EditUser user={user} />
                                     </TableCell>

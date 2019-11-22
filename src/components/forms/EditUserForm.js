@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, TextareaAutosize } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core';
+import { Grid, TextField, Button, MenuItem } from '@material-ui/core';
 import { withState } from '../../state';
 
 import { actions } from '../../state/auth/authActions';
-import { Form, Field, withFormik, Formik } from 'formik';
+import { Form, withFormik, Formik } from 'formik';
 import * as Yup from 'yup';
-import { classExpression } from '../../../node_modules/@babel/types';
 
 const useStyles = makeStyles({
     column: {
@@ -37,6 +36,8 @@ const useStyles = makeStyles({
     },
 });
 
+const roles = ['admin', 'tech'];
+
 const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
     const [state, setState] = useState([]);
     const classes = useStyles();
@@ -49,8 +50,7 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
         <Form className={classes.marginBottom}>
             <Grid container spacing={3}>
                 <Grid item className={classes.column} xs={6}>
-                    <Field
-                        className={classes.inputWidth}
+                    <TextField
                         type="text"
                         name="displayName"
                         placeholder="First Name"
@@ -60,29 +60,21 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                         <p className="error">{errors.displayName}</p>
                     )}
 
-                    <Field
-                        type="text"
-                        name="phoneNumber"
+                    <TextField
+                        type="tel"
+                        name="phone"
                         placeholder="Phone Number"
-                        render={({ field, value, onChange }) => (
-                            <input
-                                className={classes.inputWidth}
-                                {...field}
-                                type="tel"
-                                placeholder="(713) 264-1320"
-                                onChange={e => {
-                                    let formatted = checkPhone(e);
-                                    setFieldValue('phoneNumber', formatted);
-                                }}
-                            />
-                        )}
+                        value={values.phone}
+                        onChange={e => {
+                            let formatted = checkPhone(e);
+                            setFieldValue('phone', formatted);
+                        }}
                     />
-                    {touched.phoneNumber && errors.phoneNumber && (
-                        <p className="error">{errors.phoneNumber}</p>
+                    {touched.phone && errors.phone && (
+                        <p className="error">{errors.phone}</p>
                     )}
 
-                    <Field
-                        className={classes.inputWidth}
+                    <TextField
                         type="text"
                         name="email"
                         placeholder="Email"
@@ -92,27 +84,37 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                         <p className="error">{errors.email}</p>
                     )}
 
-                    <Field
-                        component="select"
+                    <TextField
+                        select
                         className={classes.inputWidth}
-                        name="type"
+                        name="role"
                         placeholder="Choose role"
-                        value={values.type}
+                        value={values.role}
                     >
-                        <option>Choose a type </option>
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                    </Field>
+                        {roles.map(role => (
+                            <MenuItem key={role} value={role}>
+                                {role}
+                            </MenuItem>
+                        ))}
+                    </TextField>
 
                     {/* Add in form error here for type */}
 
                     <div className={classes.marginBottom}>
-                        <button className={classes.buttonStyle} type="button">
+                        <Button
+                            variant="outlined"
+                            color="secondar"
+                            type="button"
+                        >
                             Cancel
-                        </button>{' '}
-                        <button className={classes.buttonStyle} type="submit">
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                        >
                             Submit
-                        </button>{' '}
+                        </Button>
                     </div>
                 </Grid>
             </Grid>
@@ -139,22 +141,21 @@ function checkPhone(obj) {
 }
 
 const EditUserForm = withFormik({
-    mapPropsToValues({ displayName, email, phoneNumber, type, user }) {
+    mapPropsToValues({ displayName, email, phone, role, user }) {
         return {
             docId: user.docId || '',
             displayName: displayName || user.displayName || '',
             email: email || user.email || '',
-            phoneNumber:
-                phoneNumber || (user.phone && user.phone.primary) || '',
-            type: type || '',
+            phone: phone || (user.phone && user.phone.primary) || '',
+            role: role || 'tech',
         };
     },
 
     validationSchema: Yup.object().shape({
         displayName: Yup.string().required('Must enter a Name'),
-        phoneNumber: Yup.string().required('Must enter a Phone Number'),
+        phone: Yup.string().required('Must enter a Phone Number'),
         email: Yup.string().required('Must enter an Email'),
-        type: Yup.string().required('Must select a Type'),
+        role: Yup.string().required('Must select at least 1 role'),
     }),
 
     handleSubmit(values, { setStatus, props, resetForm }) {
