@@ -53,7 +53,7 @@ const CustomerTable = ({ customers }) => {
                     {customers.length &&
                         customers.map(customer => {
                             return (
-                                <TableRow key={customer.name}>
+                                <TableRow key={customer.docId}>
                                     <TableCell component="th" scope="row">
                                         <Link
                                             to={`${routes.CUSTOMERS}/${customer.docId}`}

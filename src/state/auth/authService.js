@@ -29,6 +29,11 @@ export const service = {
                 email,
                 displayName,
                 photoURL,
+                disabled: false,
+                phone: {
+                    primary: '3233233232',
+                    secondary: '3233233232',
+                },
             });
 
             docRef.get().then(doc => {
@@ -78,5 +83,58 @@ export const service = {
             currentCompany = { docId, ...doc.data() };
         });
         return currentCompany;
+    },
+
+    //GET USERS
+    async getUsers() {
+        let users = [];
+        let querySnapshot = await db.collection('users').get();
+        querySnapshot.forEach(doc => {
+            let docId = doc.id;
+            let userData = doc.data();
+            // let jobPaths = customerData.jobs.map(job => job.path);
+            // customerData.jobs = jobPaths;
+            let user = { docId, ...userData };
+            users.push(user);
+        });
+        return users;
+    },
+    // GIVE ADMIN STATUS
+    // async giveAdminStatus(){
+    //     let docRef = await db.collection('users').add({
+    //         ...values,
+    //     });
+    //     let adminRole = {};
+    //     let doc = await docRef.get();
+    //     let docId = doc.id;
+    //     adminRole = { docId, ...doc.data() };
+    //     return adminRole;
+    // }
+    async updateUser(values) {
+        let docId = values.docId;
+        const formatData = values => {
+            return {
+                displayName: values.displayName,
+                phone: {
+                    primary: values.phone,
+                },
+                email: values.email,
+                role: [values.role || 'tech'],
+            };
+        };
+        //Don't set the docId to the actual record... like an idiot.
+        delete values.docId;
+        //Update the user
+        await db
+            .collection('users')
+            .doc(`${docId}`)
+            .update(formatData(values));
+
+        let doc = await db
+            .collection('users')
+            .doc(`${docId}`)
+            .get();
+        let updatedUser = { docId: doc.id, ...doc.data() };
+        return updatedUser;
     },
 };
