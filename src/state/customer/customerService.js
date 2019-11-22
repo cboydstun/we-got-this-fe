@@ -55,6 +55,11 @@ export const service = {
 
         return jobs;
     },
+    async updateCustomer(values){
+        let updateCustomer = await db.collection('customer').doc(values.docId).update
+        ({...values});
+        return updateCustomer;
+    }
 };
 
 // export default installActionNames(service);

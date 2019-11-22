@@ -31,10 +31,22 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 currentCustomer: payload,
-            };
-        default:
+            };      
+        case types.UPDATE_CUSTOMER:
+           let {docId} = payload;
+
+                let index = state.customer.customer.findIndex(user => user.docId == docId);
+                let updatedCustomer = payload;
+        return {
+
+                ...state,
+                customers: [...state.customers, updatedCustomer]
+            }
+       
+            default:
             return {
                 ...state,
             };
+
     }
 }

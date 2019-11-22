@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Grid, ButtonBase } from '@material-ui/core';
+import EditCustomer from '../../../components/dialogs/EditCustomer';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,7 +38,7 @@ const CustomerCard = ({ customer }) => {
             </Grid>
             <Grid item xs={6} sm container>
                 <Grid item xs>
-                    <h2>{customer.name}</h2>
+                    <h2>{customer.name}<EditCustomer /></h2>
                     <p>{fullAddress}</p>
                     <p>{customer.contact.phone}</p>
                 </Grid>

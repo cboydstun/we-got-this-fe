@@ -22,6 +22,7 @@ export const mainReducer = (
         customers: customerReducer(customers, action),
         teams: teamReducer(teams, action),
         techs: techReducer(techs, action),
+        techs: techReducer(techs, action),
         jobs: jobsReducer(jobs, action),
     };
 };
