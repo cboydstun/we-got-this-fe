@@ -177,7 +177,7 @@ Who worked this job?
             "street": "1234 Heath",
             "city": "Boise",
             "state": "ID",
-            "zip": "87540"
+            "zipcode": "87540"
         },
         "team": "Team B",
         "techs": [

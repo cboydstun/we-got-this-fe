@@ -14,5 +14,5 @@ export default function reducer(state, action) {
             return { ...state, teams: payload };
         default:
             return { ...state };
-    };
-};
+    }
+}

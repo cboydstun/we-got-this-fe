@@ -24,9 +24,12 @@ import { routes } from '../constants/routes';
 import { useStateValue } from '../state';
 import { setState } from 'expect/build/jestMatchersObject';
 
+import NewJob from './dialogs/NewJob';
+
 const useStyles = makeStyles(theme => ({
     appBar: {
         width: '100%',
+        zIndex: 99,
     },
     routes: {
         display: 'flex',
@@ -47,8 +50,10 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.common.white,
         marginRight: theme.spacing(2),
     },
-    login: {
+    white: {
         color: theme.palette.common.white,
+        borderColor: theme.palette.common.white,
+        marginLeft: theme.spacing(2),
     },
 }));
 
@@ -165,6 +170,7 @@ const TopBar = () => {
                             >
                                 Jobs
                             </NavLink>
+                            <NewJob />
                         </div>
                         {auth.currentUser ? (
                             <IconButton component={Link} to={routes.PROFILE}>
@@ -174,7 +180,7 @@ const TopBar = () => {
                             <Button
                                 component={Link}
                                 to={routes.AUTH}
-                                className={classes.login}
+                                className={classes.white}
                             >
                                 Login
                             </Button>
