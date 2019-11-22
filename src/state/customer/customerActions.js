@@ -59,6 +59,20 @@ export const actions = {
             if (!customers) {
                 throw new Error('Failed to get customers');
             }
+
+            //sort the customers by name alphabetically
+            customers = customers.sort((a, b) => {
+                let nameA = a.name.toUpperCase();
+                let nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                } else if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+
             dispatch({
                 type: types.GET_CUSTOMERS,
                 payload: customers,

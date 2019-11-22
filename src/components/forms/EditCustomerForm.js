@@ -1,11 +1,12 @@
 import React from 'react';
-import { Formik, withFormik, Form, Field } from 'formik';
+import { withFormik, Form, Field } from 'formik';
 import _ from 'lodash';
 import * as Yup from 'yup';
 import { withRouter } from 'react-router-dom';
 import { withState } from '../../state';
+import { Grid, TextField } from '@material-ui/core';
 
-const EditCustomer = ({
+const NewJob = ({
     errors,
     touched,
     values,
@@ -15,7 +16,7 @@ const EditCustomer = ({
     history,
 }) => {
     return (
-        <Formik style={{ maxWidth: 450 }}>
+        <Form style={{ maxWidth: 450 }}>
             {!_.isEmpty(
                 _.intersection(Object.keys(touched), Object.keys(errors))
             ) && (
@@ -70,7 +71,7 @@ const EditCustomer = ({
             >
                 Cancel
             </button>
-        </Formik>
+        </Form>
     );
 };
 
@@ -92,7 +93,7 @@ function checkPhone(obj) {
     return str;
 }
 
-const EditCustomerForm = withFormik({
+const NewJobForm = withFormik({
     mapPropsToValues: ({ name, phoneNumber, email }) => {
         return {
             name: name || '',
@@ -116,6 +117,6 @@ const EditCustomerForm = withFormik({
     handleSubmit: function(values, { props, resetForm }) {
         console.log('Submitting');
     },
-})(EditCustomer);
+})(NewJob);
 
-export default withState(withRouter(EditCustomerForm));
+export default withState(withRouter(NewJobForm));
