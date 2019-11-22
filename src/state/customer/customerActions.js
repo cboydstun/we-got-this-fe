@@ -5,6 +5,7 @@ export const types = {
     GET_CUSTOMERS: 'GET_CUSTOMERS',
     GET_CUSTOMER_JOBS: 'GET_CUSTOMER_JOBS',
     SET_CURRENT_CUSTOMER: 'SET_CURRENT_CUSTOMER',
+    UPDATE_CUSTOMER: 'UPDATE_CUSTOMER',
 };
 
 export const actions = {
@@ -66,6 +67,18 @@ export const actions = {
             return true;
         } catch (err) {
             return err;
+        }
+    },
+
+    async updateCustomer(dispatch, values) {
+        try {
+            let updatedCustomer = await service.updateCustomer(values);
+            dispatch({
+                type: types.UPDATE_CUSTOMER,
+                payload: updatedCustomer
+            })
+        }catch (error) {
+            return error;
         }
     },
 
