@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 
 import CreateCustomerForm from '../forms/CreateCustomerForm';
+import NewCustomerForm from '../forms/NewCustomerForm';
 
 export default function NewCustomer() {
     const [open, setOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function NewCustomer() {
             >
                 <DialogTitle>Create New Customer</DialogTitle>
                 <DialogContent>
-                    <CreateCustomerForm />
+                    <NewCustomerForm />
                 </DialogContent>
                 {/* <DialogActions>
                     <Button onClick={handleClose}>Create!</Button>
