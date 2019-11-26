@@ -3,31 +3,16 @@ import { useField } from 'formik';
 import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import { useStateValue } from '../../state';
 //https://github.com/bvaughn/react-window
 
-const customers = [
-    {
-        name: 'Jane Smith',
-    },
-    {
-        name: 'Kendall Ludlow',
-    },
-    {
-        name: 'Mary Jane',
-    },
-    {
-        name: 'Vericona Hugnsnif',
-    },
-    {
-        name: 'Susan Farts',
-    },
-];
-
 const MuiCustomerAutoFillInput = ({ label, ...props }) => {
+    const [{ customers }] = useStateValue();
     const [field, meta] = useField(props);
+
     return (
         <Autocomplete
-            options={customers}
+            options={customers.customers}
             getOptionLabel={option => option.name}
             style={{ width: '100%' }}
             renderInput={params => (
@@ -35,7 +20,7 @@ const MuiCustomerAutoFillInput = ({ label, ...props }) => {
                     type={props.type}
                     name={props.name}
                     label={label}
-                    margin="dense"
+                    margin="none"
                     error={meta.touched && !!meta.error}
                     {...params}
                     {...field}

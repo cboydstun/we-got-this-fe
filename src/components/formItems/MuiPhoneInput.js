@@ -9,7 +9,7 @@ const MuiPhoneInput = ({ label, ...props }) => {
             type={props.type}
             name={props.name}
             label={label}
-            margin="dense"
+            margin="none"
             error={meta.touched && !!meta.error}
             value={field.value}
             onChange={e => {

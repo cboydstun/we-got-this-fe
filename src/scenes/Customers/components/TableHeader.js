@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Toolbar, Tooltip, IconButton, Typography } from '@material-ui/core';
+import {
+    Toolbar,
+    Tooltip,
+    IconButton,
+    Typography,
+    Button,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import NewCustomer from '../../../components/dialogs/NewCustomer';
+
+import NewCustomerForm from '../../../components/forms/NewCustomerForm';
+import DialogWrapper from '../../../components/dialogs/DialogWrapper';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,6 +40,22 @@ const TableHeader = ({ title }) => {
                 </IconButton>
             </Tooltip> */}
             <NewCustomer />
+            <DialogWrapper
+                trigger={click => (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={() => click()}
+                    >
+                        New Customer
+                    </Button>
+                )}
+                title="Create New Customer"
+                size="sm"
+            >
+                <NewCustomerForm />
+            </DialogWrapper>
         </div>
     );
 };

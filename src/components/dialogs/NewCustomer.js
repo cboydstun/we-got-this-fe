@@ -13,6 +13,7 @@ import NewCustomerForm from '../forms/NewCustomerForm';
 
 export default function NewCustomer() {
     const [open, setOpen] = useState(false);
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -35,14 +36,12 @@ export default function NewCustomer() {
                 onClose={handleClose}
                 fullWidth={true}
                 maxWidth="sm"
+                scroll="body"
             >
                 <DialogTitle>Create New Customer</DialogTitle>
                 <DialogContent>
                     <NewCustomerForm />
                 </DialogContent>
-                {/* <DialogActions>
-                    <Button onClick={handleClose}>Create!</Button>
-                </DialogActions> */}
             </Dialog>
         </div>
     );

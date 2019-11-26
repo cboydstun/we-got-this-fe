@@ -2,10 +2,12 @@ import React from 'react';
 import { useField } from 'formik';
 import { TextField } from '@material-ui/core';
 
-const MuiTextInput = ({ label, ...props }) => {
+const MuiTextAreaInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
     return (
         <TextField
+            multiline
+            rows={4}
             type={props.type}
             name={props.name}
             label={label}
@@ -18,4 +20,4 @@ const MuiTextInput = ({ label, ...props }) => {
     );
 };
 
-export default MuiTextInput;
+export default MuiTextAreaInput;
