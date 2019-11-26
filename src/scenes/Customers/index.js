@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Toolbar, Tooltip, IconButton } from '@material-ui/core';
+import { Toolbar, Tooltip, IconButton, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import CustomerTable from './components/Table';
 import { useStateValue } from '../../state';
 import { actions } from '../../state/customer/customerActions';
 import NewCustomer from '../../components/dialogs/NewCustomer';
+import CustomerTableHeader from './components/TableHeader';
 
 const Customers = () => {
     const [loading, setLoading] = useState(true);
     const [{ customers }, dispatch] = useStateValue();
+    const [order, setOrder] = useState('desc');
+    const [orderBy, setOrderBy] = useState('name');
 
     useEffect(() => {
         //Check if the customers in State is there
@@ -22,23 +26,24 @@ const Customers = () => {
         }
     }, [customers.customers.length, dispatch]);
 
+    const handleRequestSort = (event, property) => {
+        const isDesc = orderBy === property && order === 'desc';
+        setOrder(isDesc ? 'asc' : 'desc');
+        setOrderBy(property);
+    };
+
     return (
         <div>
-            {/* BS Styling the puts the title 
-            and button in a row... needs to be it's own component */}
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <h1>Customers</h1>
-                <Tooltip title="Filter">
-                    <IconButton onClick={() => alert('Clicked')}>
-                        <FilterListIcon />
-                    </IconButton>
-                </Tooltip>{' '}
-                <NewCustomer />
-            </div>
+            <CustomerTableHeader title="Customers" />
             {loading ? (
                 <h2>Loading...</h2>
             ) : (
-                <CustomerTable customers={customers.customers} />
+                <CustomerTable
+                    customers={customers.customers}
+                    onRequestSort={handleRequestSort}
+                    orderBy={orderBy}
+                    order={order}
+                />
             )}
         </div>
     );
