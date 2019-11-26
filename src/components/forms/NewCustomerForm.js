@@ -8,6 +8,9 @@ import { Form, Field, Formik, withFormik } from 'formik';
 import * as Yup from 'yup';
 import MuiTextInput from '../formItems/MuiTextInput';
 import MuiPhoneInput from '../formItems/MuiPhoneInput';
+import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
+import MuiCustomerAutoFillInput from '../formItems/MuiCustomerAutoFillInput';
+import paymentOptions from '../../constants/paymentOptions';
 
 import { useStateValue } from '../../state';
 
@@ -58,6 +61,11 @@ const CustomerForm = () => {
             }}
         >
             <Form>
+                <MuiCustomerAutoFillInput
+                    name="customer"
+                    label="Customer"
+                    type="text"
+                />
                 <MuiTextInput name="name" label="Name" type="text" />
                 <MuiTextInput name="email" label="Email" type="text" />
                 <MuiPhoneInput
@@ -69,6 +77,11 @@ const CustomerForm = () => {
                 <MuiTextInput name="city" label="City" type="text" />
                 <MuiTextInput name="region" label="State" type="text" />
                 <MuiTextInput name="zipcode" label="Zip" type="number" />
+                <MuiSingleSelectInput
+                    name="payment"
+                    label="Payment Method"
+                    data={paymentOptions}
+                />
             </Form>
         </Formik>
     );
