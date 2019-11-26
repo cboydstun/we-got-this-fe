@@ -5,7 +5,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    IconButton
+    IconButton,
 } from '@material-ui/core';
 
 import EditIcon from '@material-ui/icons/Edit';
@@ -23,7 +23,9 @@ export default function NewCustomer() {
 
     return (
         <div>
-            <IconButton onClick={handleOpen}><EditIcon /></IconButton>
+            <IconButton size="small" onClick={handleOpen}>
+                <EditIcon />
+            </IconButton>
             <Dialog
                 open={open}
                 onClose={handleClose}

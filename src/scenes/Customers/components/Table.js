@@ -63,11 +63,22 @@ const headerCells = [
 ];
 
 function desc(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
+    if (orderBy == 'street') {
+        let aLocation = a.locations[0].address.street;
+        let bLocation = b.locations[0].address.street;
+        if (bLocation < aLocation) {
+            return -1;
+        }
+        if (bLocation > aLocation) {
+            return 1;
+        }
+    } else {
+        if (b[orderBy] < a[orderBy]) {
+            return -1;
+        }
+        if (b[orderBy] > a[orderBy]) {
+            return 1;
+        }
     }
     return 0;
 }

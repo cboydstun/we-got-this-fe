@@ -39,8 +39,8 @@ const Customer = ({ match }) => {
     return (
         <>
             {/* Needs to be styling properly... too big */}
-            <IconButton component={Link} to={routes.CUSTOMERS}>
-                <ArrowBackIcon />
+            <IconButton size="small" component={Link} to={routes.CUSTOMERS}>
+                <ArrowBackIcon fontSize="small" />
                 Customers
             </IconButton>
             {loading && !customers.currentCustomer ? (

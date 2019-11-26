@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
-import { Grid, ButtonBase } from '@material-ui/core';
+import { Grid, ButtonBase, Box, makeStyles } from '@material-ui/core';
+import { styled } from '@material-ui/core/styles';
 import EditCustomer from '../../../components/dialogs/EditCustomer';
 
 const useStyles = makeStyles(theme => ({
@@ -10,14 +10,20 @@ const useStyles = makeStyles(theme => ({
     image: {
         width: 128,
         height: 128,
-    },
-    img: {
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundImage:
+            'url(https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?)',
     },
 }));
+
+const Title = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+});
 
 const CustomerCard = ({ customer }) => {
     const classes = useStyles();
@@ -28,17 +34,14 @@ const CustomerCard = ({ customer }) => {
     return (
         <Grid container spacing={2}>
             <Grid item>
-                <ButtonBase className={classes.image}>
-                    <img
-                        className={classes.img}
-                        alt="img"
-                        src="https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?"
-                    />
-                </ButtonBase>
+                <ButtonBase className={classes.image} />
             </Grid>
             <Grid item xs={6} sm container>
                 <Grid item xs>
-                    <h2>{customer.name}<EditCustomer /></h2>
+                    <Title>
+                        <h2>{customer.name}</h2>
+                        <EditCustomer />
+                    </Title>
                     <p>{fullAddress}</p>
                     <p>{customer.contact.phone}</p>
                 </Grid>

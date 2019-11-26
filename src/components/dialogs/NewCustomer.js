@@ -21,7 +21,12 @@ export default function NewCustomer() {
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleOpen}>
+            <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={handleOpen}
+            >
                 New Customer
             </Button>
             <Dialog
