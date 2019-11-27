@@ -10,7 +10,7 @@ const MuiPhoneInput = ({ label, ...props }) => {
             name={props.name}
             label={label}
             margin="none"
-            error={meta.touched && !!meta.error}
+            error={!!meta.error}
             value={field.value}
             onChange={e => {
                 field.onChange(checkPhone(e));

@@ -1,8 +1,8 @@
 export default {
-    newCustomerFormat,
+    formatNewCustomer,
 };
 
-function newCustomerFormat(values) {
+function formatNewCustomer(values) {
     return {
         name: values.name || 'Unknown',
         contact: {

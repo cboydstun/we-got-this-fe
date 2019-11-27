@@ -39,11 +39,10 @@ const TableHeader = ({ title }) => {
                     <FilterListIcon />
                 </IconButton>
             </Tooltip> */}
-            <NewCustomer />
             <DialogWrapper
                 trigger={click => (
                     <Button
-                        variant="contained"
+                        variant="outlined"
                         color="primary"
                         size="small"
                         onClick={() => click()}

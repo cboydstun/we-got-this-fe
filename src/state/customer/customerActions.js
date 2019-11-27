@@ -1,4 +1,5 @@
 import { service } from './customerService';
+import customerModel from '../models/customer';
 
 export const types = {
     ADD_CUSTOMER: 'ADD_CUSTOMERS',
@@ -10,36 +11,9 @@ export const types = {
 
 export const actions = {
     async addCustomer(dispatch, values) {
-        const formatValues = values => {
-            return {
-                name: values.name || 'Unknown',
-                contact: {
-                    email: values.email || null,
-                    phone: values.phoneNumber || null,
-                },
-                payment: values.payment || null,
-                hearabout: values.hearabout || null,
-                paymentAmount: null,
-                schedule: null,
-                jobs: [],
-                locations: [
-                    {
-                        address: {
-                            street: values.street,
-                            city: values.city,
-                            state: values.region,
-                            zipcode: values.zipcode,
-                        },
-                        primary: true,
-                        name: `${values.name} Residence`,
-                    },
-                ],
-                notes: values.notes || null,
-            };
-        };
-
+        const formatted = customerModel.formatNewCustomer(values);
         try {
-            let newCustomer = await service.addCustomer(formatValues(values));
+            let newCustomer = await service.addCustomer(formatted);
             if (!newCustomer) {
                 throw new Error('Adding customer failed');
             }
@@ -89,9 +63,9 @@ export const actions = {
             let updatedCustomer = await service.updateCustomer(values);
             dispatch({
                 type: types.UPDATE_CUSTOMER,
-                payload: updatedCustomer
-            })
-        }catch (error) {
+                payload: updatedCustomer,
+            });
+        } catch (error) {
             return error;
         }
     },

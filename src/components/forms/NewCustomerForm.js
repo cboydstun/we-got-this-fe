@@ -53,11 +53,11 @@ const CustomerForm = () => {
                 zipcode: Yup.number().required('Must enter an Zip'),
             })}
             onSubmit={(values, { resetForm }) => {
-                // actions.addCustomer(dispatch, { ...values }).then(res => {
-                //     if (res == true) {
-                console.log('redirecting');
-                //     }
-                // });
+                actions.addCustomer(dispatch, { ...values }).then(res => {
+                    if (res == true) {
+                        console.log('redirecting');
+                    }
+                });
                 resetForm();
             }}
         >
@@ -69,7 +69,7 @@ const CustomerForm = () => {
                         <MuiPhoneInput
                             name="phoneNumber"
                             label="Phone Number"
-                            type="tel"
+                            type="text"
                         />
 
                         <MuiTextInput

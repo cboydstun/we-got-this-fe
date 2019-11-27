@@ -10,7 +10,7 @@ const MuiSingleSelectInput = ({ label, data, ...props }) => {
             type={props.type}
             name={props.name}
             label={label}
-            margin="dense"
+            margin="none"
             error={meta.touched && !!meta.error}
             {...field}
             {...props}
