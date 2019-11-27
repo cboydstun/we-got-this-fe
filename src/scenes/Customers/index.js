@@ -5,7 +5,6 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import CustomerTable from './components/Table';
 import { useStateValue } from '../../state';
 import { actions } from '../../state/customer/customerActions';
-import NewCustomer from '../../components/dialogs/NewCustomer';
 import CustomerTableHeader from './components/TableHeader';
 
 const Customers = () => {

@@ -55,11 +55,22 @@ export const service = {
 
         return jobs;
     },
-    async updateCustomer(values){
-        let updateCustomer = await db.collection('customer').doc(values.docId).update
-        ({...values});
+    async updateCustomer(values) {
+        let updateCustomer = await db
+            .collection('customers')
+            .doc(values.docId)
+            .update({ ...values });
         return updateCustomer;
-    }
-};
+    },
 
-// export default installActionNames(service);
+    async getCurrentCustomer(customerId) {
+        console.log('Service: ', customerId);
+        let customer = await db
+            .collection('customers')
+            .doc(customerId)
+            .get();
+
+        customer = { docId: customer.id, ...customer.data() };
+        return customer;
+    },
+};

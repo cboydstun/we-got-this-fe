@@ -8,7 +8,6 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import NewCustomer from '../../../components/dialogs/NewCustomer';
 
 import NewCustomerForm from '../../../components/forms/NewCustomerForm';
 import DialogWrapper from '../../../components/dialogs/DialogWrapper';

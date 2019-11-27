@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
+
+//Components
 import CustomerCard from './components/CustomerCard';
 import ServiceWrapper from './components/ServiceWrapper';
+
+//Routing
 import { Link, Route } from 'react-router-dom';
 import { routes } from '../../constants/routes';
+
+//Icons
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
+//Scenes
 import Job from '../Job';
+
+//State
 import { useStateValue } from '../../state';
+import { actions } from '../../state/customer/customerActions';
+
+//Styles
 import { makeStyles } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -29,12 +42,26 @@ const Customer = ({ match }) => {
     const classes = useStyles();
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
-
     useEffect(() => {
         if (customers.currentCustomer) {
             setLoading(false);
+        } else {
+            actions
+                .getCurrentCustomer(dispatch, match.params.customer_id)
+                .then(res => {
+                    if (res == true) {
+                        setLoading(false);
+                    } else {
+                        console.log(res);
+                    }
+                });
         }
-    }, [customers.currentCustomer]);
+    }, [
+        customers.currentCustomer,
+        dispatch,
+        match.params.customerId,
+        match.params.customer_id,
+    ]);
 
     return (
         <>

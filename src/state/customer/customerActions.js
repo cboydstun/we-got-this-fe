@@ -87,6 +87,24 @@ export const actions = {
         }
     },
 
+    async getCurrentCustomer(dispatch, customerId) {
+        try {
+            console.log('Action: ', customerId);
+            let customer = await service.getCurrentCustomer(customerId);
+            if (!customer) {
+                throw new Error('Failed to get current Customer');
+            }
+            console.log('Returned Customer: ', customer);
+            dispatch({
+                type: types.SET_CURRENT_CUSTOMER,
+                payload: customer,
+            });
+            return true;
+        } catch (err) {
+            return err;
+        }
+    },
+
     async setCurrentCustomer(dispatch, customer) {
         await dispatch({
             type: types.SET_CURRENT_CUSTOMER,
