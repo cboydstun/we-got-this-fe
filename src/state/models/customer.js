@@ -12,8 +12,8 @@ function formatNewCustomer(values) {
         },
         payment: values.payment || null,
         hearabout: values.hearabout || null,
-        paymentAmount: null,
-        schedule: null,
+        paymentAmount: values.paymentAmount || null,
+        schedule: values.schedule || null,
         jobs: [],
         locations: [
             {

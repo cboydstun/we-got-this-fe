@@ -1,7 +1,20 @@
 import React from 'react';
-import { Grid, ButtonBase, Box, makeStyles } from '@material-ui/core';
+
+//Components
+import EditCustomerForm from '../../../components/forms/EditCustomerForm';
+import DialogWrapper from '../../../components/dialogs/DialogWrapper';
+import {
+    Grid,
+    ButtonBase,
+    IconButton,
+    Box,
+    makeStyles,
+    Typography,
+} from '@material-ui/core';
+
+//styles
 import { styled } from '@material-ui/core/styles';
-import EditCustomer from '../../../components/dialogs/EditCustomer';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -39,8 +52,21 @@ const CustomerCard = ({ customer }) => {
             <Grid item xs={6} sm container>
                 <Grid item xs>
                     <Title>
-                        <h2>{customer.name}</h2>
-                        <EditCustomer />
+                        <Typography variant="h6">{customer.name}</Typography>
+                        <DialogWrapper
+                            trigger={click => (
+                                <IconButton
+                                    size="small"
+                                    onClick={() => click()}
+                                >
+                                    <EditIcon />
+                                </IconButton>
+                            )}
+                            title="Create New Customer"
+                            size="sm"
+                        >
+                            <EditCustomerForm />
+                        </DialogWrapper>
                     </Title>
                     <p>{fullAddress}</p>
                     <p>{customer.contact.phone}</p>

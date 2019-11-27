@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core';
-import { Grid, DialogContent, DialogActions, Button } from '@material-ui/core';
-import { actions } from '../../state/customer/customerActions';
-import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
+import React from 'react';
+
+//Components
 import MuiTextInput from '../formItems/MuiTextInput';
 import MuiPhoneInput from '../formItems/MuiPhoneInput';
 import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
 import MuiTextAreaInput from '../formItems/MuiTextAreaInput';
+import { Grid, Button } from '@material-ui/core';
+import { Form, Formik } from 'formik';
+
+//State
+import { useStateValue } from '../../state';
+import { actions } from '../../state/customer/customerActions';
+import * as Yup from 'yup';
+
+//Styles
+import { makeStyles } from '@material-ui/core';
+
+//Constants
 import paymentOptions from '../../constants/paymentOptions';
 import referralOptions from '../../constants/referralOptions';
-
-import { useStateValue } from '../../state';
 
 const useStyles = makeStyles({
     button: {
@@ -25,7 +32,7 @@ const useStyles = makeStyles({
     },
 });
 
-const CustomerForm = () => {
+const NewCustomerForm = () => {
     const [, dispatch] = useStateValue();
     const classes = useStyles();
 
@@ -116,4 +123,4 @@ const CustomerForm = () => {
     );
 };
 
-export default CustomerForm;
+export default NewCustomerForm;

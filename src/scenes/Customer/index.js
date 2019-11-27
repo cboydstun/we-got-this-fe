@@ -56,12 +56,7 @@ const Customer = ({ match }) => {
                     }
                 });
         }
-    }, [
-        customers.currentCustomer,
-        dispatch,
-        match.params.customerId,
-        match.params.customer_id,
-    ]);
+    }, [customers.currentCustomer, dispatch, match.params.customer_id]);
 
     return (
         <>

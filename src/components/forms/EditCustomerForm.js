@@ -1,254 +1,134 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles, TextareaAutosize } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import { withState } from '../../state';
+import React from 'react';
 
+//Components
+import MuiTextInput from '../formItems/MuiTextInput';
+import MuiPhoneInput from '../formItems/MuiPhoneInput';
+import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
+import MuiTextAreaInput from '../formItems/MuiTextAreaInput';
+import { Grid, Button } from '@material-ui/core';
+import { Form, Formik } from 'formik';
+
+//State
+import { useStateValue } from '../../state';
 import { actions } from '../../state/customer/customerActions';
-import { Form, Field, withFormik, Formik } from 'formik';
 import * as Yup from 'yup';
-import { userInfo } from 'os';
+
+//Styles
+import { makeStyles } from '@material-ui/core';
+
+//Constants
+import paymentOptions from '../../constants/paymentOptions';
+import referralOptions from '../../constants/referralOptions';
 
 const useStyles = makeStyles({
+    button: {
+        marginTop: 20,
+        marginBottom: 15,
+        float: 'right',
+    },
     column: {
         display: 'flex',
         flexDirection: 'column',
     },
-    controls: {
-        display: 'flex',
-        justifyContent: 'space-between',
-    },
 });
 
-const CustomerForm = ({ errors, touched, values, status, setFieldValue }) => {
-    const [state, setState] = useState([]);
+const EditCustomerForm = () => {
+    const [{ customers }, dispatch] = useStateValue();
     const classes = useStyles();
-    useEffect(() => {
-        if (status) {
-            setState([...state, status]);
-        }
-    }, [status, state]);
 
-    console.log('Values: ', values, 'Status: ', status);
+    let curr = customers.currentCustomer;
+    let { address } = curr.locations[0];
 
     return (
-        <Form>
-            <Grid container spacing={3}>
-                <Grid item className={classes.column} xs={6}>
-                    <Field
-                        type="text"
-                        name="name"
-                        placeholder="Full Name"
-                        value={values.name}
-                    />
-                    {touched.name && errors.name && (
-                        <p className="error">{errors.name}</p>
-                    )}
+        <Formik
+            initialValues={{
+                docId: curr.docId,
+                name: curr.name || '',
+                email: curr.contact.email || '',
+                phoneNumber: curr.contact.phone || '',
+                street: address.street || '',
+                city: address.city || '',
+                region: 'ID',
+                zipcode: address.zipcode || '',
+                notes: curr.notes || '',
+                payment: curr.payment || '',
+                paymentAmount: curr.paymentAmount || '',
+                hearabout: curr.hearabout || '',
+                schedule: curr.schedule || '',
+            }}
+            validationSchema={Yup.object().shape({
+                name: Yup.string().required('Must enter a First Name'),
+                email: Yup.string().email(),
+                phoneNumber: Yup.string().required('Must enter a Phone Number'),
+                street: Yup.string().required('Must enter an Address'),
+                city: Yup.string().required('Must enter an City'),
+                region: Yup.string().required('Must enter a State'),
+                zipcode: Yup.number().required('Must enter an Zip'),
+                paymentAmount: Yup.number().required(),
+            })}
+            onSubmit={(values, { resetForm }) => {
+                actions.updateCustomer(dispatch, { ...values }).then(res => {
+                    if (res == true) {
+                        console.log('redirecting');
+                    }
+                });
+                resetForm();
+            }}
+        >
+            <Form>
+                <Grid container spacing={3}>
+                    <Grid item className={classes.column} xs={6}>
+                        <MuiTextInput name="name" label="Name" type="text" />
+                        <MuiTextInput name="email" label="Email" type="text" />
+                        <MuiPhoneInput
+                            name="phoneNumber"
+                            label="Phone Number"
+                            type="text"
+                        />
 
-                    <Field
-                        type="text"
-                        name="phoneNumber"
-                        placeholder="Phone Number"
-                        render={({ field, value, onChange }) => (
-                            <input
-                                {...field}
-                                type="tel"
-                                placeholder="(713) 264-1320"
-                                onChange={e => {
-                                    let formatted = checkPhone(e);
-                                    setFieldValue('phoneNumber', formatted);
-                                }}
-                            />
-                        )}
-                    />
-                    {touched.phoneNumber && errors.phoneNumber && (
-                        <p className="error">{errors.phoneNumber}</p>
-                    )}
+                        <MuiTextInput
+                            name="street"
+                            label="Street"
+                            type="text"
+                        />
+                        <MuiTextInput name="city" label="City" type="text" />
+                        <MuiTextInput name="region" label="State" type="text" />
+                        <MuiTextInput
+                            name="zipcode"
+                            label="Zip"
+                            type="number"
+                        />
+                    </Grid>
 
-                    <Field
-                        type="text"
-                        name="email"
-                        placeholder="Email"
-                        value={values.email}
-                    />
-                    {touched.email && errors.email && (
-                        <p className="error">{errors.email}</p>
-                    )}
-
-                    <Field
-                        type="number"
-                        name="paymentAmount"
-                        placeholder="Payment Amount"
-                        value={values.paymentAmount}
-                    />
-                    {touched.paymentAmount && errors.paymentAmount && (
-                        <p className="error">{errors.paymentAmount}</p>
-                    )}
-
-                    <Field
-                        component="select"
-                        className="hearabout-select"
-                        name="hearabout"
-                        value={values.hearabout}
-                    >
-                        <option>How Did You Hear About Us</option>
-                        <option value="customer referral">
-                            Customer Referral
-                        </option>
-                        <option value="internet">Internet</option>
-                        <option value="employee referral">
-                            Employee Refferal
-                        </option>
-                    </Field>
+                    <Grid item className={classes.column} xs={6}>
+                        <MuiSingleSelectInput
+                            name="payment"
+                            label="Payment Method"
+                            data={paymentOptions}
+                        />
+                        <MuiSingleSelectInput
+                            name="hearabout"
+                            label="How did you hear about us?"
+                            data={referralOptions}
+                        />
+                        <MuiTextAreaInput
+                            name="notes"
+                            label="Notes"
+                            type="text"
+                        />
+                    </Grid>
                 </Grid>
-
-                <Grid item className={classes.column} xs={6}>
-                    <Field
-                        type="text"
-                        name="street"
-                        placeholder="Street"
-                        value={values.street}
-                    />
-                    {touched.street && errors.street && (
-                        <p className="error">{errors.street}</p>
-                    )}
-
-                    <Field
-                        type="text"
-                        name="city"
-                        placeholder="City"
-                        value={values.city}
-                    />
-                    {touched.city && errors.city && (
-                        <p className="error">{errors.city}</p>
-                    )}
-
-                    <Field
-                        type="text"
-                        name="region"
-                        placeholder="State"
-                        value={values.region}
-                    />
-                    {touched.region && errors.region && (
-                        <p className="error">{errors.region}</p>
-                    )}
-
-                    <Field
-                        type="text"
-                        name="zipcode"
-                        placeholder="Zip Code"
-                        value={values.zipcode}
-                    />
-                    {touched.zipcode && errors.state && (
-                        <p className="error">{errors.zipcode}</p>
-                    )}
-
-                    <Field
-                        component="select"
-                        className="Recurrence"
-                        name="Recurrence"
-                        value={values.Recurrence}
-                    >
-                        <option>Recurrence Level</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Bi-Weekly">Bi-Weekly</option>
-                        <option value="Weekly">Weekly</option>
-                    </Field>
-
-                    <textarea
-                        type="text"
-                        name="notes"
-                        placeholder="Special Notes"
-                        value={values.notes}
-                    />
-                    {touched.zipcode && errors.notes && (
-                        <p className="error">{errors.notes}</p>
-                    )}
-
-                    <div className={classes.controls}>
-                        {' '}
-                        <button type="button">Cancel</button>{' '}
-                        <button type="submit">Submit</button>{' '}
-                    </div>
-                </Grid>
-            </Grid>
-        </Form>
+                <Button
+                    className={classes.button}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                >
+                    Save Edits
+                </Button>
+            </Form>
+        </Formik>
     );
 };
 
-function checkPhone(obj) {
-    let str = obj.target.value.replace(/[^0-9]+?/g, '');
-    switch (str.length) {
-        case 10:
-            str =
-                '(' +
-                str.substr(0, 3) +
-                ') ' +
-                str.substr(3, 3) +
-                '-' +
-                str.substr(6, 4);
-            break;
-        default:
-            return;
-    }
-    return str;
-}
-
-const CreateCustomerForm = withFormik({
-    mapPropsToValues({
-        name,
-        email,
-        phoneNumber,
-        street,
-        city,
-        paymentAmount,
-        region,
-        zipcode,
-        notes,
-        state,
-    }) {
-        let docId = state.customers.currentCustomer.docId;
-        let initialName = state.customers.currentCustomer.name;
-        let initialEmail = state.customers.currentCustomer.contact.email;
-        let initialPhone = state.customers.currentCustomer.contact.phone;
-        let initialStreet =
-            state.customers.currentCustomer.locations[0].address.street;
-        let initialCity =
-            state.customers.currentCustomer.locations[0].address.city;
-        let initialZipCode =
-            state.customers.currentCustomer.locations[0].address.zipcode;
-
-        return {
-            docId: docId || '',
-            name: name || initialName || '',
-            email: email || initialEmail,
-            phoneNumber: phoneNumber || initialPhone,
-            street: street || initialStreet,
-            city: city || initialCity,
-            paymentAmount: paymentAmount || '',
-            region: region || 'ID',
-            zipcode: zipcode || initialZipCode,
-            notes: notes || '',
-        };
-    },
-
-    validationSchema: Yup.object().shape({
-        name: Yup.string().required('Must enter a First Name'),
-        phoneNumber: Yup.string().required('Must enter a Phone Number'),
-        street: Yup.string().required('Must enter an Address'),
-        city: Yup.string().required('Must enter an City'),
-        region: Yup.string().required('Must enter a State'),
-        zipcode: Yup.number().required('Must enter an Zip'),
-        paymentAmount: Yup.number().required('Must enter a Payment Amount'),
-    }),
-
-    handleSubmit(values, { setStatus, props, resetForm }) {
-        actions.updateCustomer(props.dispatch, { ...values }).then(res => {
-            if (res == true) {
-                console.log('redirecting');
-            }
-        });
-        resetForm();
-    },
-})(CustomerForm);
-
-export default withState(CreateCustomerForm);
+export default EditCustomerForm;
