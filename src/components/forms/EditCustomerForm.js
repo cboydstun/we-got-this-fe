@@ -5,6 +5,8 @@ import MuiTextInput from '../formItems/MuiTextInput';
 import MuiPhoneInput from '../formItems/MuiPhoneInput';
 import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
 import MuiTextAreaInput from '../formItems/MuiTextAreaInput';
+import MuiCustomerAutoFillInput from '../formItems/MuiCustomerAutoFillInput';
+import MuiSelectTypeInput from '../formItems/MuiSelectTypeInput';
 import { Grid, Button } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 
@@ -101,6 +103,7 @@ const EditCustomerForm = () => {
                     </Grid>
 
                     <Grid item className={classes.column} xs={6}>
+                        <MuiSelectTypeInput name="schedule" label="Schedule" />
                         <MuiSingleSelectInput
                             name="payment"
                             label="Payment Method"
