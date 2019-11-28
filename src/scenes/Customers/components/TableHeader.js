@@ -49,11 +49,10 @@ const TableHeader = ({ title }) => {
                         New Customer
                     </Button>
                 )}
+                dialogContent={close => <NewCustomerForm handleClose={close} />}
                 title="Create New Customer"
                 size="sm"
-            >
-                <NewCustomerForm />
-            </DialogWrapper>
+            />
         </div>
     );
 };

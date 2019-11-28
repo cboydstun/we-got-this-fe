@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     },
 });
 
-const NewCustomerForm = () => {
+const NewCustomerForm = ({ handleClose }) => {
     const [, dispatch] = useStateValue();
     const classes = useStyles();
 
@@ -66,6 +66,7 @@ const NewCustomerForm = () => {
                     }
                 });
                 resetForm();
+                handleClose();
             }}
         >
             <Form>

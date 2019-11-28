@@ -1,8 +1,8 @@
 export default {
-    formatNewCustomer,
+    formatCustomer,
 };
 
-function formatNewCustomer(values) {
+function formatCustomer(values) {
     return {
         name: values.name || 'Unknown',
         contact: {
@@ -14,7 +14,6 @@ function formatNewCustomer(values) {
         hearabout: values.hearabout || null,
         paymentAmount: values.paymentAmount || null,
         schedule: values.schedule || null,
-        jobs: [],
         locations: [
             {
                 address: {

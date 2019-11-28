@@ -55,12 +55,18 @@ export const service = {
 
         return jobs;
     },
-    async updateCustomer(values) {
-        let updateCustomer = await db
+    async updateCustomer(docId, values) {
+        await db
             .collection('customers')
-            .doc(values.docId)
+            .doc(docId)
             .update({ ...values });
-        return updateCustomer;
+
+        let updatedCustomer = await db
+            .collection('customers')
+            .doc(docId)
+            .get();
+
+        return { docId, ...updatedCustomer.data() };
     },
 
     async getCurrentCustomer(customerId) {

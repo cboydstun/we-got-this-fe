@@ -11,7 +11,7 @@ export const types = {
 
 export const actions = {
     async addCustomer(dispatch, values) {
-        const formatted = customerModel.formatNewCustomer(values);
+        const formatted = customerModel.formatCustomer(values);
         try {
             let newCustomer = await service.addCustomer(formatted);
             if (!newCustomer) {
@@ -59,8 +59,13 @@ export const actions = {
     },
 
     async updateCustomer(dispatch, values) {
+        const formatted = customerModel.formatCustomer(values);
+        console.log('Update Action Formatted', formatted);
         try {
-            let updatedCustomer = await service.updateCustomer(values);
+            let updatedCustomer = await service.updateCustomer(
+                values.docId,
+                formatted
+            );
             dispatch({
                 type: types.UPDATE_CUSTOMER,
                 payload: updatedCustomer,

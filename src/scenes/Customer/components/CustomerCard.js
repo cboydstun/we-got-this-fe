@@ -62,11 +62,12 @@ const CustomerCard = ({ customer }) => {
                                     <EditIcon />
                                 </IconButton>
                             )}
+                            dialogContent={close => (
+                                <EditCustomerForm handleClose={close} />
+                            )}
                             title="Create New Customer"
                             size="sm"
-                        >
-                            <EditCustomerForm />
-                        </DialogWrapper>
+                        />
                     </Title>
                     <p>{fullAddress}</p>
                     <p>{customer.contact.phone}</p>

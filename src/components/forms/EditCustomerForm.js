@@ -5,8 +5,6 @@ import MuiTextInput from '../formItems/MuiTextInput';
 import MuiPhoneInput from '../formItems/MuiPhoneInput';
 import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
 import MuiTextAreaInput from '../formItems/MuiTextAreaInput';
-import MuiCustomerAutoFillInput from '../formItems/MuiCustomerAutoFillInput';
-import MuiSelectTypeInput from '../formItems/MuiSelectTypeInput';
 import { Grid, Button } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 
@@ -35,7 +33,7 @@ const useStyles = makeStyles({
     },
 });
 
-const EditCustomerForm = () => {
+const EditCustomerForm = ({ handleClose }) => {
     const [{ customers }, dispatch] = useStateValue();
     const classes = useStyles();
 
@@ -67,15 +65,16 @@ const EditCustomerForm = () => {
                 city: Yup.string().required('Must enter an City'),
                 region: Yup.string().required('Must enter a State'),
                 zipcode: Yup.number().required('Must enter an Zip'),
-                paymentAmount: Yup.number().required(),
             })}
             onSubmit={(values, { resetForm }) => {
                 actions.updateCustomer(dispatch, { ...values }).then(res => {
+                    console.log(res);
                     if (res == true) {
                         console.log('redirecting');
                     }
+                    resetForm();
+                    handleClose();
                 });
-                resetForm();
             }}
         >
             <Form>
@@ -88,7 +87,6 @@ const EditCustomerForm = () => {
                             label="Phone Number"
                             type="text"
                         />
-
                         <MuiTextInput
                             name="street"
                             label="Street"
@@ -108,6 +106,12 @@ const EditCustomerForm = () => {
                             name="schedule"
                             type="text"
                             label="Schedule"
+                            options={[
+                                { display: '2 Weeks' },
+                                { display: '3 Weeks' },
+                                { display: 'Monthly' },
+                                { display: '6 Weeks' },
+                            ]}
                         />
                         <MuiSingleSelectInput
                             name="payment"
