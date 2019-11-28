@@ -21,6 +21,7 @@ import { makeStyles } from '@material-ui/core';
 //Constants
 import paymentOptions from '../../constants/paymentOptions';
 import referralOptions from '../../constants/referralOptions';
+import MuiAutosuggest from '../formItems/MuiAutosuggest';
 
 const useStyles = makeStyles({
     button: {
@@ -103,7 +104,11 @@ const EditCustomerForm = () => {
                     </Grid>
 
                     <Grid item className={classes.column} xs={6}>
-                        <MuiSelectTypeInput name="schedule" label="Schedule" />
+                        <MuiAutosuggest
+                            name="schedule"
+                            type="text"
+                            label="Schedule"
+                        />
                         <MuiSingleSelectInput
                             name="payment"
                             label="Payment Method"

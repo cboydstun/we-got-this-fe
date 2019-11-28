@@ -1,6 +1,6 @@
 import React from 'react';
 import { useField } from 'formik';
-import { TextField } from '@material-ui/core';
+import { TextField, MenuItem } from '@material-ui/core';
 
 const MuiTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -20,9 +20,9 @@ const MuiTextInput = ({ label, ...props }) => {
                 style={{ width: '100%' }}
             />
             <datalist id="schedule">
-                <option value="2 Weeks">2 Weeks</option>
-                <option value="Monthly">Monthly</option>
-                <option value="3 Weeks">3 Weeks</option>
+                <MenuItem component="option" value="2 Weeks" />
+                <MenuItem component="option" value="Monthly" />
+                <MenuItem component="option" value="3 Weeks" />
             </datalist>
         </>
     );

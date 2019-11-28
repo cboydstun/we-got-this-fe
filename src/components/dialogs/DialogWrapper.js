@@ -40,16 +40,14 @@ const DialogWrapper = ({ children, trigger, title, size }) => {
                 scroll="body"
             >
                 <DialogTitle>
-                    <Typography variant="h6">
-                        {title}
-                        <IconButton
-                            aria-label="close"
-                            className={classes.closeButton}
-                            onClick={handleClose}
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                    </Typography>
+                    <Typography variant="h6">{title}</Typography>
+                    <IconButton
+                        aria-label="close"
+                        className={classes.closeButton}
+                        onClick={handleClose}
+                    >
+                        <CloseIcon />
+                    </IconButton>
                 </DialogTitle>
                 <DialogContent>{children}</DialogContent>
             </Dialog>
