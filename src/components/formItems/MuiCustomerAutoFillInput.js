@@ -25,7 +25,7 @@ const MuiCustomerAutoFillInput = ({ label, ...props }) => {
                     {...params}
                     {...field}
                     {...props}
-                    style={{ width: '100%' }}
+                    fullWidth
                 />
             )}
         />

@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const DialogWrapper = ({ children, trigger, title, size }) => {
+const DialogWrapper = ({ children, trigger, dialogContent, title, size }) => {
     const [open, setOpen] = useState(false);
     const classes = useStyles();
 
@@ -40,7 +40,7 @@ const DialogWrapper = ({ children, trigger, title, size }) => {
                 scroll="body"
             >
                 <DialogTitle>
-                    <Typography variant="h6">{title}</Typography>
+                    {title}
                     <IconButton
                         aria-label="close"
                         className={classes.closeButton}
@@ -49,7 +49,7 @@ const DialogWrapper = ({ children, trigger, title, size }) => {
                         <CloseIcon />
                     </IconButton>
                 </DialogTitle>
-                <DialogContent>{children}</DialogContent>
+                <DialogContent>{dialogContent(handleClose)}</DialogContent>
             </Dialog>
         </div>
     );
