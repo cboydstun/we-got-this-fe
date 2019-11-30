@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 //Components
 import EditCustomerForm from '../../../components/forms/EditCustomerForm';
@@ -38,8 +38,35 @@ const Title = styled(Box)({
     alignItems: 'center',
 });
 
+const CustomerImage = styled(ButtonBase)({
+    width: 128,
+    height: 128,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundImage:
+        'url(https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?)',
+
+    '& p': {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        color: '#fff',
+        visibility: 'hidden',
+        opacity: 0,
+    },
+
+    '&:hover p': {
+        opacity: 1,
+        visibility: 'visible',
+    },
+});
+
 const CustomerCard = ({ customer }) => {
     const classes = useStyles();
+    const fileInput = useRef(null);
 
     let { address } = customer.locations[0];
     let fullAddress = `${address.street} ${address.city}, ${address.state} ${address.zipcode}`;
@@ -47,7 +74,15 @@ const CustomerCard = ({ customer }) => {
     return (
         <Grid container spacing={2}>
             <Grid item>
-                <ButtonBase className={classes.image} />
+                <input
+                    type="file"
+                    ref={fileInput}
+                    id="imgUpload"
+                    style={{ display: 'none' }}
+                />
+                <CustomerImage onClick={() => fileInput.current.click()}>
+                    <p>Click to change</p>
+                </CustomerImage>
             </Grid>
             <Grid item xs={6} sm container>
                 <Grid item xs>
