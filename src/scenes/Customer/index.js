@@ -43,20 +43,31 @@ const Customer = ({ match }) => {
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
     useEffect(() => {
+        let { customer_id } = match.params;
+
+        //If customer is passed properly
         if (customers.currentCustomer) {
+            console.log('Bypassing');
             setLoading(false);
-        } else {
-            actions
-                .getCurrentCustomer(dispatch, match.params.customer_id)
-                .then(res => {
-                    if (res == true) {
-                        setLoading(false);
-                    } else {
-                        console.log(res);
-                    }
-                });
         }
-    }, [customers.currentCustomer, dispatch, match.params.customer_id]);
+        //If the page is refreshed and all that's available is the match.params
+        else {
+            console.log('Getting current customer');
+            actions.getCurrentCustomer(dispatch, customer_id).then(res => {
+                console.log('Get current customer res', res);
+                if (res == true) {
+                    setLoading(false);
+                } else {
+                    console.log(res);
+                }
+            });
+        }
+    }, [
+        customers.currentCustomer,
+        dispatch,
+        match.params,
+        match.params.customer_id,
+    ]);
 
     return (
         <>

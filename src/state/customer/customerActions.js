@@ -7,6 +7,7 @@ export const types = {
     GET_CUSTOMER_JOBS: 'GET_CUSTOMER_JOBS',
     SET_CURRENT_CUSTOMER: 'SET_CURRENT_CUSTOMER',
     UPDATE_CUSTOMER: 'UPDATE_CUSTOMER',
+    GET_CUSTOMER_IMAGE: 'GET_CUSTOMER_IMAGE',
 };
 
 export const actions = {
@@ -116,5 +117,21 @@ export const actions = {
             payload: customer,
         });
         return true;
+    },
+
+    async getCustomerImage(dispatch, customerId) {
+        try {
+            let customerImg = await service.getCustomerImage(customerId);
+            if (!customerImg) {
+                throw new Error('Fialed to get customer image');
+            }
+            dispatch({
+                type: types.GET_CUSTOMER_IMAGE,
+                payload: customerImg,
+            });
+            return true;
+        } catch (err) {
+            return err;
+        }
     },
 };

@@ -1,6 +1,7 @@
 import Firebase from '../../config/firebase';
 // import { installActionNames } from '..';
 const db = Firebase.getFirestore();
+const storageRef = Firebase.getStorageRef();
 
 export const service = {
     async addCustomer(values) {
@@ -76,7 +77,28 @@ export const service = {
             .doc(customerId)
             .get();
 
-        customer = { docId: customer.id, ...customer.data() };
+        let customer_img_url = await storageRef
+            .child(`customer_imgs/${customerId}`)
+            .getDownloadURL();
+        console.log('Customer Img URL', customer_img_url);
+        if (customer_img_url) {
+            customer = {
+                docId: customer.id,
+                img: customer_img_url,
+                ...customer.data(),
+            };
+        } else {
+            customer = { docId: customer.id, ...customer.data() };
+        }
+
         return customer;
+    },
+
+    async getCustomerImage(customerId) {
+        let customer_img_url = await storageRef
+            .child(`customer_imgs/${customerId}`)
+            .getDownloadURL();
+
+        return customer_img_url;
     },
 };

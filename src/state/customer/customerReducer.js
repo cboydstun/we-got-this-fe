@@ -44,7 +44,15 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 customers: [...state.customers],
-                currentCustomer: payload,
+                currentCustomer: {
+                    ...state.customers.currentCustomer,
+                    ...payload,
+                },
+            };
+        case types.GET_CUSTOMER_IMAGE:
+            return {
+                ...state,
+                currentCustomer: { ...state.currentCustomer, img: payload },
             };
 
         default:
