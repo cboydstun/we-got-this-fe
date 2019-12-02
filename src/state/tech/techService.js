@@ -33,6 +33,15 @@ const service = {
     },
 
     async addTechToTeam(techId, teamId) {
+        const currentTeam = await service.getTechsTeam(techId);
+
+        if (currentTeam) { // we have to remove them from that one first.
+            await db
+                .collection('teams')
+                .doc(currentTeam.docId)
+                .update({ users: currentTeam.users.filter(user => user !== techId) });
+        }
+
         const team = {
             docId: teamId,
             ...(

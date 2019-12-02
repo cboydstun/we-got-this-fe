@@ -10,7 +10,7 @@ export default function reducer(state, action) {
     switch (type) {
         case service.addTechToTeam.success: {
             const techs = [...state.techs];
-            techs[techs.findIndex(tech => tech.docId === payload.techId)].team = payload.team;
+            techs[techs.findIndex(tech => tech.docId === payload.docId)].team = payload.team;
             return { ...state, techs };
         }
         case service.getAllTechs.success:
