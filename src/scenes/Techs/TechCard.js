@@ -51,7 +51,7 @@ const TechCard = ({ docId, displayName, photoUrl, disabled, team }) => {
     const service = useService(techService, dispatch);
 
     const handleTeamChange = e => service.addTechToTeam(docId, e.target.value);
-    const handleArchiveClick = () => service.archiveTech(docId);
+    const handleArchiveClick = () => service.setTechDisabled(docId, !disabled);
 
     return (
         <Card className={classes.root}>
@@ -69,7 +69,7 @@ const TechCard = ({ docId, displayName, photoUrl, disabled, team }) => {
                     </Select>
                 </FormControl>
                 <div className={classes.controls}>
-                    <Button onClick={handleArchiveClick} disabled={disabled}>Archive</Button>
+                    <Button onClick={handleArchiveClick}>{disabled ? 'Activate' : 'Archive'}</Button>
                     <Button disabled={disabled}>Edit</Button>
                 </div>
             </div>

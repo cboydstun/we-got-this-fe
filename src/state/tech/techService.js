@@ -4,19 +4,21 @@ import { installActionNames } from '../../state';
 const db = Firebase.getFirestore();
 const storage = Firebase.getStorageRef();
 
+const getTech = async techId => {
+    const techDoc = await db.collection('users').doc(techId).get();
+
+    return {
+        docId: techDoc.id,
+        team: await service.getTechsTeam(techDoc.id),
+        ...techDoc.data(),
+    }
+}
+
 const service = {
     async getAllTechs() {
         const techDocs = (await db.collection('users').where('roles', 'array-contains', 'tech').get()).docs;
 
-        return await Promise.all(techDocs.map(async techDoc => {
-            const tech = {
-                docId: techDoc.id,
-                team: await service.getTechsTeam(techDoc.id),
-                ...techDoc.data()
-            }
-
-            return tech;
-        }));
+        return await Promise.all(techDocs.map(async techDoc => getTech(techDoc.id)));
     },
 
     async getTechsTeam(techId) {
@@ -24,7 +26,7 @@ const service = {
         const teamDoc = (await db.collection('teams').where('users', 'array-contains', techDoc.id).get()).docs[0];
 
         if (!teamDoc) {
-            return;
+            return null;
         }
 
         return { docId: teamDoc.id, ...teamDoc.data() };
@@ -46,14 +48,16 @@ const service = {
             .doc(teamId)
             .update({ users: [...team.users, techId] });
 
-        return { docId: techId, team: await service.getTechsTeam(techId) }
+        return getTech(techId);
     },
 
-    async archiveTech(techId) {
+    async setTechDisabled(techId, disabled) {
         await db
             .collection('users')
             .doc(techId)
-            .update({ disabled: true });
+            .update({ disabled });
+
+        return getTech(techId);
     },
 
     async createTech(tech) {
@@ -69,10 +73,7 @@ const service = {
             await techDoc.ref.update({ photoUrl: await snapshot.ref.getDownloadURL() });
         };
 
-        return {
-            docId: techDoc.id,
-            ...techDoc.data(),
-        }
+        return getTech(techDoc.id);
     }
 };
 
