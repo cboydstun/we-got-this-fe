@@ -18,7 +18,7 @@ export const service = {
         if (!querySnapshot.empty) {
             console.log('Got Current User');
             querySnapshot.forEach(doc => {
-                console.log('Doc: ', doc, 'Doc Data ', doc.data());
+                // console.log('Doc: ', doc, 'Doc Data ', doc.data());
                 let docRef = doc.id;
                 currentUser = { docRef, ...doc.data() };
             });
@@ -99,17 +99,19 @@ export const service = {
         });
         return users;
     },
+
     // GIVE ADMIN STATUS
-    // async giveAdminStatus(){
-    //     let docRef = await db.collection('users').add({
-    //         ...values,
-    //     });
-    //     let adminRole = {};
-    //     let doc = await docRef.get();
-    //     let docId = doc.id;
-    //     adminRole = { docId, ...doc.data() };
-    //     return adminRole;
-    // }
+    async giveAdminStatus(){
+        let docRef = await db.collection('users').doc(`${docId}`).update({
+            "roles": "admin"
+        });
+        // let adminRole = {};
+        let doc = await docRef.get();
+        let docId = doc.id;
+        let adminRole = { docId, ...doc.data() };
+        return adminRole;
+    },
+
     async updateUser(values) {
         let docId = values.docId;
         const formatData = values => {

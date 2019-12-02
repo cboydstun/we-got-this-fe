@@ -38,7 +38,7 @@ export const actions = {
     async getOrCreateCurrentUser(dispatch, user) {
         try {
             let data = await service.getOrCreateCurrentUser(user);
-            console.log(data);
+            // console.log(data);
 
             dispatch({
                 type: types.AUTH_SUCCESS,
@@ -124,14 +124,10 @@ export const actions = {
     async giveAdminStatus(dispatch, values) {
         try {
             let adminStatus = await service.giveAdminStatus(values);
-            if (!adminStatus) {
-                throw new Error('Not an Admin');
-            }
             dispatch({
                 type: types.GIVE_ADMIN_STATUS,
                 payload: adminStatus,
             });
-            return true;
         } catch (err) {
             return Error;
         }

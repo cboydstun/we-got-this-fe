@@ -15,6 +15,7 @@ import EditUser from '../../../components/dialogs/EditUser';
 
 import { useStateValue } from '../../../state';
 import { auth } from 'firebase';
+import {actions} from "../../../state/auth/authActions";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,6 +42,10 @@ const UserTable = ({ users }) => {
     const [state, setState] = useState();
     const classes = useStyles();
 
+const adminStatus = () => {
+    
+}
+
     return (
         <>
             <Table className={classes.table} size="small">
@@ -61,7 +66,7 @@ const UserTable = ({ users }) => {
                                         {user.displayName || 'No name provided'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        <input type="checkbox" checked={true} />
+                                        <input type="checkbox" id="adminCheckBox" />
                                     </TableCell>
                                     <TableCell align="right">
                                         {user.email || 'No email included'}
