@@ -23,7 +23,8 @@ import { actions } from '../../../state/customer/customerActions';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '50%',
+        width: '40%',
+        margin: theme.spacing(1),
     },
 }));
 
@@ -42,7 +43,7 @@ const CustomerCard = ({ customer }) => {
         if (!customer.img) {
             actions.getCustomerImage(dispatch, customer.docId);
         }
-    }, []);
+    }, [customer.docId, customer.img, dispatch]);
 
     let { address } = customer.locations[0];
     let fullAddress = `${address.street} ${address.city}, ${address.state} ${address.zipcode}`;

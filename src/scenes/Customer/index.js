@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 //Components
 import CustomerCard from './components/CustomerCard';
 import ServiceWrapper from './components/ServiceWrapper';
+import CustomerNotes from './components/CustomerNotes';
 
 //Routing
 import { Link, Route } from 'react-router-dom';
@@ -62,12 +63,7 @@ const Customer = ({ match }) => {
                 }
             });
         }
-    }, [
-        customers.currentCustomer,
-        dispatch,
-        match.params,
-        match.params.customer_id,
-    ]);
+    }, [customers.currentCustomer, dispatch, match.params]);
 
     return (
         <>
@@ -80,13 +76,26 @@ const Customer = ({ match }) => {
                 <h2>Loading...</h2>
             ) : (
                 <div className={classes.row}>
+                    {/*
+                    I'd like all of these stupid material ui classes to be styled components if possible 
+                */}
                     <div className={classes.column}>
-                        <CustomerCard customer={customers.currentCustomer} />
+                        <div className={classes.row}>
+                            <CustomerCard
+                                customer={customers.currentCustomer}
+                            />
+                            <CustomerNotes
+                                customer={customers.currentCustomer}
+                            />
+                        </div>
                         <ServiceWrapper
                             jobPaths={customers.currentCustomer.jobs}
                             customer={customers.currentCustomer}
                         />
                     </div>
+                    {/*
+                        This is for displaying the side by side of the Job component on desktop but not on mobile
+                    */}
                     {!mobile && (
                         <Route path={routes.JOB_DETAILS} component={Job} />
                     )}
