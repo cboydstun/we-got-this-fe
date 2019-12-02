@@ -42,7 +42,7 @@ const Image = styled(({ img, ...other }) => <ButtonBase {...other} />)({
 const CustomerImage = ({ img }) => {
     const [{ customers }, dispatch] = useStateValue();
     const [loading, setLoading] = useState(false);
-    // const [uploadedImg, setUploadedImg] = useState(null);
+    const [uploadedImg, setUploadedImg] = useState(null);
     const fileInput = useRef(null);
 
     const handleFileChange = e => {
@@ -63,7 +63,7 @@ const CustomerImage = ({ img }) => {
             () => {
                 uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
                     setLoading(false);
-                    // setUploadedImg(downloadURL);
+                    setUploadedImg(downloadURL);
                     console.log('The download URL is: ', downloadURL);
                 });
             }
@@ -85,7 +85,10 @@ const CustomerImage = ({ img }) => {
                         onChange={e => handleFileChange(e)}
                         style={{ display: 'none' }}
                     />
-                    <Image img={img} onClick={() => fileInput.current.click()}>
+                    <Image
+                        img={img || uploadedImg}
+                        onClick={() => fileInput.current.click()}
+                    >
                         <p>Click to change</p>
                     </Image>
                 </>

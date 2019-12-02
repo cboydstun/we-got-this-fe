@@ -77,21 +77,25 @@ export const service = {
             .doc(customerId)
             .get();
 
-        let customer_img_url = await storageRef
-            .child(`customer_imgs/${customerId}`)
-            .getDownloadURL();
-        console.log('Customer Img URL', customer_img_url);
-        if (customer_img_url) {
+        try {
+            //If an image exists pass it on with the customer Data
+            let customer_img_url = await storageRef
+                .child(`customer_imgs/${customerId}`)
+                .getDownloadURL();
+
             customer = {
                 docId: customer.id,
                 img: customer_img_url,
                 ...customer.data(),
             };
-        } else {
-            customer = { docId: customer.id, ...customer.data() };
-        }
 
-        return customer;
+            return customer;
+        } catch (err) {
+            //if no image exists, then just passs the data
+            customer = { docId: customer.id, ...customer.data() };
+
+            return customer;
+        }
     },
 
     async getCustomerImage(customerId) {
