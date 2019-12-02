@@ -25,14 +25,6 @@ export default function NewCustomer() {
 
     return (
         <div>
-            <Button
-                variant="outlined"
-                size="small"
-                style={{ color: 'white', borderColor: 'white', marginLeft: 20 }}
-                onClick={handleOpen}
-            >
-                New Job
-            </Button>
             <Dialog
                 open={jobs.newServiceFormOpen}
                 onClose={handleClose}

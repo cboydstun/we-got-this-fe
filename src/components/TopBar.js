@@ -170,7 +170,6 @@ const TopBar = () => {
                             >
                                 Jobs
                             </NavLink>
-                            <NewJob />
                         </div>
                         {auth.currentUser ? (
                             <IconButton component={Link} to={routes.PROFILE}>

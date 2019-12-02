@@ -23,35 +23,35 @@ export const times = [
 export const durations = [
     {
         display: '30 Minutes',
-        duration: 0.5,
+        value: 0.5,
     },
     {
         display: '1 Hour',
-        duration: 1,
+        value: 1,
     },
     {
         display: '1 Hour 30 Minutes',
-        duration: 1.5,
+        value: 1.5,
     },
     {
         display: '2 Hours',
-        duration: 2,
+        value: 2,
     },
     {
         display: '2 Hours 30 Minutes',
-        duration: 2.5,
+        value: 2.5,
     },
     {
         display: '3 Hours',
-        duration: 3,
+        value: 3,
     },
     {
         display: '3 Hours and 30 Minutes',
-        duration: 3.5,
+        value: 3.5,
     },
     {
         display: '4 Hours',
-        duration: 4,
+        value: 4,
     },
 ];
 
@@ -62,7 +62,7 @@ export const createTimes = dateTime => {
     return times.map(time => {
         return {
             ...time,
-            time: moment(dateTime || moment().format())
+            value: moment(dateTime || moment().format())
                 .add(time.hour, 'hours')
                 .format('LLL'),
         };

@@ -8,6 +8,10 @@ import { SideBar } from '../../components';
 import { actions } from '../../state/jobs/jobsActions';
 import { useStateValue } from '../../state';
 
+import NewJob from '../../components/dialogs/NewJob';
+
+import Filters from './components/Filters';
+
 const AllCalendar = () => {
     //Get Google API
     let gapi = window.gapi;
@@ -96,41 +100,40 @@ const AllCalendar = () => {
 
     return (
         <>
-            <SideBar>
-                <button
-                    onClick={() => {
-                        getCalendar();
-                    }}
-                >
-                    Get Calendar
-                </button>
-                <button
-                    onClick={() => {
-                        insertEvent();
-                    }}
-                >
-                    Insert Event
-                </button>
-                <DraggableCalendar
-                    localizer={localizer}
-                    events={events}
-                    style={{ height: 600 }}
-                    draggableAccessor={event => true}
-                    resizable
-                    selectable
-                    onEventResize={event => {
-                        console.log(event);
-                    }}
-                    onSelectSlot={event => {
-                        openScheduleForm(event);
-                    }}
-                    min={new Date(2019, 11, 13, 8)}
-                    max={new Date(2019, 11, 13, 18)}
-                    onSelectEvent={event => {
-                        console.log(event);
-                    }}
-                />
-            </SideBar>
+            <button
+                onClick={() => {
+                    getCalendar();
+                }}
+            >
+                Get Calendar
+            </button>
+            <button
+                onClick={() => {
+                    insertEvent();
+                }}
+            >
+                Insert Event
+            </button>
+            <DraggableCalendar
+                localizer={localizer}
+                events={events}
+                style={{ height: 600 }}
+                draggableAccessor={event => true}
+                resizable
+                selectable
+                onEventResize={event => {
+                    console.log(event);
+                }}
+                onSelectSlot={event => {
+                    openScheduleForm(event);
+                }}
+                min={new Date(2019, 11, 13, 8)}
+                max={new Date(2019, 11, 13, 18)}
+                onSelectEvent={event => {
+                    console.log(event);
+                }}
+            />
+            <NewJob />
         </>
     );
 };
