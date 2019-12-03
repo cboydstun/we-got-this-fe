@@ -51,12 +51,6 @@ const NewJobForm = ({ handleClose }) => {
         }
     }, [customers.customers.length, dispatch]);
 
-    //
-    //If the times haven't been generated yet, generate them based on the slot
-    //on the calendar that has been selected
-    let day = (jobs.slotEvent && jobs.slotEvent.start) || null;
-    let times = createTimes(day);
-
     const formatSlotEvent = slotEvent => {
         //So it doesn't break on mount while slotEvent is being added to global
         if (!slotEvent.start) {

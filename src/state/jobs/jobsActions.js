@@ -1,4 +1,5 @@
 import { service } from './jobsService';
+import jobModel from '../models/job';
 
 export const types = {
     SET_DATE_FILTER: 'calendar/set_date_filter',
@@ -41,12 +42,13 @@ export const actions = {
         dispatch({ type: types.SET_NEW_SERVICE_FORM_OPEN, payload: false });
         dispatch({ type: types.SET_NEW_SERVICE_FORM_02_OPEN, payload: true });
     },
-    async scheduleNewJob(dispatch, values) {
+    async scheduleNewJob(dispatch, jobDetails) {
         try {
             //Check if we need to create a new customer
-            if (values.customer !== undefined && values.customer !== '') {
+            if (jobDetails.customer.docId !== '') {
                 //If not, create the job with the customer ID
-                let newJobDocId = await service.scheduleNewJob(values);
+                let newJobDetails = jobModel.formatJob(jobDetails);
+                let newJobDocId = await service.scheduleNewJob(newJobDetails);
 
                 if (!newJobDocId) {
                     throw new Error('Failed to create job record');
@@ -54,7 +56,7 @@ export const actions = {
 
                 //Get the new Job ID and add it to the customer
                 let updatedCustomer = await service.addJobToCustomer(
-                    values.customer,
+                    jobDetails.customer.docId,
                     newJobDocId
                 );
 

@@ -7,16 +7,84 @@ export const times = [
         hour: 8,
     },
     {
+        display: '8:30 A.M.',
+        hour: 8.5,
+    },
+    {
         display: '9:00 A.M.',
         hour: 9,
+    },
+    {
+        display: '9:30 A.M.',
+        hour: 9.5,
     },
     {
         display: '10:00 A.M.',
         hour: 10,
     },
     {
+        display: '10:30 A.M.',
+        hour: 10.5,
+    },
+    {
         display: '11:00 A.M.',
         hour: 11,
+    },
+    {
+        display: '11:30 A.M.',
+        hour: 11.5,
+    },
+    {
+        display: '12:00 P.M.',
+        hour: 12,
+    },
+    {
+        display: '12:30 A.M.',
+        hour: 12.5,
+    },
+    {
+        display: '1:00 P.M.',
+        hour: 13,
+    },
+    {
+        display: '1:30 A.M.',
+        hour: 13.5,
+    },
+    {
+        display: '2:00 P.M.',
+        hour: 14,
+    },
+    {
+        display: '2:30 A.M.',
+        hour: 14.5,
+    },
+    {
+        display: '3:00 P.M.',
+        hour: 15,
+    },
+    {
+        display: '3:30 A.M.',
+        hour: 15.5,
+    },
+    {
+        display: '4:00 P.M.',
+        hour: 16,
+    },
+    {
+        display: '4:30 A.M.',
+        hour: 16.5,
+    },
+    {
+        display: '5:00 P.M.',
+        hour: 17,
+    },
+    {
+        display: '5:30 A.M.',
+        hour: 17.5,
+    },
+    {
+        display: '6:00 P.M.',
+        hour: 18,
     },
 ];
 

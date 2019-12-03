@@ -30,10 +30,22 @@ const NewJobForm_02 = ({ handleClose }) => {
     const [{ jobs }, dispatch] = useStateValue();
 
     const typeOptions = [
-        'Recurring',
-        'Groupon',
-        'One-off',
-        'Initial Assessment',
+        {
+            value: 'recurring',
+            display: 'Recurring',
+        },
+        {
+            value: 'groupon',
+            display: 'Groupon',
+        },
+        {
+            value: 'one-off',
+            display: 'One-off',
+        },
+        {
+            value: 'initialAssessment',
+            display: 'Initial Assessment',
+        },
     ];
 
     //
@@ -139,71 +151,81 @@ const NewJobForm_02 = ({ handleClose }) => {
                                 arrivalWindowStart: Yup.string().required(),
                                 arrivalWindowEnd: Yup.string().required(),
                             })}
-                            onSubmit={(
+                            onSubmit={async (
                                 values,
                                 { setSubmitting, resetForm }
                             ) => {
                                 setSubmitting(true);
-                                console.log(values);
-                                resetForm();
+                                let res = await jobActions.scheduleNewJob(
+                                    dispatch,
+                                    { ...jobs.newJob, details: values }
+                                );
+                                if (res === true) {
+                                    setSubmitting(false);
+                                }
                             }}
                         >
-                            {formik => (
-                                <>
-                                    {formik.isSubmitting ? (
-                                        <SplashLoading />
-                                    ) : (
-                                        <Form>
-                                            <Grid container spacing={1}>
-                                                <Grid item xs={12}>
-                                                    <h3>Select Job Details</h3>
+                            {formik => {
+                                console.log(formik.isSubmitting);
+                                return (
+                                    <>
+                                        {formik.isSubmitting ? (
+                                            <SplashLoading />
+                                        ) : (
+                                            <Form>
+                                                <Grid container spacing={1}>
+                                                    <Grid item xs={12}>
+                                                        <h3>
+                                                            Select Job Details
+                                                        </h3>
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="arrivalWindowStart"
+                                                            label="Arrival Window Start"
+                                                            data={times}
+                                                            valueKey="hour"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="arrivalWindowEnd"
+                                                            label="Arrival Window End"
+                                                            data={times}
+                                                            valueKey="hour"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="duration"
+                                                            label="Duration"
+                                                            data={durations}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="cleaningType"
+                                                            label="Cleaning Type"
+                                                            data={typeOptions}
+                                                        />
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item xs={6}>
-                                                    <MuiSingleSelectInput
-                                                        name="arrivalWindowStart"
-                                                        label="Arrival Window Start"
-                                                        data={times}
-                                                        valueKey="hour"
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={6}>
-                                                    <MuiSingleSelectInput
-                                                        name="arrivalWindowEnd"
-                                                        label="Arrival Window End"
-                                                        data={times}
-                                                        valueKey="hour"
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={6}>
-                                                    <MuiSingleSelectInput
-                                                        name="duration"
-                                                        label="Duration"
-                                                        data={durations}
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={6}>
-                                                    <MuiSingleSelectInput
-                                                        name="cleaningType"
-                                                        label="Cleaning Type"
-                                                        data={typeOptions}
-                                                    />
-                                                </Grid>
-                                            </Grid>
-                                            <Button
-                                                type="submit"
-                                                variant="contained"
-                                                color="primary"
-                                                style={{
-                                                    marginTop: 20,
-                                                    float: 'right',
-                                                }}
-                                            >
-                                                Schedule Job
-                                            </Button>
-                                        </Form>
-                                    )}
-                                </>
-                            )}
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    color="primary"
+                                                    style={{
+                                                        marginTop: 20,
+                                                        float: 'right',
+                                                    }}
+                                                >
+                                                    Schedule Job
+                                                </Button>
+                                            </Form>
+                                        )}
+                                    </>
+                                );
+                            }}
                         </Formik>
                     </Grid>
                 </Grid>
