@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useStateValue, withState } from '../../state';
-import { makeStyles } from '@material-ui/core/styles';
+import { styled, makeStyles, withTheme } from '@material-ui/core/styles';
 import {
     Grid,
+    Box,
     TextField,
     MenuItem,
     Paper,
@@ -17,13 +18,14 @@ import { actions as jobActions } from '../../state/jobs/jobsActions';
 import { withFormik, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
+import moment from 'moment';
+
 import { createTimes, durations } from '../../constants/times';
 import SplashLoading from '../loading/SplashLoading';
 
 import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
 
-
-const NewJobForm_02 = () => {
+const NewJobForm_02 = ({ handleClose }) => {
     const [loading, setLoading] = useState(true);
     const [{ jobs }, dispatch] = useStateValue();
 
@@ -37,81 +39,177 @@ const NewJobForm_02 = () => {
     //
     //If the times haven't been generated yet, generate them based on the slot
     //on the calendar that has been selected
-    let day = (jobs.slotEvent && jobs.slotEvent.start) || null;
+    let day = (jobs.newJob.slotEvent && jobs.newJob.slotEvent.start) || null;
     let times = createTimes(day);
+
+    //Create the box with the info about the selected time
+    const formatSlotEvent = slotEvent => {
+        //So it doesn't break on mount while slotEvent is being added to global
+        if (!slotEvent.start) {
+            return 'Loading...';
+        }
+
+        //Give me the date
+        let date = moment(slotEvent.start).format('LL');
+
+        //Give me the start time
+        let startTime = moment(slotEvent.start).format('LT');
+
+        //Give me the end time
+        let endTime = moment(slotEvent.end).format('LT');
+
+        //Check if a day was selected or the individual time slot was selected
+        if (startTime == '12:00 AM' || endTime == '12:00 AM') {
+        }
+        return (
+            <Box>
+                <h4>Selected Slot</h4>
+                <p>Date: {date}</p>
+                <p>Start Time: {startTime}</p>
+                <p>End Time: {endTime}</p>
+            </Box>
+        );
+    };
+
+    //Create the box with the customers details
+    const formatCustomerData = customer => {
+        //This is a customer that was selected
+        if (customer.locations) {
+            let { address } = customer.locations[0];
+            let { city, state, street, zipcode } = address;
+
+            return (
+                <Box>
+                    <h4>Customer Info</h4>
+                    <p>Name: {customer.name}</p>
+                    <p>
+                        Address: {street}, {city}, {state} {zipcode}
+                    </p>
+                </Box>
+            );
+        } else {
+            //This is a new customer that is being added
+            return (
+                <Box>
+                    <h4>Customer Info</h4>
+                    <p>Name: {customer.name}</p>
+                    <p>
+                        Address: {customer.street}, {customer.city},{' '}
+                        {customer.region} {customer.zipcode}
+                    </p>
+                </Box>
+            );
+        }
+    };
+
+    const SelectedBox = styled(withTheme(Paper))(props => ({
+        padding: props.theme.spacing(1),
+        margin: props.theme.spacing(1),
+    }));
 
     return (
         <>
             <DialogContent>
-                {isSubmitting ? (
-                    <SplashLoading />
-                ) : (
-                    <Formik
-                        initialValues={{
-                            arrivalWindowStart: '',
-                            arrivalWindowEnd: '',
-                            duration: '',
-                            cleaningType: '',
-                        }}
-                        validationSchema={Yup.object().shape({
-                            arrivalWindowStart: Yup.string().required(),
-                            arrivalWindowEnd: Yup.string().required(),
-						})}
-						onSubmit={(values, {setSubmitting, resetForm}) => {
-							setSubmitting(true);
-							console.log(values);
-							resetForm();
-						}}
-                    >
-                        <Form>
-                            <Paper>Hello</Paper>
-                            <Grid container spacing={1}>
-                                <Grid item xs={6}>
-                                    <Typography>Create New Job</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <MuiSingleSelectInput
-                                        name="arrivalWindowStart"
-                                        label="Arrival Window Start"
-                                        data={times}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <MuiSingleSelectInput
-                                        name="arrivalWindowEnd"
-                                        label="Arrival Window End"
-                                        data={times}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <MuiSingleSelectInput
-                                        name="arrivalWindowEnd"
-                                        label="Arrival Window End"
-                                        data={durations}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <MuiSingleSelectInput
-                                        name="arrivalWindowEnd"
-                                        label="Arrival Window End"
-                                        data={typeOptions}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                            >
-                                Schedule Job
-                            </Button>
-                        </Form>
-                    </Formik>
-                )}
+                <Grid container spacing={1}>
+                    {/* Dialog Header */}
+                    <Grid item xs={12}>
+                        <h2>Create New Job</h2>
+                        <SelectedBox>
+                            {formatSlotEvent(jobs.newJob.slotEvent)}
+                        </SelectedBox>
+                        <SelectedBox>
+                            {formatCustomerData(jobs.newJob.customer)}
+                        </SelectedBox>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Formik
+                            initialValues={{
+                                arrivalWindowStart:
+                                    moment(jobs.newJob.slotEvent.start).format(
+                                        'LLL'
+                                    ) || '',
+                                arrivalWindowEnd:
+                                    moment(jobs.newJob.slotEvent.end).format(
+                                        'LLL'
+                                    ) || '',
+                                duration: '',
+                                cleaningType: '',
+                            }}
+                            validationSchema={Yup.object().shape({
+                                arrivalWindowStart: Yup.string().required(),
+                                arrivalWindowEnd: Yup.string().required(),
+                            })}
+                            onSubmit={(
+                                values,
+                                { setSubmitting, resetForm }
+                            ) => {
+                                setSubmitting(true);
+                                console.log(values);
+                                resetForm();
+                            }}
+                        >
+                            {formik => (
+                                <>
+                                    {formik.isSubmitting ? (
+                                        <SplashLoading />
+                                    ) : (
+                                        <Form>
+                                            <Grid container spacing={1}>
+                                                <Grid item xs={12}>
+                                                    <h3>Select Job Details</h3>
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <MuiSingleSelectInput
+                                                        name="arrivalWindowStart"
+                                                        label="Arrival Window Start"
+                                                        data={times}
+                                                        valueKey="hour"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <MuiSingleSelectInput
+                                                        name="arrivalWindowEnd"
+                                                        label="Arrival Window End"
+                                                        data={times}
+                                                        valueKey="hour"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <MuiSingleSelectInput
+                                                        name="duration"
+                                                        label="Duration"
+                                                        data={durations}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <MuiSingleSelectInput
+                                                        name="cleaningType"
+                                                        label="Cleaning Type"
+                                                        data={typeOptions}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                            <Button
+                                                type="submit"
+                                                variant="contained"
+                                                color="primary"
+                                                style={{
+                                                    marginTop: 20,
+                                                    float: 'right',
+                                                }}
+                                            >
+                                                Schedule Job
+                                            </Button>
+                                        </Form>
+                                    )}
+                                </>
+                            )}
+                        </Formik>
+                    </Grid>
+                </Grid>
             </DialogContent>
         </>
     );
 };
 
-
-export default 
+export default NewJobForm_02;

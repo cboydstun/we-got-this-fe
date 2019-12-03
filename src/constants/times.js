@@ -60,9 +60,11 @@ export const durations = [
 //Job Scheduler
 export const createTimes = dateTime => {
     return times.map(time => {
+        let day = moment(dateTime).format('LL');
+        console.log('Parsed Day', day);
         return {
             ...time,
-            value: moment(dateTime || moment().format())
+            value: moment(day)
                 .add(time.hour, 'hours')
                 .format('LLL'),
         };

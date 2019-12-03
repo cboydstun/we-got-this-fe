@@ -6,6 +6,8 @@ export const types = {
     SET_TEAM_FILTER: 'calendar/set_team_filter',
     CLEAR_FILTERS: 'calendar/clear_filters',
     SET_NEW_SERVICE_FORM_OPEN: 'calendar/set_new_service_form_open',
+    SET_NEW_SERVICE_FORM_02_OPEN: 'calendar/set_new_service_form_02_open',
+    SET_NEW_JOB_CUSTOMER: 'calendar/set_new_job_customer',
     SET_SLOT_EVENT: 'calendar/set_slot_event',
 };
 
@@ -25,8 +27,19 @@ export const actions = {
     setNewServiceFormOpen(dispatch, boolean) {
         dispatch({ type: types.SET_NEW_SERVICE_FORM_OPEN, payload: boolean });
     },
+    setNewServiceForm_02Open(dispatch, boolean) {
+        dispatch({
+            type: types.SET_NEW_SERVICE_FORM_02_OPEN,
+            payload: boolean,
+        });
+    },
     setSlotEvent(dispatch, slotEvent) {
         dispatch({ type: types.SET_SLOT_EVENT, payload: slotEvent });
+    },
+    setNewJobCustomer(dispatch, customer) {
+        dispatch({ type: types.SET_NEW_JOB_CUSTOMER, payload: customer });
+        dispatch({ type: types.SET_NEW_SERVICE_FORM_OPEN, payload: false });
+        dispatch({ type: types.SET_NEW_SERVICE_FORM_02_OPEN, payload: true });
     },
     async scheduleNewJob(dispatch, values) {
         try {

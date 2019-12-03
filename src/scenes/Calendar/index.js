@@ -9,6 +9,7 @@ import { actions } from '../../state/jobs/jobsActions';
 import { useStateValue } from '../../state';
 
 import NewJob from '../../components/dialogs/NewJob';
+import NewJob_02 from '../../components/dialogs/NewJob_02';
 
 import Filters from './components/Filters';
 
@@ -134,6 +135,7 @@ const AllCalendar = () => {
                 }}
             />
             <NewJob />
+            <NewJob_02 />
         </>
     );
 };

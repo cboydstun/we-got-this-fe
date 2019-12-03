@@ -2,7 +2,13 @@ import React from 'react';
 import { useField } from 'formik';
 import { TextField, MenuItem } from '@material-ui/core';
 
-const MuiSingleSelectInput = ({ label, data, valueKey, ...props }) => {
+const MuiSingleSelectInput = ({
+    label,
+    data,
+    valueKey,
+    displayKey,
+    ...props
+}) => {
     const [field, meta] = useField(props);
     return (
         <TextField
@@ -19,7 +25,7 @@ const MuiSingleSelectInput = ({ label, data, valueKey, ...props }) => {
             {data &&
                 data.map((item, i) => (
                     <MenuItem key={i} value={item.value || item[valueKey]}>
-                        {item.display}
+                        {item.display || item[displayKey]}
                     </MenuItem>
                 ))}
         </TextField>
