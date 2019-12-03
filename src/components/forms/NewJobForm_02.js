@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useStateValue, withState } from '../../state';
+import { useStateValue, withState, useService } from '../../state';
 import { styled, makeStyles, withTheme } from '@material-ui/core/styles';
 import {
     Grid,
@@ -17,6 +17,7 @@ import { actions as customerActions } from '../../state/customer/customerActions
 import { actions as jobActions } from '../../state/jobs/jobsActions';
 import { withFormik, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import teamService from '../../state/team/teamService';
 
 import moment from 'moment';
 
@@ -27,7 +28,8 @@ import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
 
 const NewJobForm_02 = ({ handleClose }) => {
     const [loading, setLoading] = useState(true);
-    const [{ jobs }, dispatch] = useStateValue();
+    const [{ jobs, teams }, dispatch] = useStateValue();
+    const services = { team: useService(teamService, dispatch) };
 
     const typeOptions = [
         {
@@ -119,6 +121,13 @@ const NewJobForm_02 = ({ handleClose }) => {
         margin: props.theme.spacing(1),
     }));
 
+    useEffect(() => {
+        services.team.getAllTeams();
+    }, []);
+
+    console.log('teams are', teams)
+    console.log('jobs are', jobs)
+
     return (
         <>
             <DialogContent>
@@ -173,57 +182,66 @@ const NewJobForm_02 = ({ handleClose }) => {
                                         {formik.isSubmitting ? (
                                             <SplashLoading />
                                         ) : (
-                                            <Form>
-                                                <Grid container spacing={1}>
-                                                    <Grid item xs={12}>
-                                                        <h3>
-                                                            Select Job Details
+                                                <Form>
+                                                    <Grid container spacing={1}>
+                                                        <Grid item xs={12}>
+                                                            <h3>
+                                                                Select Job Details
                                                         </h3>
+                                                        </Grid>
+                                                        <Grid item xs={6}>
+                                                            <MuiSingleSelectInput
+                                                                name="arrivalWindowStart"
+                                                                label="Arrival Window Start"
+                                                                data={times}
+                                                                valueKey="hour"
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={6}>
+                                                            <MuiSingleSelectInput
+                                                                name="arrivalWindowEnd"
+                                                                label="Arrival Window End"
+                                                                data={times}
+                                                                valueKey="hour"
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={6}>
+                                                            <MuiSingleSelectInput
+                                                                name="duration"
+                                                                label="Duration"
+                                                                data={durations}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={6}>
+                                                            <MuiSingleSelectInput
+                                                                name="cleaningType"
+                                                                label="Cleaning Type"
+                                                                data={typeOptions}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={6}>
+                                                            <MuiSingleSelectInput
+                                                                name="team"
+                                                                label="Team Assignment"
+                                                                data={teams.teams}
+                                                                displayKey='name'
+                                                                valueKey='docId'
+                                                            />
+                                                        </Grid>
                                                     </Grid>
-                                                    <Grid item xs={6}>
-                                                        <MuiSingleSelectInput
-                                                            name="arrivalWindowStart"
-                                                            label="Arrival Window Start"
-                                                            data={times}
-                                                            valueKey="hour"
-                                                        />
-                                                    </Grid>
-                                                    <Grid item xs={6}>
-                                                        <MuiSingleSelectInput
-                                                            name="arrivalWindowEnd"
-                                                            label="Arrival Window End"
-                                                            data={times}
-                                                            valueKey="hour"
-                                                        />
-                                                    </Grid>
-                                                    <Grid item xs={6}>
-                                                        <MuiSingleSelectInput
-                                                            name="duration"
-                                                            label="Duration"
-                                                            data={durations}
-                                                        />
-                                                    </Grid>
-                                                    <Grid item xs={6}>
-                                                        <MuiSingleSelectInput
-                                                            name="cleaningType"
-                                                            label="Cleaning Type"
-                                                            data={typeOptions}
-                                                        />
-                                                    </Grid>
-                                                </Grid>
-                                                <Button
-                                                    type="submit"
-                                                    variant="contained"
-                                                    color="primary"
-                                                    style={{
-                                                        marginTop: 20,
-                                                        float: 'right',
-                                                    }}
-                                                >
-                                                    Schedule Job
+                                                    <Button
+                                                        type="submit"
+                                                        variant="contained"
+                                                        color="primary"
+                                                        style={{
+                                                            marginTop: 20,
+                                                            float: 'right',
+                                                        }}
+                                                    >
+                                                        Schedule Job
                                                 </Button>
-                                            </Form>
-                                        )}
+                                                </Form>
+                                            )}
                                     </>
                                 );
                             }}
