@@ -45,7 +45,7 @@ export const actions = {
     async scheduleNewJob(dispatch, jobDetails) {
         try {
             //Check if we need to create a new customer
-            if (jobDetails.customer.docId !== '') {
+            if (!jobDetails.customer.docId) {
                 //If not, create the job with the customer ID
                 let newJobDetails = jobModel.formatJob(jobDetails);
                 let newJobDocId = await service.scheduleNewJob(newJobDetails);

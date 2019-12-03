@@ -162,6 +162,7 @@ const NewJobForm_02 = ({ handleClose }) => {
                                 );
                                 if (res === true) {
                                     setSubmitting(false);
+                                    handleClose();
                                 }
                             }}
                         >

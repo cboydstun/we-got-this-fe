@@ -68,6 +68,7 @@ const NewJobForm = ({ handleClose }) => {
 
         //Check if a day was selected or the individual time slot was selected
         if (startTime == '12:00 AM' || endTime == '12:00 AM') {
+            //TODO: finish
         }
         return (
             <Box>
@@ -109,7 +110,7 @@ const NewJobForm = ({ handleClose }) => {
                                 //Get the customer
                                 let customer = customers.customers[index];
                                 console.log(customer);
-                                //Send it to global state
+                                //Send it from global state
                                 jobActions.setNewJobCustomer(
                                     dispatch,
                                     customer
