@@ -123,10 +123,17 @@ const NewJobForm_02 = ({ handleClose }) => {
 
     useEffect(() => {
         services.team.getAllTeams();
+        jobActions.getAllJobs(dispatch);
     }, []);
 
     console.log('teams are', teams)
     console.log('jobs are', jobs)
+
+    const getAvailableTeams = () => {
+        jobs.filter(job => {
+
+        });
+    }
 
     return (
         <>

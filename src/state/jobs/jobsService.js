@@ -4,6 +4,10 @@ import moment from 'moment';
 const db = Firebase.getFirestore();
 
 export const service = {
+    async getAllJobs() {
+        return (await db.collection('jobs').get()).docs.map(doc => doc.data());
+    },
+
     async scheduleNewJob(values) {
         let docRef = await db.collection('jobs').add({ ...values });
         let docId = (await docRef.get()).id;

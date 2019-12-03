@@ -10,6 +10,7 @@ export const types = {
     SET_NEW_SERVICE_FORM_02_OPEN: 'calendar/set_new_service_form_02_open',
     SET_NEW_JOB_CUSTOMER: 'calendar/set_new_job_customer',
     SET_SLOT_EVENT: 'calendar/set_slot_event',
+    GET_ALL_JOBS: 'calendar/get_all_jobs',
 };
 
 export const actions = {
@@ -42,6 +43,11 @@ export const actions = {
         dispatch({ type: types.SET_NEW_SERVICE_FORM_OPEN, payload: false });
         dispatch({ type: types.SET_NEW_SERVICE_FORM_02_OPEN, payload: true });
     },
+
+    async getAllJobs(dispatch) {
+        dispatch({ type: types.GET_ALL_JOBS, payload: await service.getAllJobs() });
+    },
+
     async scheduleNewJob(dispatch, jobDetails) {
         try {
             //Check if we need to create a new customer
