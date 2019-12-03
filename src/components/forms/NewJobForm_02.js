@@ -67,10 +67,10 @@ const NewJobForm_02 = ({ handleClose }) => {
         let date = moment(slotEvent.start).format('LL');
 
         //Give me the start time
-        let startTime = moment(slotEvent.start).format('LT');
+        let startTime = moment(slotEvent.start);
 
         //Give me the end time
-        let endTime = moment(slotEvent.end).format('LT');
+        let endTime = moment(slotEvent.end);
 
         //Check if a day was selected or the individual time slot was selected
         if (startTime == '12:00 AM' || endTime == '12:00 AM') {
@@ -79,8 +79,8 @@ const NewJobForm_02 = ({ handleClose }) => {
             <Box>
                 <h4>Selected Slot</h4>
                 <p>Date: {date}</p>
-                <p>Start Time: {startTime}</p>
-                <p>End Time: {endTime}</p>
+                <p>Start Time: {startTime.format('LT')}</p>
+                <p>End Time: {endTime.format('LT')}</p>
             </Box>
         );
     };
@@ -130,10 +130,21 @@ const NewJobForm_02 = ({ handleClose }) => {
     console.log('jobs are', jobs)
 
     const getAvailableTeams = () => {
-        jobs.filter(job => {
+        return teams.teams.filter(team => {
+            const teamsJobs = jobs.jobs.filter(job => job.team.docId === team.docId);
 
+            return !teamsJobs.some(job =>
+                moment(jobs.newJob.slotEvent.start)
+                    .isBetween(
+                        job.details.arrivalWindowStart,
+                        moment(job.details.arrivalWindowStart).add(job.details.duration, 'hours'),
+                        null, '[]'
+                    )
+            )
         });
     }
+
+    console.log('AVAILABLE TEAMS', getAvailableTeams())
 
     return (
         <>
@@ -162,6 +173,7 @@ const NewJobForm_02 = ({ handleClose }) => {
                                     ) || '',
                                 duration: '',
                                 cleaningType: '',
+                                team: '',
                             }}
                             validationSchema={Yup.object().shape({
                                 arrivalWindowStart: Yup.string().required(),
@@ -174,7 +186,13 @@ const NewJobForm_02 = ({ handleClose }) => {
                                 setSubmitting(true);
                                 let res = await jobActions.scheduleNewJob(
                                     dispatch,
-                                    { ...jobs.newJob, details: values }
+                                    {
+                                        ...jobs.newJob,
+                                        details: values,
+                                        team: {
+                                            docId: values.team, ...teams.teams.find(team => team.docId === values.team),
+                                        }
+                                    }
                                 );
                                 if (res === true) {
                                     setSubmitting(false);

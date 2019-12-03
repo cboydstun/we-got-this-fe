@@ -26,5 +26,6 @@ function formatJob(values) {
             zipcode: address.zipcode || '',
         },
         type: details.cleaningType || '',
+        team: values.team,
     };
 }
