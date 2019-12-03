@@ -15,8 +15,8 @@ function formatJob(values) {
             arrivalWindowEnd:
                 moment(details.arrivalWindowEnd).format('LLL') || null,
             duration: details.duration || 1,
-            latest_end_time: moment(values.arrivalWindowEnd)
-                .add(values.duration, 'hours')
+            latest_end_time: moment(details.arrivalWindowEnd)
+                .add(details.duration, 'hours')
                 .format('LLL'),
         },
         location: {

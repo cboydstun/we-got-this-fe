@@ -167,7 +167,6 @@ const NewJobForm_02 = ({ handleClose }) => {
                             }}
                         >
                             {formik => {
-                                console.log(formik.isSubmitting);
                                 return (
                                     <>
                                         {formik.isSubmitting ? (

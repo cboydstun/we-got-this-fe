@@ -26,6 +26,7 @@ function formatCustomer(values) {
                 name: `${values.name} Residence`,
             },
         ],
+        jobs: [],
         notes: values.notes || null,
     };
 }

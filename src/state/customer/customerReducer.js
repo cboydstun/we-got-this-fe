@@ -37,8 +37,10 @@ export default function reducer(state, action) {
         case types.UPDATE_CUSTOMER:
             let { docId } = payload;
 
-            let index = state.customers.findIndex(user => user.docId == docId);
-            let updatedCustomer = state.customers[index];
+            let updateIndex = state.customers.findIndex(
+                user => user.docId == docId
+            );
+            let updatedCustomer = state.customers[updateIndex];
             updatedCustomer = payload;
 
             return {
@@ -53,6 +55,26 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 currentCustomer: { ...state.currentCustomer, img: payload },
+            };
+        case types.ADD_JOB_TO_CUSTOMER:
+            let { newJobDocId, customerDocId } = payload;
+            console.log(
+                'New Job Doc Id',
+                newJobDocId,
+                'Customer Doc Id',
+                customerDocId
+            );
+
+            let jobIndex = state.customers.findIndex(
+                customer => customer.docId == customerDocId
+            );
+            let customer = state.customers[jobIndex];
+
+            customer.jobs.push(newJobDocId);
+
+            return {
+                ...state,
+                customers: [...state.customers],
             };
 
         default:

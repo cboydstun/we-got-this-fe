@@ -153,7 +153,7 @@ const NewJobForm = ({ handleClose }) => {
                             initialValues={{
                                 docId: '',
                                 name: '',
-                                phone: '',
+                                phoneNumber: '',
                                 street: '',
                                 region: 'ID',
                                 city: '',
@@ -161,7 +161,7 @@ const NewJobForm = ({ handleClose }) => {
                             }}
                             validationSchema={Yup.object().shape({
                                 name: Yup.string().required(),
-                                phone: Yup.string().required(),
+                                phoneNumber: Yup.string().required(),
                                 street: Yup.string().required(),
                                 city: Yup.string().required(),
                                 region: Yup.string().required(),
@@ -189,7 +189,7 @@ const NewJobForm = ({ handleClose }) => {
                                     </Grid>
                                     <Grid item xs={7}>
                                         <MuiPhoneInput
-                                            name="phone"
+                                            name="phoneNumber"
                                             label="Phone"
                                             type="text"
                                         />

@@ -9,12 +9,12 @@ export const service = {
             ...values,
         });
 
-        let customers = {};
+        let customer = {};
         let doc = await docRef.get();
         let docId = doc.id;
-        customers = { docId, ...doc.data() };
+        customer = { docId, ...doc.data() };
 
-        return customers;
+        return customer;
     },
 
     async getCustomers() {

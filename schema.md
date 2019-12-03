@@ -186,13 +186,13 @@ Who worked this job?
         "team": "Team B",
         "techs": [
             {
-                "user_id": "susy_smith_123124",
+                "docId": "susy_smith_123124",
                 "name": "Susy Smith",
                 "start_time": 9434582903423,
                 "end_time": 9874589032345
             },
             {
-                "user_id": "susy_smith_123124",
+                "docId": "susy_smith_123124",
                 "name": "Helga Bergoli",
                 "start_time": 1230909845,
                 "end_time": 0983740298534
