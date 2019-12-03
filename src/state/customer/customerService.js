@@ -23,8 +23,6 @@ export const service = {
         querySnapshot.forEach(doc => {
             let docId = doc.id;
             let customerData = doc.data();
-            let jobPaths = customerData.jobs.map(job => job.path);
-            customerData.jobs = jobPaths;
             let customer = { docId, ...customerData };
             customers.push(customer);
         });

@@ -56,7 +56,7 @@ const Customer = ({ match }) => {
             console.log('Getting current customer');
             actions.getCurrentCustomer(dispatch, customer_id).then(res => {
                 console.log('Get current customer res', res);
-                if (res == true) {
+                if (res === true) {
                     setLoading(false);
                 } else {
                     console.log(res);
