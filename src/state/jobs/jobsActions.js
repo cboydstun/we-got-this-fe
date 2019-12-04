@@ -14,6 +14,7 @@ export const types = {
     SET_NEW_SERVICE_FORM_02_OPEN: 'jobs/set_new_service_form_02_open',
     SET_NEW_JOB_CUSTOMER: 'jobs/set_new_job_customer',
     SET_SLOT_EVENT: 'jobs/set_slot_event',
+    ADD_JOB_TO_JOBS: 'jobs/add_job_to_jobs',
 };
 
 export const actions = {
@@ -48,6 +49,7 @@ export const actions = {
     },
     async scheduleNewJob(dispatch, jobDetails) {
         let { slotEvent, customer, details } = jobDetails;
+        let gapi = window.gapi;
         try {
             let newJobDocId;
 
@@ -101,6 +103,24 @@ export const actions = {
                     customerDocId: jobDetails.customer.docId,
                 },
             });
+
+            //format the jobDetails to be added to the bigCalendar
+            let formattedBigCalEvent = jobModel.formatBigCalendarEvent({
+                newJobDocId,
+                ...jobDetails,
+            });
+
+            //Add job to global jobs
+            dispatch({
+                type: types.ADD_JOB_TO_JOBS,
+                payload: formattedBigCalEvent,
+            });
+
+            //Add the created job to the calendar
+            let formattedGoogleCalEvent = jobModel.formatGoogleCalendarEvent(
+                jobDetails
+            );
+            await gapi.client.calendar.events.insert(formattedGoogleCalEvent);
 
             return true;
         } catch (error) {

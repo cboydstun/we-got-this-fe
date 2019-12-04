@@ -54,6 +54,11 @@ export default function reducer(state, action) {
                 ...state,
                 newJob: { ...state.newJob, customer: payload },
             };
+        case types.ADD_JOB_TO_JOBS:
+            return {
+                ...state,
+                jobs: [...state.jobs, payload],
+            };
         default: {
             return {
                 ...state,
