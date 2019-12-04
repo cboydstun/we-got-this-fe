@@ -126,9 +126,6 @@ const NewJobForm_02 = ({ handleClose }) => {
         jobActions.getAllJobs(dispatch);
     }, []);
 
-    console.log('teams are', teams)
-    console.log('jobs are', jobs)
-
     const getAvailableTeams = () => {
         return teams.teams.filter(team => {
             const teamsJobs = jobs.jobs.filter(job => job.team.docId === team.docId);
@@ -144,7 +141,10 @@ const NewJobForm_02 = ({ handleClose }) => {
         });
     }
 
-    console.log('AVAILABLE TEAMS', getAvailableTeams())
+    const getRandomAvailableTeam = () => {
+        const availableTeams = getAvailableTeams();
+        return availableTeams[Math.floor((Math.random() * availableTeams.length))]
+    }
 
     return (
         <>

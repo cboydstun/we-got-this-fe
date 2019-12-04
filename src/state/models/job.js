@@ -71,18 +71,19 @@ function formatBigCalendarEvent(calEvent) {
         title: customer.name || 'Unknown Name',
         start: new Date(
             details.arrivalWindowStart ||
-                calEvent.start.dateTime ||
-                calEvent.start.date
+            calEvent.start.dateTime ||
+            calEvent.start.date
         ),
         end: new Date(
             moment(details.arrivalWindowEnd).add(details.duration, 'hours') ||
-                calEvent.end.date ||
-                calEvent.end.dateTime
+            calEvent.end.date ||
+            calEvent.end.dateTime
         ),
         details: {
             name: customer.name || 'Unknown Name',
             customerId: customer.docId || 'Unknown Doc Id',
             jobID: newJobDocId || 'Unkownn job',
         },
+        team: calEvent.team,
     };
 }
