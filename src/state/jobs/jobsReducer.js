@@ -59,6 +59,11 @@ export default function reducer(state, action) {
                 ...state,
                 jobs: payload,
             };
+        case types.ADD_JOB_TO_JOBS:
+            return {
+                ...state,
+                jobs: [...state.jobs, payload],
+            };
         default: {
             return {
                 ...state,

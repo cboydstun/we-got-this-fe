@@ -4,7 +4,6 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import moment from 'moment';
-import { SideBar } from '../../components';
 import { actions } from '../../state/jobs/jobsActions';
 import { useStateValue } from '../../state';
 
@@ -32,10 +31,11 @@ const AllCalendar = () => {
         },
     ]);
 
+    // 'lambdaschool.com_5ql54gdu6bsdug0i05q61cq610@group.calendar.google.com',
+
     async function getCalendar() {
         const calendar = await gapi.client.calendar.events.list({
-            calendarId:
-                'lambdaschool.com_5ql54gdu6bsdug0i05q61cq610@group.calendar.google.com',
+            calendarId: 'primary',
             timeMin: new Date().toISOString(),
             showDeleted: false,
             singleEvents: true,
@@ -73,7 +73,7 @@ const AllCalendar = () => {
     }
 
     async function insertEvent() {
-        const insert = await gapi.client.calendar.events.insert({
+        await gapi.client.calendar.events.insert({
             calendarId: 'primary',
             start: {
                 dateTime: hoursFromNow(2),
@@ -85,6 +85,13 @@ const AllCalendar = () => {
             },
             summary: 'Have Fun!!',
             description: 'Enjoy a nice little break :)',
+            extendedProperties: {
+                shared: {
+                    test: 'test string',
+                    number: 123,
+                    boolean: true,
+                },
+            },
         });
 
         await getCalendar();
@@ -117,7 +124,7 @@ const AllCalendar = () => {
             </button>
             <DraggableCalendar
                 localizer={localizer}
-                events={events}
+                events={jobs.jobs}
                 style={{ height: 600 }}
                 draggableAccessor={event => true}
                 resizable
