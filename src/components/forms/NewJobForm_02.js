@@ -143,7 +143,7 @@ const NewJobForm_02 = ({ handleClose }) => {
 
     const getRandomAvailableTeam = () => {
         const availableTeams = getAvailableTeams();
-        return availableTeams[Math.floor((Math.random() * availableTeams.length))]
+        return availableTeams[Math.floor((Math.random() * availableTeams.length))];
     }
 
     return (
