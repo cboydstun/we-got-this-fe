@@ -5,7 +5,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import moment from 'moment';
 import { actions } from '../../state/jobs/jobsActions';
-import { useStateValue } from '../../state';
+import { useStateValue, useService } from '../../state';
+import teamService from '../../state/team/teamService';
 
 import NewJob from '../../components/dialogs/NewJob';
 import NewJob_02 from '../../components/dialogs/NewJob_02';
@@ -14,32 +15,47 @@ import Filters from './components/Filters';
 
 const AllCalendar = () => {
     //Get Google API
-    let gapi = window.gapi;
     const DraggableCalendar = withDragAndDrop(Calendar);
     const localizer = momentLocalizer(moment);
-    const [{ auth, jobs }, dispatch] = useStateValue();
+    const [{ auth, jobs, teams }, dispatch] = useStateValue();
+    const services = { team: useService(teamService, dispatch) };
 
     let allViews = Object.keys(Views).map(k => Views[k]);
 
+    //Get the calendar Events for this month + 2 more
     useEffect(() => {
         if (
             auth.currentUser &&
             auth.currentUser.docRef &&
-            auth.calendarLoaded
+            auth.calendarLoaded &&
+            !jobs.calendarFetched
         ) {
             console.log('Getting Calendar Events');
             //This is because there is a delay between gapi loading and the user being actually authenticated
+            //I tried 500 & 1000 milliseconds, but it would still "require login at every 10th request"
+            //at 1500 seconds I find no issues
             setTimeout(() => {
                 actions.getAllCalendarEvents(dispatch);
-            }, 1000);
+            }, 1500);
         }
-    }, [auth.calendarLoaded, auth.currentUser, dispatch]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    //This is redundant and should be pulled elsewhere, but this is what I've got
+    //Pull the teams so the filters can access it
+    useEffect(() => {
+        if (teams.teams.length == 0) {
+            services.team.getAllTeams();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     function openScheduleForm(event) {
         actions.setSlotEvent(dispatch, event);
         actions.setNewServiceFormOpen(dispatch, true);
     }
 
+    //Memoized the the teamFilter is only rerendered when the teamFitler changes
     let teamFilter = useMemo(() => {
         return jobs.jobs.filter(job => {
             if (jobs.teamFilter !== null && job.team !== null) {
@@ -48,6 +64,17 @@ const AllCalendar = () => {
             return true;
         });
     }, [jobs.jobs, jobs.teamFilter]);
+
+    const formatEvent = event => {
+        //For events that weren't created in the system
+        if (!event.team || event.team == null) {
+            return {
+                style: {
+                    backgroundColor: 'grey',
+                },
+            };
+        }
+    };
 
     return (
         <>
@@ -60,7 +87,8 @@ const AllCalendar = () => {
                 selectable
                 localizer={localizer}
                 events={teamFilter}
-                defaultView={Views.WEEK}
+                views={[Views.MONTH, Views.WORK_WEEK, Views.DAY, Views.AGENDA]}
+                defaultView={Views.WORK_WEEK}
                 onEventResize={event => {
                     console.log(event);
                 }}
@@ -72,6 +100,7 @@ const AllCalendar = () => {
                 onSelectEvent={event => {
                     console.log(event);
                 }}
+                eventPropGetter={formatEvent}
                 style={{ height: 600 }}
             />
             <NewJob />
