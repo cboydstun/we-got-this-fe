@@ -7,6 +7,7 @@ import teamService from '../../state/team/teamService';
 import { useService } from '../../state';
 import techService from '../../state/tech/techService';
 import { routes } from '../../constants/routes';
+import EditTech from '../../components/dialogs/EditTech';
 
 const useStyles = makeStyles(theme => ({
     filter: {
@@ -25,9 +26,18 @@ const Techs = ({ history }) => {
     const [{ techs }, dispatch] = useStateValue();
     const services = { tech: useService(techService, dispatch), team: useService(teamService, dispatch) }
     const [filter, setFilter] = useState('all');
+    const [techToEdit, setTechToEdit] = useState();
+
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const handleCancel = () => setEditDialogOpen(false);
+    const handleSave = () => setEditDialogOpen(false);
 
     const handleFilterChange = e => setFilter(e.target.value);
-    const handleNewTechClick = () => history.push(routes.CREATE_TECH);
+    const handleNewTech = () => history.push(routes.CREATE_TECH);
+    const handleEdit = techId => {
+        setEditDialogOpen(true);
+        setTechToEdit(techs.techs.find(tech => tech.docId === techId));
+    };
 
     useEffect(() => {
         services.team.getAllTeams();
@@ -36,6 +46,7 @@ const Techs = ({ history }) => {
 
     return (
         <>
+            <EditTech open={editDialogOpen} handleCancel={handleCancel} handleSave={handleSave} tech={techToEdit} />
             <Grid container xs={12} justify="space-between" className={classes.header}>
                 <Grid item xs={4}>
                     <h1>Technicians</h1>
@@ -50,7 +61,7 @@ const Techs = ({ history }) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={4}>
-                    <Button variant="contained" onClick={handleNewTechClick}>New Tech</Button>
+                    <Button variant="contained" onClick={handleNewTech}>New Tech</Button>
                 </Grid>
             </Grid>
             <Grid container xs={12} spacing={3} justify="space-between" >
@@ -59,7 +70,7 @@ const Techs = ({ history }) => {
                         .map((tech, index) => {
                             return (
                                 <Grid item sm={12} md={5} key={index}>
-                                    <TechCard {...tech} />
+                                    <TechCard handleEdit={handleEdit} {...tech} />
                                 </Grid>
                             )
                         })

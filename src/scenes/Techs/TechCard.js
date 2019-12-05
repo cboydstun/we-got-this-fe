@@ -45,13 +45,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const TechCard = ({ docId, displayName, photoUrl, disabled, team }) => {
+const TechCard = ({ docId, displayName, photoUrl, disabled, team, handleEdit }) => {
     const classes = useStyles({ disabled });
     const [{ teams }, dispatch] = useStateValue();
     const service = useService(techService, dispatch);
 
     const handleTeamChange = e => service.addTechToTeam(docId, e.target.value);
-    const handleArchiveClick = () => service.setTechDisabled(docId, !disabled);
+    const handleArchive = () => service.setTechDisabled(docId, !disabled);
 
     return (
         <Card className={classes.root}>
@@ -69,8 +69,8 @@ const TechCard = ({ docId, displayName, photoUrl, disabled, team }) => {
                     </Select>
                 </FormControl>
                 <div className={classes.controls}>
-                    <Button onClick={handleArchiveClick}>{disabled ? 'Activate' : 'Archive'}</Button>
-                    <Button disabled={disabled}>Edit</Button>
+                    <Button onClick={handleArchive}>{disabled ? 'Activate' : 'Archive'}</Button>
+                    <Button onClick={() => handleEdit(docId)} disabled={disabled}>Edit</Button>
                 </div>
             </div>
         </Card>
