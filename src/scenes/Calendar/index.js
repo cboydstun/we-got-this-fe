@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -17,26 +17,32 @@ const AllCalendar = () => {
     let gapi = window.gapi;
     const DraggableCalendar = withDragAndDrop(Calendar);
     const localizer = momentLocalizer(moment);
-    const [{ jobs }, dispatch] = useStateValue();
+    const [{ auth, jobs }, dispatch] = useStateValue();
 
     let allViews = Object.keys(Views).map(k => Views[k]);
 
-    const [events, setEvents] = useState([
-        {
-            id: 0,
-            title: 'Hello',
-            allDay: true,
-            start: new Date(Date.now()).toDateString(),
-            end: new Date(Date.now() + 3 * 1000 * 60 * 60).toDateString(),
-        },
-    ]);
-
-    // 'lambdaschool.com_5ql54gdu6bsdug0i05q61cq610@group.calendar.google.com',
+    useEffect(() => {
+        if (
+            auth.currentUser &&
+            auth.currentUser.docRef &&
+            auth.calendarLoaded
+        ) {
+            console.log('Getting Calendar Events');
+            //This is because there is a delay between gapi loading and the user being actually authenticated
+            setTimeout(() => {
+                actions.getAllCalendarEvents(dispatch);
+            }, 1000);
+        }
+    }, [auth.calendarLoaded, auth.currentUser, dispatch]);
 
     async function getCalendar() {
+        let currentMonth = moment([moment().year(), moment().month(), 1]);
+        let currentISOMonth = currentMonth.toISOString();
+        let twoMonthLookAhead = currentMonth.add(3, 'months').toISOString();
         const calendar = await gapi.client.calendar.events.list({
             calendarId: 'primary',
-            timeMin: new Date().toISOString(),
+            timeMin: currentISOMonth,
+            timeMax: twoMonthLookAhead,
             showDeleted: false,
             singleEvents: true,
             maxResults: 10,
@@ -62,14 +68,9 @@ const AllCalendar = () => {
             });
         });
         console.log(calEvents);
-        setEvents([...events, ...calEvents]);
 
-        // const list = await gapi.client.calendar.calendarList.list({
-        //     maxResults: 10,
-        // });
-
-        // console.log(list);
-        // console.log(list.result.items);
+        // console.log('Calendar List', list);
+        // console.log('List Items', list.result.items);
     }
 
     async function insertEvent() {
@@ -122,6 +123,11 @@ const AllCalendar = () => {
             >
                 Insert Event
             </button>
+
+            {jobs.jobs.length == 0 ? (
+                <p>Getting Events or there are no events</p>
+            ) : null}
+
             <DraggableCalendar
                 localizer={localizer}
                 events={jobs.jobs}

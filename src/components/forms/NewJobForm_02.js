@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useStateValue, withState, useService } from '../../state';
 import { styled, makeStyles, withTheme } from '@material-ui/core/styles';
 import {
@@ -26,35 +26,40 @@ import SplashLoading from '../loading/SplashLoading';
 
 import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
 
+const SelectedBox = styled(withTheme(Paper))(props => ({
+    padding: props.theme.spacing(1),
+    margin: props.theme.spacing(1),
+}));
+
+const typeOptions = [
+    {
+        value: 'recurring',
+        display: 'Recurring',
+    },
+    {
+        value: 'groupon',
+        display: 'Groupon',
+    },
+    {
+        value: 'one-off',
+        display: 'One-off',
+    },
+    {
+        value: 'initialAssessment',
+        display: 'Initial Assessment',
+    },
+];
+
 const NewJobForm_02 = ({ handleClose }) => {
     const [loading, setLoading] = useState(true);
     const [{ jobs, teams }, dispatch] = useStateValue();
     const services = { team: useService(teamService, dispatch) };
 
-    const typeOptions = [
-        {
-            value: 'recurring',
-            display: 'Recurring',
-        },
-        {
-            value: 'groupon',
-            display: 'Groupon',
-        },
-        {
-            value: 'one-off',
-            display: 'One-off',
-        },
-        {
-            value: 'initialAssessment',
-            display: 'Initial Assessment',
-        },
-    ];
-
     //
     //If the times haven't been generated yet, generate them based on the slot
     //on the calendar that has been selected
     let day = (jobs.newJob.slotEvent && jobs.newJob.slotEvent.start) || null;
-    let times = createTimes(day);
+    let times = useMemo(() => createTimes(day), [day]);
 
     //Create the box with the info about the selected time
     const formatSlotEvent = slotEvent => {
@@ -116,35 +121,43 @@ const NewJobForm_02 = ({ handleClose }) => {
         }
     };
 
-    const SelectedBox = styled(withTheme(Paper))(props => ({
-        padding: props.theme.spacing(1),
-        margin: props.theme.spacing(1),
-    }));
-
-    useEffect(() => {
-        services.team.getAllTeams();
-        jobActions.getAllJobs(dispatch);
-    }, []);
+    useEffect(
+        () => {
+            if (teams.teams.length == 0) {
+                services.team.getAllTeams();
+            }
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    );
 
     const getAvailableTeams = () => {
         return teams.teams.filter(team => {
-            const teamsJobs = jobs.jobs.filter(job => job.team.docId === team.docId);
+            const teamsJobs = jobs.jobs.filter(job => {
+                console.log('Job checked? ', job);
+                return job.team.docId === team.docId;
+            });
 
             return !teamsJobs.some(job =>
-                moment(jobs.newJob.slotEvent.start)
-                    .isBetween(
-                        job.details.arrivalWindowStart,
-                        moment(job.details.arrivalWindowStart).add(job.details.duration, 'hours'),
-                        null, '[]'
-                    )
-            )
+                moment(jobs.newJob.slotEvent.start).isBetween(
+                    job.details.arrivalWindowStart,
+                    moment(job.details.arrivalWindowStart).add(
+                        job.details.duration,
+                        'hours'
+                    ),
+                    null,
+                    '[]'
+                )
+            );
         });
-    }
+    };
 
     const getRandomAvailableTeam = () => {
         const availableTeams = getAvailableTeams();
-        return availableTeams[Math.floor((Math.random() * availableTeams.length))];
-    }
+        return availableTeams[
+            Math.floor(Math.random() * availableTeams.length)
+        ];
+    };
 
     return (
         <>
@@ -190,8 +203,12 @@ const NewJobForm_02 = ({ handleClose }) => {
                                         ...jobs.newJob,
                                         details: values,
                                         team: {
-                                            docId: values.team, ...teams.teams.find(team => team.docId === values.team),
-                                        }
+                                            docId: values.team,
+                                            ...teams.teams.find(
+                                                team =>
+                                                    team.docId === values.team
+                                            ),
+                                        },
                                     }
                                 );
                                 if (res === true) {
@@ -206,66 +223,66 @@ const NewJobForm_02 = ({ handleClose }) => {
                                         {formik.isSubmitting ? (
                                             <SplashLoading />
                                         ) : (
-                                                <Form>
-                                                    <Grid container spacing={1}>
-                                                        <Grid item xs={12}>
-                                                            <h3>
-                                                                Select Job Details
+                                            <Form>
+                                                <Grid container spacing={1}>
+                                                    <Grid item xs={12}>
+                                                        <h3>
+                                                            Select Job Details
                                                         </h3>
-                                                        </Grid>
-                                                        <Grid item xs={6}>
-                                                            <MuiSingleSelectInput
-                                                                name="arrivalWindowStart"
-                                                                label="Arrival Window Start"
-                                                                data={times}
-                                                                valueKey="hour"
-                                                            />
-                                                        </Grid>
-                                                        <Grid item xs={6}>
-                                                            <MuiSingleSelectInput
-                                                                name="arrivalWindowEnd"
-                                                                label="Arrival Window End"
-                                                                data={times}
-                                                                valueKey="hour"
-                                                            />
-                                                        </Grid>
-                                                        <Grid item xs={6}>
-                                                            <MuiSingleSelectInput
-                                                                name="duration"
-                                                                label="Duration"
-                                                                data={durations}
-                                                            />
-                                                        </Grid>
-                                                        <Grid item xs={6}>
-                                                            <MuiSingleSelectInput
-                                                                name="cleaningType"
-                                                                label="Cleaning Type"
-                                                                data={typeOptions}
-                                                            />
-                                                        </Grid>
-                                                        <Grid item xs={6}>
-                                                            <MuiSingleSelectInput
-                                                                name="team"
-                                                                label="Team Assignment"
-                                                                data={teams.teams}
-                                                                displayKey='name'
-                                                                valueKey='docId'
-                                                            />
-                                                        </Grid>
                                                     </Grid>
-                                                    <Button
-                                                        type="submit"
-                                                        variant="contained"
-                                                        color="primary"
-                                                        style={{
-                                                            marginTop: 20,
-                                                            float: 'right',
-                                                        }}
-                                                    >
-                                                        Schedule Job
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="arrivalWindowStart"
+                                                            label="Arrival Window Start"
+                                                            data={times}
+                                                            valueKey="hour"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="arrivalWindowEnd"
+                                                            label="Arrival Window End"
+                                                            data={times}
+                                                            valueKey="hour"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="duration"
+                                                            label="Duration"
+                                                            data={durations}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="cleaningType"
+                                                            label="Cleaning Type"
+                                                            data={typeOptions}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <MuiSingleSelectInput
+                                                            name="team"
+                                                            label="Team Assignment"
+                                                            data={getAvailableTeams()}
+                                                            displayKey="name"
+                                                            valueKey="docId"
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    color="primary"
+                                                    style={{
+                                                        marginTop: 20,
+                                                        float: 'right',
+                                                    }}
+                                                >
+                                                    Schedule Job
                                                 </Button>
-                                                </Form>
-                                            )}
+                                            </Form>
+                                        )}
                                     </>
                                 );
                             }}

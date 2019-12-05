@@ -2,8 +2,9 @@ import { service as jobService } from './jobsService';
 import { actions as customerActions } from '../customer/customerActions';
 
 import jobModel from '../models/job';
-
 import { types as customerTypes } from '../customer/customerActions';
+
+import moment from 'moment';
 
 export const types = {
     SET_DATE_FILTER: 'jobs/set_date_filter',
@@ -49,12 +50,67 @@ export const actions = {
         dispatch({ type: types.SET_NEW_SERVICE_FORM_02_OPEN, payload: true });
     },
 
+    async getAllCalendarEvents(dispatch) {
+        let gapi = window.gapi;
+        async function getCalendars() {
+            let calendarList = await gapi.client.calendar.calendarList.list({
+                maxResults: 10,
+            });
+            return calendarList.result.items;
+        }
+        async function getCalendarEvents(calendarId) {
+            //Set dates
+            let currentMonth = moment([moment().year(), moment().month(), 1]);
+            let currentISOMonth = currentMonth.toISOString();
+            let twoMonthLookAhead = currentMonth.add(3, 'months').toISOString();
+
+            //Get calendar Events
+            const calendar = await gapi.client.calendar.events.list({
+                calendarId: calendarId,
+                timeMin: currentISOMonth,
+                timeMax: twoMonthLookAhead,
+                showDeleted: false,
+                singleEvents: true,
+                maxResults: 10,
+                orderBy: 'startTime',
+            });
+
+            return calendar.result.items;
+        }
+
+        let promises = [];
+
+        let calendars = await getCalendars();
+        calendars.forEach(calendar => {
+            let { accessRole } = calendar;
+            if (accessRole == 'owner' || accessRole == 'writer') {
+                promises.push(getCalendarEvents(calendar.id));
+            }
+        });
+
+        let allCalEvents = await Promise.all(promises);
+        let flattened = allCalEvents.flat();
+
+        //let formatted = flattened.map(event => jobModel.formatBigCalendarEvent(event));
+
+        console.log(flattened);
+    },
+
     async getAllJobs(dispatch) {
-        dispatch({ type: types.GET_ALL_JOBS, payload: await jobService.getAllJobs() });
+        try {
+            let jobs = await jobService.getAllJobs();
+
+            dispatch({
+                type: types.GET_ALL_JOBS,
+                payload: jobs,
+            });
+        } catch (err) {
+            console.log(err);
+        }
     },
 
     async scheduleNewJob(dispatch, jobDetails) {
-        let { slotEvent, customer, details } = jobDetails;
+        let { slotEvent, customer, details, team } = jobDetails;
         let gapi = window.gapi;
         try {
             let newJobDocId;
@@ -123,9 +179,10 @@ export const actions = {
             });
 
             //Add the created job to the calendar
-            let formattedGoogleCalEvent = jobModel.formatGoogleCalendarEvent(
-                jobDetails
-            );
+            let formattedGoogleCalEvent = jobModel.formatGoogleCalendarEvent({
+                newJobDocId,
+                ...jobDetails,
+            });
             await gapi.client.calendar.events.insert(formattedGoogleCalEvent);
 
             return true;
@@ -133,21 +190,5 @@ export const actions = {
             console.log('Scheduling Job Error: ', error);
             return error;
         }
-
-        //If yes, create the customer first
-
-        //Get the customer ID
-
-        //Create the job and add the customer ID
-
-        //Get the job ID and add back to the customer
-
-        //If successful, add the event to their google calendar
-
-        //then, update the global state of events that are upcoming
-
-        //If successful, return true,
-
-        //or return error
     },
 };

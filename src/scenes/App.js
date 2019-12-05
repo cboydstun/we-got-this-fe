@@ -66,21 +66,21 @@ function App() {
 
     useEffect(() => {
         //Initiliaze Google API
-        initGoogleClient();
+        initGoogleClient(() => {
+            actions.setCalendarLoaded(dispatch);
+            setIsLoading(false);
+        });
 
         //Auth Change With Firebase
         Firebase.onAuthStateChanged(user => {
             if (user !== null) {
                 actions.getOrCreateCurrentUser(dispatch, user);
-                setIsLoading(false);
-            } else {
-                setIsLoading(false);
             }
         });
     }, [dispatch]);
 
     if (isLoading) {
-        return <SplashLoading />;
+        return <SplashLoading width="400px" height="400px" />;
     } else {
         return (
             <BrowserRouter>
@@ -97,7 +97,11 @@ function App() {
                             />
                             <Route exact path={routes.AUTH} component={Auth} />
                             <Route path={routes.PROFILE} component={Profile} />
-                            <Route exact path={routes.TECHS} component={Techs} />
+                            <Route
+                                exact
+                                path={routes.TECHS}
+                                component={Techs}
+                            />
                             <Route path={routes.JOBS} component={Jobs} />
                             <Route
                                 exact
@@ -117,11 +121,11 @@ function App() {
                                     />
                                 </>
                             ) : (
-                                    <Route
-                                        path={routes.CUSTOMER_PROFILE}
-                                        component={Customer}
-                                    />
-                                )}
+                                <Route
+                                    path={routes.CUSTOMER_PROFILE}
+                                    component={Customer}
+                                />
+                            )}
                             <Route
                                 path={routes.CREATE_TECH}
                                 component={CreateTechForm}

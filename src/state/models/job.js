@@ -33,7 +33,7 @@ function formatJob(values) {
 }
 
 function formatGoogleCalendarEvent(values) {
-    let { customer, slotEvent, details } = values;
+    let { newJobDocId, customer, slotEvent, details, team } = values;
     let { address } = customer.locations[0];
 
     return {
@@ -52,10 +52,11 @@ function formatGoogleCalendarEvent(values) {
         description: `Customer Name: ${customer.name}`,
         extendedProperties: {
             shared: {
+                jobId: newJobDocId,
                 customerId: customer.docId,
                 customerName: customer.name,
-                team: details.team || 'Clean Team 10',
-                teamId: details.teamId || 'TeamId',
+                team: team.team || 'Clean Team 10',
+                teamId: details.team || 'TeamId',
                 zipcode: address.zipcode,
                 type: details.cleaningType,
             },
@@ -65,25 +66,49 @@ function formatGoogleCalendarEvent(values) {
 
 //TODO: Will need to adjust the end date to ensure that it's to the latest end time
 function formatBigCalendarEvent(calEvent) {
-    let { newJobDocId, customer, slotEvent, details } = calEvent;
-    return {
-        id: newJobDocId || customer.docId,
-        title: customer.name || 'Unknown Name',
-        start: new Date(
-            details.arrivalWindowStart ||
-            calEvent.start.dateTime ||
-            calEvent.start.date
-        ),
-        end: new Date(
-            moment(details.arrivalWindowEnd).add(details.duration, 'hours') ||
-            calEvent.end.date ||
-            calEvent.end.dateTime
-        ),
-        details: {
-            name: customer.name || 'Unknown Name',
-            customerId: customer.docId || 'Unknown Doc Id',
-            jobID: newJobDocId || 'Unkownn job',
-        },
-        team: calEvent.team,
-    };
+    //formatting from a new calendar event being added!
+    if (calEvent.newJobDocId) {
+        let { newJobDocId, customer, slotEvent, details, team } = calEvent;
+        let { address } = customer.locations[0];
+
+        return {
+            id: newJobDocId || customer.docId,
+            title: customer.name || 'Unknown Name',
+            start: new Date(details.arrivalWindowStart || ''),
+            end: new Date(
+                moment(details.arrivalWindowEnd).add(
+                    details.duration,
+                    'hours'
+                ) || ''
+            ),
+            details: {
+                name: customer.name || 'Unknown Name',
+                customerId: customer.docId || 'Unknown Doc Id',
+                jobID: newJobDocId || 'Unkownn job id',
+                zipcode: address.zipcode || 'Unknown Zipcode',
+                team: team || 'Unknown Team',
+                type: details.cleaningType || 'Unknown Cleaning Type',
+            },
+        };
+    } else {
+        //formatting from google calendar events that are pulled from the calendar
+        let { extendedProperties: eprops } = calEvent;
+        return {
+            id: eprops.shared.customerId || eprops.id,
+            title: eprops.shared.customerName || 'Unknown Name',
+            start: new Date(calEvent.start.dateTime || calEvent.start.date),
+            end: new Date(calEvent.end.date || calEvent.end.dateTime),
+            details: {
+                name: eprops.shared.customerName || 'Unknown Name',
+                customerId:
+                    eprops.shared.customerId || 'Unknown customer Doc Id',
+                jobID: eprops.shared.jobId || 'Unkownn job',
+                zipcode: eprops.shared.zipcode || 'Unknown Zipcode',
+                team: eprops.shared.team || 'Unknown Team Name',
+                teamId: eprops.shared.teamId || 'Unknown Team Id',
+                type: eprops.shared.type || 'Unknown Cleaning Type',
+            },
+            team: calEvent.team,
+        };
+    }
 }

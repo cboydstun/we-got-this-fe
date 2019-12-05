@@ -15,6 +15,8 @@ export const types = {
     SET_CURRENT_USER: 'SET_CURRENT_USER',
     GIVE_ADMIN_STATUS: 'GIVE_ADMIN_STATUS',
     UPDATE_USER: 'UPDATE_USER',
+
+    CALENDAR_LOADED: 'CALENDAR_LOADED',
 };
 
 export const actions = {
@@ -150,5 +152,10 @@ export const actions = {
         } catch (error) {
             return error;
         }
+    },
+    setCalendarLoaded(dispatch) {
+        dispatch({
+            type: types.CALENDAR_LOADED,
+        });
     },
 };

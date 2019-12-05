@@ -21,12 +21,14 @@ let googleConfig = {
     },
 }[process.env.NODE_ENV || 'development'];
 
-export async function initGoogleClient() {
+export async function initGoogleClient(callback) {
     await gapi.load('client', () => {
         console.log('loaded client');
         gapi.client.init(googleConfig);
-        gapi.client.load('calendar', 'v3', () =>
-            console.log('loaded calendar')
-        );
+        gapi.client.load('calendar', 'v3', () => {
+            console.log('loaded calendar');
+            callback();
+        });
     });
+    return true;
 }
