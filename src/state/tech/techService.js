@@ -32,6 +32,17 @@ const service = {
         return { docId: teamDoc.id, ...teamDoc.data() };
     },
 
+    async getTechsTeam(techId) {
+        const techDoc = await db.collection('users').doc(techId).get();
+        const teamDoc = (await db.collection('teams').where('users', 'array-contains', techDoc.id).get()).docs[0];
+
+        if (!teamDoc) {
+            return;
+        }
+
+        return { docId: teamDoc.id, ...teamDoc.data() };
+    },
+
     async addTechToTeam(techId, teamId) {
         const currentTeam = await service.getTechsTeam(techId);
 

@@ -1,9 +1,11 @@
 import { types } from './customerActions';
+import { Stats } from 'fs';
 // import service from './customerService';
 
 export const customerState = {
     customers: [],
     customerJobs: [],
+    currentCustomer: null,
 };
 
 export default function reducer(state, action) {
@@ -32,6 +34,27 @@ export default function reducer(state, action) {
                 ...state,
                 currentCustomer: payload,
             };
+        case types.UPDATE_CUSTOMER:
+            let { docId } = payload;
+
+            let index = state.customers.findIndex(user => user.docId == docId);
+            let updatedCustomer = state.customers[index];
+            updatedCustomer = payload;
+
+            return {
+                ...state,
+                customers: [...state.customers],
+                currentCustomer: {
+                    ...state.customers.currentCustomer,
+                    ...payload,
+                },
+            };
+        case types.GET_CUSTOMER_IMAGE:
+            return {
+                ...state,
+                currentCustomer: { ...state.currentCustomer, img: payload },
+            };
+
         default:
             return {
                 ...state,

@@ -1,44 +1,20 @@
 import { service } from './customerService';
+import customerModel from '../models/customer';
 
 export const types = {
     ADD_CUSTOMER: 'ADD_CUSTOMERS',
     GET_CUSTOMERS: 'GET_CUSTOMERS',
     GET_CUSTOMER_JOBS: 'GET_CUSTOMER_JOBS',
     SET_CURRENT_CUSTOMER: 'SET_CURRENT_CUSTOMER',
+    UPDATE_CUSTOMER: 'UPDATE_CUSTOMER',
+    GET_CUSTOMER_IMAGE: 'GET_CUSTOMER_IMAGE',
 };
 
 export const actions = {
     async addCustomer(dispatch, values) {
-        const formatValues = values => {
-            return {
-                name: values.name || 'Unknown',
-                contact: {
-                    email: values.email || null,
-                    phone: values.phoneNumber || null,
-                },
-                payment: values.payment || null,
-                hearabout: values.hearabout || null,
-                paymentAmount: null,
-                schedule: null,
-                jobs: [],
-                locations: [
-                    {
-                        address: {
-                            street: values.street,
-                            city: values.city,
-                            state: values.region,
-                            zipcode: values.zipcode,
-                        },
-                        primary: true,
-                        name: `${values.name} Residence`,
-                    },
-                ],
-                notes: values.notes || null,
-            };
-        };
-
+        const formatted = customerModel.formatCustomer(values);
         try {
-            let newCustomer = await service.addCustomer(formatValues(values));
+            let newCustomer = await service.addCustomer(formatted);
             if (!newCustomer) {
                 throw new Error('Adding customer failed');
             }
@@ -59,6 +35,20 @@ export const actions = {
             if (!customers) {
                 throw new Error('Failed to get customers');
             }
+
+            //sort the customers by name alphabetically
+            customers = customers.sort((a, b) => {
+                let nameA = a.name.toUpperCase();
+                let nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                } else if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+
             dispatch({
                 type: types.GET_CUSTOMERS,
                 payload: customers,
@@ -66,6 +56,23 @@ export const actions = {
             return true;
         } catch (err) {
             return err;
+        }
+    },
+
+    async updateCustomer(dispatch, values) {
+        const formatted = customerModel.formatCustomer(values);
+        console.log('Update Action Formatted', formatted);
+        try {
+            let updatedCustomer = await service.updateCustomer(
+                values.docId,
+                formatted
+            );
+            dispatch({
+                type: types.UPDATE_CUSTOMER,
+                payload: updatedCustomer,
+            });
+        } catch (error) {
+            return error;
         }
     },
 
@@ -86,11 +93,45 @@ export const actions = {
         }
     },
 
+    async getCurrentCustomer(dispatch, customerId) {
+        try {
+            console.log('Action: ', customerId);
+            let customer = await service.getCurrentCustomer(customerId);
+            if (!customer) {
+                throw new Error('Failed to get current Customer');
+            }
+            console.log('Returned Customer: ', customer);
+            dispatch({
+                type: types.SET_CURRENT_CUSTOMER,
+                payload: customer,
+            });
+            return true;
+        } catch (err) {
+            return err;
+        }
+    },
+
     async setCurrentCustomer(dispatch, customer) {
         await dispatch({
             type: types.SET_CURRENT_CUSTOMER,
             payload: customer,
         });
         return true;
+    },
+
+    async getCustomerImage(dispatch, customerId) {
+        try {
+            let customerImg = await service.getCustomerImage(customerId);
+            if (!customerImg) {
+                throw new Error('Fialed to get customer image');
+            }
+            dispatch({
+                type: types.GET_CUSTOMER_IMAGE,
+                payload: customerImg,
+            });
+            return true;
+        } catch (err) {
+            return err;
+        }
     },
 };

@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Button, Select, InputLabel, MenuItem, FormControl } from '@material-ui/core';
+import {
+    Grid,
+    Button,
+    Select,
+    InputLabel,
+    MenuItem,
+    FormControl,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TechCard from './TechCard';
 import { useStateValue } from '../../state';
@@ -11,7 +18,7 @@ import EditTech from '../../components/dialogs/EditTech';
 
 const useStyles = makeStyles(theme => ({
     filter: {
-        width: '100%'
+        width: '100%',
     },
 }));
 
@@ -53,7 +60,11 @@ const Techs = ({ history }) => {
                 </Grid>
                 <Grid item xs={4}>
                     <FormControl>
-                        <Select className={classes.filter} value={filter} onChange={handleFilterChange}>
+                        <Select
+                            className={classes.filter}
+                            value={filter}
+                            onChange={handleFilterChange}
+                        >
                             <MenuItem value="all">All</MenuItem>
                             <MenuItem value="active">Active</MenuItem>
                             <MenuItem value="disabled">Archived</MenuItem>
@@ -64,17 +75,18 @@ const Techs = ({ history }) => {
                     <Button variant="contained" onClick={handleNewTech}>New Tech</Button>
                 </Grid>
             </Grid>
-            <Grid container xs={12} spacing={3} justify="space-between" >
-                {
-                    techs && techs.techs && techs.techs.filter(tech => filters[filter](tech))
+            <Grid container xs={12} spacing={3} justify="space-between">
+                {techs &&
+                    techs.techs &&
+                    techs.techs
+                        .filter(tech => filters[filter](tech))
                         .map((tech, index) => {
                             return (
                                 <Grid item sm={12} md={5} key={index}>
                                     <TechCard handleEdit={handleEdit} {...tech} />
                                 </Grid>
-                            )
-                        })
-                }
+                            );
+                        })}
             </Grid>
         </>
     );

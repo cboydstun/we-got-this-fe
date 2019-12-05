@@ -19,7 +19,6 @@ import { makeStyles } from '@material-ui/core';
 //Constants
 import paymentOptions from '../../constants/paymentOptions';
 import referralOptions from '../../constants/referralOptions';
-import MuiAutosuggest from '../formItems/MuiAutosuggest';
 
 const useStyles = makeStyles({
     button: {
@@ -33,29 +32,23 @@ const useStyles = makeStyles({
     },
 });
 
-const EditCustomerForm = ({ handleClose }) => {
-    const [{ customers }, dispatch] = useStateValue();
+const NewCustomerForm = ({ handleClose }) => {
+    const [, dispatch] = useStateValue();
     const classes = useStyles();
-
-    let curr = customers.currentCustomer;
-    let { address } = curr.locations[0];
 
     return (
         <Formik
             initialValues={{
-                docId: curr.docId,
-                name: curr.name || '',
-                email: curr.contact.email || '',
-                phoneNumber: curr.contact.phone || '',
-                street: address.street || '',
-                city: address.city || '',
+                name: '',
+                email: '',
+                phoneNumber: '',
+                street: '',
+                city: '',
                 region: 'ID',
-                zipcode: address.zipcode || '',
-                notes: curr.notes || '',
-                payment: curr.payment || '',
-                paymentAmount: curr.paymentAmount || '',
-                hearabout: curr.hearabout || '',
-                schedule: curr.schedule || '',
+                zipcode: '',
+                notes: '',
+                payment: '',
+                hearabout: '',
             }}
             validationSchema={Yup.object().shape({
                 name: Yup.string().required('Must enter a First Name'),
@@ -67,14 +60,13 @@ const EditCustomerForm = ({ handleClose }) => {
                 zipcode: Yup.number().required('Must enter an Zip'),
             })}
             onSubmit={(values, { resetForm }) => {
-                actions.updateCustomer(dispatch, { ...values }).then(res => {
-                    console.log(res);
+                actions.addCustomer(dispatch, { ...values }).then(res => {
                     if (res == true) {
                         console.log('redirecting');
                     }
-                    resetForm();
-                    handleClose();
                 });
+                resetForm();
+                handleClose();
             }}
         >
             <Form>
@@ -87,6 +79,7 @@ const EditCustomerForm = ({ handleClose }) => {
                             label="Phone Number"
                             type="text"
                         />
+
                         <MuiTextInput
                             name="street"
                             label="Street"
@@ -100,19 +93,7 @@ const EditCustomerForm = ({ handleClose }) => {
                             type="number"
                         />
                     </Grid>
-
                     <Grid item className={classes.column} xs={6}>
-                        <MuiAutosuggest
-                            name="schedule"
-                            type="text"
-                            label="Schedule"
-                            options={[
-                                { display: '2 Weeks' },
-                                { display: '3 Weeks' },
-                                { display: 'Monthly' },
-                                { display: '6 Weeks' },
-                            ]}
-                        />
                         <MuiSingleSelectInput
                             name="payment"
                             label="Payment Method"
@@ -136,11 +117,11 @@ const EditCustomerForm = ({ handleClose }) => {
                     variant="contained"
                     color="primary"
                 >
-                    Save Edits
+                    Create Customer
                 </Button>
             </Form>
         </Formik>
     );
 };
 
-export default EditCustomerForm;
+export default NewCustomerForm;

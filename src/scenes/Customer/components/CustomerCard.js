@@ -1,43 +1,81 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core';
-import { Grid, ButtonBase } from '@material-ui/core';
+import React, { useState, useEffect, useRef } from 'react';
+
+//Components
+import EditCustomerForm from '../../../components/forms/EditCustomerForm';
+import DialogWrapper from '../../../components/dialogs/DialogWrapper';
+import CustomerImage from './CustomerImage';
+import {
+    Grid,
+    IconButton,
+    Box,
+    makeStyles,
+    Typography,
+    Paper,
+} from '@material-ui/core';
+
+//styles
+import { styled } from '@material-ui/core/styles';
+import EditIcon from '@material-ui/icons/Edit';
+
+//State
+import { useStateValue } from '../../../state';
+import { actions } from '../../../state/customer/customerActions';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
-    },
-    image: {
-        width: 128,
-        height: 128,
-    },
-    img: {
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
+        width: '40%',
+        margin: theme.spacing(1),
     },
 }));
 
+const Title = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+});
+
 const CustomerCard = ({ customer }) => {
     const classes = useStyles();
+    const [, dispatch] = useStateValue();
+
+    useEffect(() => {
+        if (!customer.img) {
+            actions.getCustomerImage(dispatch, customer.docId);
+        }
+    }, [customer.docId, customer.img, dispatch]);
 
     let { address } = customer.locations[0];
     let fullAddress = `${address.street} ${address.city}, ${address.state} ${address.zipcode}`;
 
     return (
-        <Grid container spacing={2}>
+        <Grid component={Paper} container spacing={2} className={classes.root}>
             <Grid item>
-                <ButtonBase className={classes.image}>
-                    <img
-                        className={classes.img}
-                        alt="img"
-                        src="https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?"
-                    />
-                </ButtonBase>
+                <CustomerImage
+                    img={customer.img}
+                    //    https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?)'
+                />
             </Grid>
             <Grid item xs={6} sm container>
                 <Grid item xs>
-                    <h2>{customer.name}</h2>
+                    <Title>
+                        <Typography variant="h6">{customer.name}</Typography>
+                        <DialogWrapper
+                            trigger={click => (
+                                <IconButton
+                                    size="small"
+                                    onClick={() => click()}
+                                >
+                                    <EditIcon />
+                                </IconButton>
+                            )}
+                            dialogContent={close => (
+                                <EditCustomerForm handleClose={close} />
+                            )}
+                            title="Create New Customer"
+                            size="sm"
+                        />
+                    </Title>
                     <p>{fullAddress}</p>
                     <p>{customer.contact.phone}</p>
                 </Grid>
