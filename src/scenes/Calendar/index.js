@@ -68,9 +68,6 @@ const AllCalendar = () => {
             });
         });
         console.log(calEvents);
-
-        // console.log('Calendar List', list);
-        // console.log('List Items', list.result.items);
     }
 
     async function insertEvent() {

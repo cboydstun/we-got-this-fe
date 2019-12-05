@@ -71,7 +71,6 @@ export const actions = {
                 timeMax: twoMonthLookAhead,
                 showDeleted: false,
                 singleEvents: true,
-                maxResults: 10,
                 orderBy: 'startTime',
             });
 
@@ -89,7 +88,12 @@ export const actions = {
         });
 
         let allCalEvents = await Promise.all(promises);
+
+        console.log('All Cal Events', allCalEvents);
+
         let flattened = allCalEvents.flat();
+
+        console.log('Flattened', flattened);
 
         let formatted = flattened.map(event =>
             jobModel.formatBigCalendarEvent(event)

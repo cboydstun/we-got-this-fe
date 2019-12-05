@@ -131,33 +131,38 @@ const NewJobForm_02 = ({ handleClose }) => {
         []
     );
 
-    const getAvailableTeams = () => {
+    const availableTeams = useMemo(() => {
         return teams.teams.filter(team => {
             const teamsJobs = jobs.jobs.filter(job => {
                 console.log('Job checked? ', job);
-                return job.details.team.docId === team.docId;
+                if (job.team !== null) {
+                    return job.team.docId === team.docId;
+                }
+                return false;
             });
 
             return !teamsJobs.some(job =>
                 moment(jobs.newJob.slotEvent.start).isBetween(
-                    job.details.arrivalWindowStart,
-                    moment(job.details.arrivalWindowStart).add(
-                        job.details.duration,
-                        'hours'
-                    ),
+                    job.start,
+                    moment(job.end),
                     null,
                     '[]'
                 )
             );
         });
-    };
+    }, [jobs.jobs, jobs.newJob.slotEvent.start, teams.teams]);
 
-    const getRandomAvailableTeam = () => {
-        const availableTeams = getAvailableTeams();
-        return availableTeams[
-            Math.floor(Math.random() * availableTeams.length)
-        ];
-    };
+    // const getAvailableTeams = () => {
+    // };
+
+    // let availableTeams = useMemo(() => getAvailableTeams(), []);
+
+    // const getRandomAvailableTeam = () => {
+    //     const availableTeams = getAvailableTeams();
+    //     return availableTeams[
+    //         Math.floor(Math.random() * availableTeams.length)
+    //     ];
+    // };
 
     return (
         <>
@@ -264,7 +269,9 @@ const NewJobForm_02 = ({ handleClose }) => {
                                                         <MuiSingleSelectInput
                                                             name="team"
                                                             label="Team Assignment"
-                                                            data={getAvailableTeams()}
+                                                            data={
+                                                                availableTeams
+                                                            }
                                                             displayKey="name"
                                                             valueKey="docId"
                                                         />
