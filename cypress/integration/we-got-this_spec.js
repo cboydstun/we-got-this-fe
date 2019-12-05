@@ -1,7 +1,5 @@
-import { cyan } from "ansi-colors"
-
 describe('We Got This Test', function () {
-    it('Test Application Features', function () {
+    it('Customer Route Test', function () {
         cy.visit('http://localhost:3000/')
 
         // cy.pause()
@@ -10,5 +8,42 @@ describe('We Got This Test', function () {
 
         cy.url()
         .should('include', '/customers')
+    })
+} )
+
+describe('We Got This Test 2', function () {
+    it('Technician Route Test', function () {
+        cy.visit('http://localhost:3000/')
+
+        // cy.pause()
+
+        cy.contains('Techs').click()
+
+        cy.url()
+        .should('include', '/techs')
+    })
+} )
+
+describe('We Got This Test 3', function () {
+    it('Jobs Route Test', function () {
+        cy.visit('http://localhost:3000/')
+
+        // cy.pause()
+
+        cy.contains('Jobs').click()
+
+        cy.url()
+        .should('include', '/jobs')
+    })
+} )
+
+describe('We Got This Test 3', function () {
+    it('New Job Route Test', function () {
+        cy.visit('http://localhost:3000/')
+
+        // cy.pause()
+
+        cy.contains('New Job').click()
+
     })
 } )
