@@ -57,13 +57,10 @@ const AllCalendar = () => {
             ) : null}
 
             <DraggableCalendar
+                selectable
                 localizer={localizer}
                 events={teamFilter}
-                style={{ height: 600 }}
-                draggableAccessor={event => true}
-                defaultView={'week'}
-                resizable
-                selectable
+                defaultView={Views.WEEK}
                 onEventResize={event => {
                     console.log(event);
                 }}
@@ -75,6 +72,7 @@ const AllCalendar = () => {
                 onSelectEvent={event => {
                     console.log(event);
                 }}
+                style={{ height: 600 }}
             />
             <NewJob />
             <NewJob_02 />
