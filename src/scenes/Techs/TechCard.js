@@ -15,6 +15,7 @@ import { useStateValue } from '../../state';
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
+        background: props => props.disabled && '#dcdbdb',
 
         '& .photo': {
             maxWidth: '150px',
@@ -44,14 +45,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const TechCard = ({ displayName, photoUrl, disabled }) => {
-    const classes = useStyles();
-    const service = useService(techService);
+const TechCard = ({ docId, displayName, photoUrl, disabled, team }) => {
+    const classes = useStyles({ disabled });
+    const [{ teams }, dispatch] = useStateValue();
+    const service = useService(techService, dispatch);
 
-    const handleTeamChange = e =>
-        service.addTechToTeam('example', e.target.value.toString());
-    const handleArchiveClick = () =>
-        service.archiveTech('jq5Ijo6dpsgLOFsOTMeq');
+    const handleTeamChange = e => service.addTechToTeam(docId, e.target.value);
+    const handleArchiveClick = () => service.archiveTech(docId);
 
     return (
         <Card className={classes.root}>
@@ -60,18 +60,17 @@ const TechCard = ({ displayName, photoUrl, disabled }) => {
                 <h2>{displayName}</h2>
                 <FormControl className={classes.dropdown}>
                     <InputLabel id="team">Team</InputLabel>
-                    <Select displayEmpty value={3} onChange={handleTeamChange}>
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        <MenuItem value="2UHQpb30P1KtFKe5F5qK">Team A</MenuItem>
-                        <MenuItem value="Ewjs46GMdKVqBDPsqzK8">Team B</MenuItem>
-                        <MenuItem value="MnZEZUNX03kM3bUYVbH6">Team C</MenuItem>
+                    <Select displayEmpty value={team && team.docId} disabled={disabled} onChange={handleTeamChange}>
+                        {
+                            teams && teams.teams.map(team => {
+                                return <MenuItem value={team.docId} key={team.docId}>{team.name}</MenuItem>
+                            })
+                        }
                     </Select>
                 </FormControl>
                 <div className={classes.controls}>
-                    <Button onClick={handleArchiveClick}>Archive</Button>
-                    <Button>Edit</Button>
+                    <Button onClick={handleArchiveClick} disabled={disabled}>Archive</Button>
+                    <Button disabled={disabled}>Edit</Button>
                 </div>
             </div>
         </Card>

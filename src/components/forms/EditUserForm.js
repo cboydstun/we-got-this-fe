@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, TextareaAutosize } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core';
+import { Grid, TextField, Button, MenuItem } from '@material-ui/core';
 import { withState } from '../../state';
 
-import { actions } from '../../state/customer/customerActions';
-import { Form, Field, withFormik, Formik } from 'formik';
+import { actions } from '../../state/auth/authActions';
+import { Form, withFormik, Formik } from 'formik';
 import * as Yup from 'yup';
-import { classExpression } from '../../../node_modules/@babel/types';
 
 const useStyles = makeStyles({
     column: {
@@ -33,9 +32,11 @@ const useStyles = makeStyles({
         width: '65px',
         borderRadius: '5px',
         cursor: 'pointer',
-        fontSize: '15px'
-    }
+        fontSize: '15px',
+    },
 });
+
+const roles = ['admin', 'tech'];
 
 const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
     const [state, setState] = useState([]);
@@ -45,47 +46,35 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
             setState([...state, status]);
         }
     }, [status, state]);
-
-    console.log('Values: ', values, 'Status: ', status);
-
     return (
         <Form className={classes.marginBottom}>
             <Grid container spacing={3}>
                 <Grid item className={classes.column} xs={6}>
-                    <Field
-                        className={classes.inputWidth}
+                    <TextField
                         type="text"
-                        name="name"
+                        name="displayName"
                         placeholder="First Name"
-                        value={values.name}
+                        value={values.displayName}
                     />
-                    {touched.name && errors.name && (
-                        <p className="error">{errors.name}</p>
+                    {touched.displayName && errors.displayName && (
+                        <p className="error">{errors.displayName}</p>
                     )}
 
-                    <Field
-                        type="text"
-                        name="phoneNumber"
+                    <TextField
+                        type="tel"
+                        name="phone"
                         placeholder="Phone Number"
-                        render={({ field, value, onChange }) => (
-                            <input
-                                className={classes.inputWidth}
-                                {...field}
-                                type="tel"
-                                placeholder="(713) 264-1320"
-                                onChange={e => {
-                                    let formatted = checkPhone(e);
-                                    setFieldValue('phoneNumber', formatted);
-                                }}
-                            />
-                        )}
+                        value={values.phone}
+                        onChange={e => {
+                            let formatted = checkPhone(e);
+                            setFieldValue('phone', formatted);
+                        }}
                     />
-                    {touched.phoneNumber && errors.phoneNumber && (
-                        <p className="error">{errors.phoneNumber}</p>
+                    {touched.phone && errors.phone && (
+                        <p className="error">{errors.phone}</p>
                     )}
 
-                    <Field
-                        className={classes.inputWidth}
+                    <TextField
                         type="text"
                         name="email"
                         placeholder="Email"
@@ -95,24 +84,38 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                         <p className="error">{errors.email}</p>
                     )}
 
-                    <Field
-                        component="select"
+                    <TextField
+                        select
                         className={classes.inputWidth}
-                        name="payment"
-                        placeholder="Choose a Payment Method"
-                        value={values.payment}
+                        name="role"
+                        placeholder="Choose role"
+                        value={values.role}
                     >
-                        <option>Choose a type </option>
-                        <option value="cash">Admin</option>
-                        <option value="check">User</option>
+                        {roles.map(role => (
+                            <MenuItem key={role} value={role}>
+                                {role}
+                            </MenuItem>
+                        ))}
+                    </TextField>
 
-                        
-            
-                    </Field>
-                        <div className={classes.marginBottom}>
-                            <button className={classes.buttonStyle} type="button">Cancel</button>{' '}
-                            <button className={classes.buttonStyle} type="submit">Submit</button>{' '}
-                        </div>
+                    {/* Add in form error here for type */}
+
+                    <div className={classes.marginBottom}>
+                        <Button
+                            variant="outlined"
+                            color="secondar"
+                            type="button"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                        >
+                            Submit
+                        </Button>
+                    </div>
                 </Grid>
             </Grid>
         </Form>
@@ -138,32 +141,25 @@ function checkPhone(obj) {
 }
 
 const EditUserForm = withFormik({
-    mapPropsToValues({
-        name,
-        email,
-        phoneNumber,
-        type,
-        
-    }) {
+    mapPropsToValues({ displayName, email, phone, role, user }) {
         return {
-            name: name || '',
-            email: email || '',
-            phoneNumber: phoneNumber || '',
-            type: type || '',
-            
+            docId: user.docId || '',
+            displayName: displayName || user.displayName || '',
+            email: email || user.email || '',
+            phone: phone || (user.phone && user.phone.primary) || '',
+            role: role || 'tech',
         };
     },
 
     validationSchema: Yup.object().shape({
-        name: Yup.string().required('Must enter a Name'),
-        phoneNumber: Yup.string().required('Must enter a Phone Number'),
+        displayName: Yup.string().required('Must enter a Name'),
+        phone: Yup.string().required('Must enter a Phone Number'),
         email: Yup.string().required('Must enter an Email'),
-        type: Yup.string().required('Must select a Type'),
-        
+        role: Yup.string().required('Must select at least 1 role'),
     }),
 
     handleSubmit(values, { setStatus, props, resetForm }) {
-        actions.addCustomer(props.dispatch, { ...values }).then(res => {
+        actions.updateUser(props.dispatch, { ...values }).then(res => {
             if (res == true) {
                 console.log('redirecting');
             }

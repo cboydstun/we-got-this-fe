@@ -1,8 +1,6 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    Toolbar,
-    Tooltip,
     Table,
     TableBody,
     TableCell,
@@ -13,14 +11,11 @@ import {
     IconButton,
     Typography,
 } from '@material-ui/core';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import { Link } from 'react-router-dom';
-import { routes } from '../../../constants/routes';
-import { actions } from '../../../state/auth/authActions';
 import EditUser from '../../../components/dialogs/EditUser';
 
-
 import { useStateValue } from '../../../state';
+import { auth } from 'firebase';
+import {actions} from "../../../state/auth/authActions";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,10 +38,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserTable = ({ users }) => {
-    const [, dispatch] = useStateValue();
+    const [{ auth }, dispatch] = useStateValue();
+    const [state, setState] = useState();
     const classes = useStyles();
-    const []
-    
+
+    const [checked , setChecked] = useState(false);
+
+
+    const userStatus = () => {
+        if(checked === false) {
+            setChecked(true)
+            actions.giveAdminStatus(dispatch, users.docId)
+        } else {
+            setChecked(false)
+        }
+        console.log(checked)
+    }
 
     return (
         <>
@@ -56,31 +63,26 @@ const UserTable = ({ users }) => {
                         <TableCell>User List</TableCell>
                         <TableCell align="right">Admin</TableCell>
                         <TableCell align="right">Email</TableCell>
-                        {/* <TableCell align="right">Type</TableCell> */}
                         <TableCell> </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {users.length &&
                         users.map(user => {
+                            console.log(user)
                             return (
                                 <TableRow key={user.name}>
                                     <TableCell component="th" scope="row">
-                                        {user.displayName ||
-                                            'No name provided'}
+                                        {user.displayName || 'No name provided'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        <input type='checkbox' />
+                                        <input onChange={userStatus} type="checkbox" id="adminCheckBox" />
                                     </TableCell>
                                     <TableCell align="right">
-                                        {user.email ||
-                                            'No email included'}
+                                        {user.email || 'No email included'}
                                     </TableCell>
-                                    {/* <TableCell align="right">
-                                        {customer.type || 'Unknown'}
-                                    </TableCell> */}
                                     <TableCell align="right">
-                                        <EditUser />
+                                        <EditUser user={user} />
                                     </TableCell>
                                 </TableRow>
                             );

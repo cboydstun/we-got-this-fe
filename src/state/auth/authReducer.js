@@ -41,7 +41,27 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 currentUsers: [...payload],
-            }
+            };
+        case types.GIVE_ADMIN_STATUS:
+            return {
+                ...state,
+                admin: payload,
+            };
+        case types.UPDATE_USER:
+            //get the docId from payload
+            let { docId } = payload;
+            //find user in global state
+            let index = state.users.findIndex(user => user.docId == docId);
+            let updatedUser = state.users[index];
+            //update user in global state
+
+            updatedUser = payload;
+
+            //return
+            return {
+                ...state,
+                users: [...state.users],
+            };
         default:
             return {
                 ...state,

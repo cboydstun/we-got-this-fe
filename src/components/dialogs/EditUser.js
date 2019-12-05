@@ -6,13 +6,13 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    IconButton
+    IconButton,
 } from '@material-ui/core';
 
 import EditUserForm from '../forms/EditUserForm';
 import EditIcon from '@material-ui/icons/Edit';
 
-export default function NewUser() {
+export default function NewUser({ user }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -24,7 +24,9 @@ export default function NewUser() {
 
     return (
         <div>
-            <IconButton onClick={handleOpen}><EditIcon/></IconButton>
+            <IconButton onClick={handleOpen}>
+                <EditIcon />
+            </IconButton>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -33,7 +35,7 @@ export default function NewUser() {
             >
                 <DialogTitle>Edit</DialogTitle>
                 <DialogContent>
-                    <EditUserForm />
+                    <EditUserForm user={user} />
                 </DialogContent>
                 {/* <DialogActions>
                     <Button onClick={handleClose}>Create!</Button>
