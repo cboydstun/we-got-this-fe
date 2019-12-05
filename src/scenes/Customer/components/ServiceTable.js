@@ -64,9 +64,7 @@ const ServiceTable = ({ jobs, match, location }) => {
                 <TableBody>
                     {jobs.length &&
                         jobs.map((job, i) => {
-                            let scheduledDate = moment(
-                                job.details.arrivalWindowEnd
-                            ).format('LL');
+                            let scheduledDate = moment(job.end).format('LL');
                             return (
                                 <TableRow key={i}>
                                     <TableCell component="th" scope="row">
