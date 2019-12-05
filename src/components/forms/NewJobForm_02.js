@@ -152,18 +152,6 @@ const NewJobForm_02 = ({ handleClose }) => {
         });
     }, [jobs.jobs, jobs.newJob.slotEvent.start, teams.teams]);
 
-    // const getAvailableTeams = () => {
-    // };
-
-    // let availableTeams = useMemo(() => getAvailableTeams(), []);
-
-    // const getRandomAvailableTeam = () => {
-    //     const availableTeams = getAvailableTeams();
-    //     return availableTeams[
-    //         Math.floor(Math.random() * availableTeams.length)
-    //     ];
-    // };
-
     return (
         <>
             <DialogContent>
