@@ -55,8 +55,9 @@ function formatGoogleCalendarEvent(values) {
                 jobId: newJobDocId,
                 customerId: customer.docId,
                 customerName: customer.name,
-                team: team.team || 'Clean Team 10',
+                teamName: team.team || 'Clean Team 10',
                 teamId: details.team || 'TeamId',
+                team: JSON.stringify(team),
                 zipcode: address.zipcode,
                 type: details.cleaningType,
             },
@@ -92,23 +93,34 @@ function formatBigCalendarEvent(calEvent) {
         };
     } else {
         //formatting from google calendar events that are pulled from the calendar
-        let { extendedProperties: eprops } = calEvent;
-        return {
-            id: eprops.shared.customerId || eprops.id,
-            title: eprops.shared.customerName || 'Unknown Name',
-            start: new Date(calEvent.start.dateTime || calEvent.start.date),
-            end: new Date(calEvent.end.date || calEvent.end.dateTime),
-            details: {
-                name: eprops.shared.customerName || 'Unknown Name',
-                customerId:
-                    eprops.shared.customerId || 'Unknown customer Doc Id',
-                jobID: eprops.shared.jobId || 'Unkownn job',
-                zipcode: eprops.shared.zipcode || 'Unknown Zipcode',
-                team: eprops.shared.team || 'Unknown Team Name',
-                teamId: eprops.shared.teamId || 'Unknown Team Id',
-                type: eprops.shared.type || 'Unknown Cleaning Type',
-            },
-            team: calEvent.team,
-        };
+        if (calEvent.extendedProperties) {
+            let {
+                extendedProperties: { shared },
+            } = calEvent;
+            return {
+                id: shared.customerId || 'Unknown Id',
+                title: shared.customerName || 'Unknown Name',
+                start: new Date(calEvent.start.dateTime || calEvent.start.date),
+                end: new Date(calEvent.end.date || calEvent.end.dateTime),
+                details: {
+                    name: shared.customerName || 'Unknown Name',
+                    customerId: shared.customerId || 'Unknown customer Doc Id',
+                    jobID: shared.jobId || 'Unkownn job',
+                    zipcode: shared.zipcode || 'Unknown Zipcode',
+                    team: shared.teamName || 'Unknown Team Name',
+                    teamId: shared.teamId || 'Unknown Team Id',
+                    type: shared.type || 'Unknown Cleaning Type',
+                },
+                team: shared.team ? JSON.parse(shared.team) : null,
+            };
+        } else {
+            return {
+                id: calEvent.id,
+                title: calEvent.summary || 'Unknown Name',
+                start: new Date(calEvent.start.dateTime || calEvent.start.date),
+                end: new Date(calEvent.end.date || calEvent.end.dateTime),
+                team: null,
+            };
+        }
     }
 }

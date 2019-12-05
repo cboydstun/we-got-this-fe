@@ -91,9 +91,16 @@ export const actions = {
         let allCalEvents = await Promise.all(promises);
         let flattened = allCalEvents.flat();
 
-        //let formatted = flattened.map(event => jobModel.formatBigCalendarEvent(event));
+        let formatted = flattened.map(event =>
+            jobModel.formatBigCalendarEvent(event)
+        );
 
-        console.log(flattened);
+        dispatch({
+            type: types.GET_ALL_JOBS,
+            payload: formatted,
+        });
+
+        console.log(formatted);
     },
 
     async getAllJobs(dispatch) {

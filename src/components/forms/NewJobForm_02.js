@@ -135,7 +135,7 @@ const NewJobForm_02 = ({ handleClose }) => {
         return teams.teams.filter(team => {
             const teamsJobs = jobs.jobs.filter(job => {
                 console.log('Job checked? ', job);
-                return job.team.docId === team.docId;
+                return job.details.team.docId === team.docId;
             });
 
             return !teamsJobs.some(job =>
