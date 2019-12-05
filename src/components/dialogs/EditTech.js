@@ -28,14 +28,9 @@ const useStyles = makeStyles({
     },
 })
 
-export default function EditTech({ tech, handleCancel, handleSave, open }) {
+export default function EditTech({ tech, handleChange, handleCancel, handleSave, open }) {
     const classes = useStyles();
     const [{ teams }] = useStateValue();
-    const [data, setData] = useState(tech);
-
-    const handleChange = e => setData({ ...data, [e.target.name]: e.target.files ? e.target.files[0] : e.target.value });
-
-    console.log('tech:', tech, 'data:', data)
 
     return tech ? (
         <Dialog open={open} maxWidth="xs">
@@ -43,16 +38,18 @@ export default function EditTech({ tech, handleCancel, handleSave, open }) {
             <DialogContent>
                 <TextField
                     id="techName"
+                    name="displayName"
                     label="Technician Name"
-                    value={data.displayName}
+                    value={tech.displayName}
                     className={classes.control}
                     margin="normal"
                     onChange={handleChange}
                 />
                 <TextField
                     id="techEmail"
+                    name="email"
                     label="Technician Email"
-                    value={data.email}
+                    value={tech.email}
                     className={classes.control}
                     margin="normal"
                     onChange={handleChange}
@@ -60,8 +57,9 @@ export default function EditTech({ tech, handleCancel, handleSave, open }) {
                 <TextField
                     select
                     id="techTeam"
+                    name="teamId"
                     label="Assigned Team"
-                    value={data.team && data.team.docId}
+                    value={tech.teamId}
                     className={classes.control}
                     margin="normal"
                     onChange={handleChange}
@@ -81,7 +79,7 @@ export default function EditTech({ tech, handleCancel, handleSave, open }) {
                     </label>
                     <input
                         className={classes.imageInput}
-                        name="techPhoto"
+                        name="photo"
                         id="techPhoto"
                         type="file"
                         onChange={handleChange}

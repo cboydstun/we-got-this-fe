@@ -3,7 +3,6 @@ import {
     Grid,
     Button,
     Select,
-    InputLabel,
     MenuItem,
     FormControl,
 } from '@material-ui/core';
@@ -37,14 +36,26 @@ const Techs = ({ history }) => {
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const handleCancel = () => setEditDialogOpen(false);
-    const handleSave = () => setEditDialogOpen(false);
+    const handleSave = async () => {
+        await services.tech.updateTech(techToEdit);
+        setEditDialogOpen(false);
+    }
 
     const handleFilterChange = e => setFilter(e.target.value);
     const handleNewTech = () => history.push(routes.CREATE_TECH);
     const handleEdit = techId => {
+        const { displayName, email, photoUrl, team: { docId: teamId } = {} } = techs.techs.find(tech => tech.docId === techId)
+
         setEditDialogOpen(true);
-        setTechToEdit(techs.techs.find(tech => tech.docId === techId));
+        setTechToEdit({ displayName, email, photoUrl, teamId, docId: techId });
     };
+
+    const handleEditorChange = e => setTechToEdit(
+        {
+            ...techToEdit,
+            [e.target.name]: e.target.files ? e.target.files[0] : e.target.value
+        }
+    );
 
     useEffect(() => {
         services.team.getAllTeams();
@@ -53,7 +64,13 @@ const Techs = ({ history }) => {
 
     return (
         <>
-            <EditTech open={editDialogOpen} handleCancel={handleCancel} handleSave={handleSave} tech={techToEdit} />
+            <EditTech
+                open={editDialogOpen}
+                handleChange={handleEditorChange}
+                handleCancel={handleCancel}
+                handleSave={handleSave}
+                tech={techToEdit}
+            />
             <Grid container xs={12} justify="space-between" className={classes.header}>
                 <Grid item xs={4}>
                     <h1>Technicians</h1>

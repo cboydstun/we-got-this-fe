@@ -80,8 +80,7 @@ const service = {
         return getTech(techId);
     },
 
-    async createTech(tech) {
-        const { displayName, email, photo, teamId } = tech;
+    async createTech({ displayName, email, photo, teamId }) {
         const techDoc = (await (await db.collection('users').add({ displayName, email, roles: ['tech'] })).get());
 
         if (teamId) {
@@ -94,6 +93,23 @@ const service = {
         };
 
         return getTech(techDoc.id);
+    },
+
+    async updateTech({ docId: techId, displayName, email, photo, teamId }) {
+        const techDoc = db.collection('users').doc(techId);
+
+        await techDoc.update({ displayName, email });
+
+        if (teamId) {
+            await service.addTechToTeam(techId, teamId);
+        };
+
+        if (photo) {
+            const snapshot = await storage.child(`images/${techId}/headshot`).put(photo);
+            await techDoc.update({ photoUrl: await snapshot.ref.getDownloadURL() });
+        };
+
+        return getTech(techId);
     }
 };
 
