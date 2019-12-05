@@ -33,6 +33,12 @@ export default function reducer(state, action) {
                 zipcodeFilter: payload,
             };
         }
+        case types.SET_TEAM_FILTER: {
+            return {
+                ...state,
+                teamFilter: payload,
+            };
+        }
         case types.SET_NEW_SERVICE_FORM_OPEN:
             return {
                 ...state,

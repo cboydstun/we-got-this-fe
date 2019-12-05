@@ -2,6 +2,7 @@ import React from 'react';
 
 //Components
 import ZipcodeFilter from './Zipcode';
+import TeamFilter from './TeamFilter';
 
 //Styling
 import { Box } from '@material-ui/core';
@@ -15,7 +16,7 @@ const FilterContainer = styled(Box)({
 const Filters = () => {
     return (
         <FilterContainer>
-            <ZipcodeFilter />
+            <TeamFilter />
         </FilterContainer>
     );
 };

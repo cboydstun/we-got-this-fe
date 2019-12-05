@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -35,101 +35,33 @@ const AllCalendar = () => {
         }
     }, [auth.calendarLoaded, auth.currentUser, dispatch]);
 
-    async function getCalendar() {
-        let currentMonth = moment([moment().year(), moment().month(), 1]);
-        let currentISOMonth = currentMonth.toISOString();
-        let twoMonthLookAhead = currentMonth.add(3, 'months').toISOString();
-        const calendar = await gapi.client.calendar.events.list({
-            calendarId: 'primary',
-            timeMin: currentISOMonth,
-            timeMax: twoMonthLookAhead,
-            showDeleted: false,
-            singleEvents: true,
-            maxResults: 10,
-            orderBy: 'startTime',
-        });
-
-        console.log(calendar);
-        console.log(calendar.result.items);
-
-        let calEvents = [];
-        calendar.result.items.forEach(calEvent => {
-            console.log(calEvent);
-            calEvents.push({
-                id: calEvent.id,
-                title: calEvent.summary,
-                start: new Date(calEvent.start.date || calEvent.start.dateTime),
-                end: new Date(calEvent.end.date || calEvent.end.dateTime),
-                details: {
-                    name: 'Customer Name',
-                    customerId: '1231234234',
-                    serviceID: '123480912384',
-                },
-            });
-        });
-        console.log(calEvents);
-    }
-
-    async function insertEvent() {
-        await gapi.client.calendar.events.insert({
-            calendarId: 'primary',
-            start: {
-                dateTime: hoursFromNow(2),
-                timeZone: 'America/Chicago',
-            },
-            end: {
-                dateTime: hoursFromNow(3),
-                timeZone: 'America/Chicago',
-            },
-            summary: 'Have Fun!!',
-            description: 'Enjoy a nice little break :)',
-            extendedProperties: {
-                shared: {
-                    test: 'test string',
-                    number: 123,
-                    boolean: true,
-                },
-            },
-        });
-
-        await getCalendar();
-    }
-
-    function hoursFromNow(n) {
-        return new Date(Date.now() + n * 1000 * 60 * 60).toISOString();
-    }
-
     function openScheduleForm(event) {
         actions.setSlotEvent(dispatch, event);
         actions.setNewServiceFormOpen(dispatch, true);
     }
 
+    let teamFilter = useMemo(() => {
+        return jobs.jobs.filter(job => {
+            if (jobs.teamFilter !== null && job.team !== null) {
+                return job.team.docId == jobs.teamFilter;
+            }
+            return true;
+        });
+    }, [jobs.jobs, jobs.teamFilter]);
+
     return (
         <>
-            <button
-                onClick={() => {
-                    getCalendar();
-                }}
-            >
-                Get Calendar
-            </button>
-            <button
-                onClick={() => {
-                    insertEvent();
-                }}
-            >
-                Insert Event
-            </button>
-
+            <Filters />
             {jobs.jobs.length == 0 ? (
                 <p>Getting Events or there are no events</p>
             ) : null}
 
             <DraggableCalendar
                 localizer={localizer}
-                events={jobs.jobs}
+                events={teamFilter}
                 style={{ height: 600 }}
                 draggableAccessor={event => true}
+                defaultView={'week'}
                 resizable
                 selectable
                 onEventResize={event => {
