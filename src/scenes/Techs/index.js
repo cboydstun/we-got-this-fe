@@ -16,6 +16,21 @@ import { routes } from '../../constants/routes';
 import EditTech from '../../components/dialogs/EditTech';
 
 const useStyles = makeStyles(theme => ({
+    header: {
+        '& > *': {
+            display: 'flex',
+            alignItems: 'center',
+        },
+    },
+
+    techs: {
+        '& > *': {
+            paddingTop: theme.spacing(1),
+            paddingBottom: theme.spacing(1),
+
+        },
+    },
+
     filter: {
         width: '100%',
     },
@@ -71,14 +86,13 @@ const Techs = ({ history }) => {
                 handleSave={handleSave}
                 tech={techToEdit}
             />
-            <Grid container xs={12} justify="space-between" className={classes.header}>
-                <Grid item xs={4}>
+            <Grid container xs={12} spacing={8} className={classes.header}>
+                <Grid item xs={3}>
                     <h1>Technicians</h1>
                 </Grid>
-                <Grid item xs={4}>
-                    <FormControl>
+                <Grid item xs={2}>
+                    <FormControl className={classes.filter}>
                         <Select
-                            className={classes.filter}
                             value={filter}
                             onChange={handleFilterChange}
                         >
@@ -88,18 +102,18 @@ const Techs = ({ history }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                     <Button variant="contained" onClick={handleNewTech}>New Tech</Button>
                 </Grid>
             </Grid>
-            <Grid container xs={12} spacing={3} justify="space-between">
+            <Grid container className={classes.techs} xs={12} justify="space-between">
                 {techs &&
                     techs.techs &&
                     techs.techs
                         .filter(tech => filters[filter](tech))
                         .map((tech, index) => {
                             return (
-                                <Grid item sm={12} md={5} key={index}>
+                                <Grid item sm={12} md={4} key={index}>
                                     <TechCard handleEdit={handleEdit} {...tech} />
                                 </Grid>
                             );
