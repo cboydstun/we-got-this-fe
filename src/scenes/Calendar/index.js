@@ -65,6 +65,17 @@ const AllCalendar = () => {
         });
     }, [jobs.jobs, jobs.teamFilter]);
 
+    const Event = ({ event }) => {
+        return (
+            <span>
+                <strong>{event.title}</strong>
+                <p>{event.details && event.details.teamName}</p>
+                <p>{event.details && event.details.zipcode}</p>
+                <p>{event.details && event.details.type}</p>
+            </span>
+        );
+    };
+
     const formatEvent = event => {
         //For events that weren't created in the system
         if (!event.team || event.team == null) {
@@ -101,6 +112,9 @@ const AllCalendar = () => {
                     console.log(event);
                 }}
                 eventPropGetter={formatEvent}
+                components={{
+                    event: Event,
+                }}
                 style={{ height: 600 }}
             />
             <NewJob />
