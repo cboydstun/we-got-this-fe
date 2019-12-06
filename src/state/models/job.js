@@ -87,9 +87,10 @@ function formatBigCalendarEvent(calEvent) {
                 customerId: customer.docId || 'Unknown Doc Id',
                 jobID: newJobDocId || 'Unkownn job id',
                 zipcode: address.zipcode || 'Unknown Zipcode',
-                team: team || 'Unknown Team',
+                teamName: team.name || 'Unknown Team',
                 type: details.cleaningType || 'Unknown Cleaning Type',
             },
+            team: team,
         };
     } else {
         //formatting from google calendar events that are pulled from the calendar
@@ -105,13 +106,13 @@ function formatBigCalendarEvent(calEvent) {
                 details: {
                     name: shared.customerName || 'Unknown Name',
                     customerId: shared.customerId || 'Unknown customer Doc Id',
-                    jobID: shared.jobId || 'Unkownn job',
+                    jobId: shared.jobId || 'Unkownn job',
                     zipcode: shared.zipcode || 'Unknown Zipcode',
-                    team: shared.teamName || 'Unknown Team Name',
+                    teamName: shared.teamName || 'Unknown Team Name',
                     teamId: shared.teamId || 'Unknown Team Id',
                     type: shared.type || 'Unknown Cleaning Type',
                 },
-                team: shared.team ? JSON.parse(shared.team) : null,
+                team: !!shared.team ? JSON.parse(shared.team) : null,
             };
         } else {
             return {

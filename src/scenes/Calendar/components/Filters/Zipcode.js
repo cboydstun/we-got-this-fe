@@ -12,7 +12,7 @@ import { useStateValue } from '../../../../state';
 import zipcodes from '../../../../constants/zipcodes';
 
 const ZipcodeFilter = () => {
-    const [{ jobs }, dispatch] = useStateValue();
+    const [{ jobs, teams }, dispatch] = useStateValue();
 
     return (
         <TextField
@@ -24,34 +24,5 @@ const ZipcodeFilter = () => {
         />
     );
 };
-
-{
-    /* <Autocomplete
-	freeSolo
-	options={zipcodes.map(zip => `${zip}`)}
-	getOptionLabel={zipcode => `${zipcode}`}
-	onChange={e => {
-		console.log(e.target);
-		jobActions.setZipFilter(dispatch, e.target.value);
-	}}
-	onInputChange={() => e => {
-		console.log(e.target.value);
-	}}
-	style={{ width: 300 }}
-	renderInput={params => (
-		<TextField
-			{...params}
-			name="zipcode"
-			label="Zipcode"
-			margin="none"
-			onChange={e => {
-				console.log(e.target);
-				jobActions.setZipFilter(dispatch, e.target.value);
-			}}
-			fullWidth
-		/>
-	)}
-/> */
-}
 
 export default ZipcodeFilter;

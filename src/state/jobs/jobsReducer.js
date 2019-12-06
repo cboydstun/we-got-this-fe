@@ -9,6 +9,7 @@ export const jobsState = {
     newServiceForm_02Open: false,
     customerForJob: null,
     slotEvent: null,
+    calendarFetched: false,
     newJob: {
         slotEvent: null,
         customer: null,
@@ -31,6 +32,12 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 zipcodeFilter: payload,
+            };
+        }
+        case types.SET_TEAM_FILTER: {
+            return {
+                ...state,
+                teamFilter: payload,
             };
         }
         case types.SET_NEW_SERVICE_FORM_OPEN:
@@ -58,6 +65,7 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 jobs: payload,
+                calendarFetched: true,
             };
         case types.ADD_JOB_TO_JOBS:
             return {

@@ -71,7 +71,7 @@ const ServiceTable = ({ jobs, match, location }) => {
                                         {scheduledDate}
                                     </TableCell>
                                     <TableCell align="right">
-                                        {job.techs && teams(job.techs)}
+                                        'Need to fix'
                                     </TableCell>
                                     <TableCell align="right">
                                         {job.type || 'Unknown'}
