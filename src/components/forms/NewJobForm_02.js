@@ -131,6 +131,7 @@ const NewJobForm_02 = ({ handleClose }) => {
         []
     );
 
+    //Memoized so that it's not re-run everytime the component re-renders
     const availableTeams = useMemo(() => {
         return teams.teams.filter(team => {
             const teamsJobs = jobs.jobs.filter(job => {
