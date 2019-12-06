@@ -8,6 +8,7 @@ export const types = {
     SET_CURRENT_CUSTOMER: 'SET_CURRENT_CUSTOMER',
     UPDATE_CUSTOMER: 'UPDATE_CUSTOMER',
     GET_CUSTOMER_IMAGE: 'GET_CUSTOMER_IMAGE',
+    ADD_JOB_TO_CUSTOMER: 'ADD_JOB_TO_CUSTOMER',
 };
 
 export const actions = {
@@ -22,7 +23,7 @@ export const actions = {
                 type: types.ADD_CUSTOMER,
                 payload: newCustomer,
             });
-            return true;
+            return newCustomer;
         } catch (err) {
             return err;
         }

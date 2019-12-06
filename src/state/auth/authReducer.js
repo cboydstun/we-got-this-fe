@@ -2,6 +2,7 @@ import { types } from './authActions';
 
 export const authState = {
     currentUser: null,
+    calendarLoaded: false,
 };
 
 export default function reducer(state, action) {
@@ -61,6 +62,11 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 users: [...state.users],
+            };
+        case types.CALENDAR_LOADED:
+            return {
+                ...state,
+                calendarLoaded: true,
             };
         default:
             return {

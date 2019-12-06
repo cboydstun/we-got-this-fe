@@ -1,37 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import moment from 'moment';
-import { SideBar } from '../../components';
 import { actions } from '../../state/jobs/jobsActions';
 import { useStateValue } from '../../state';
+
+import NewJob from '../../components/dialogs/NewJob';
+import NewJob_02 from '../../components/dialogs/NewJob_02';
+
+import Filters from './components/Filters';
 
 const AllCalendar = () => {
     //Get Google API
     let gapi = window.gapi;
     const DraggableCalendar = withDragAndDrop(Calendar);
     const localizer = momentLocalizer(moment);
-    const [{ jobs }, dispatch] = useStateValue();
+    const [{ auth, jobs }, dispatch] = useStateValue();
 
     let allViews = Object.keys(Views).map(k => Views[k]);
 
-    const [events, setEvents] = useState([
-        {
-            id: 0,
-            title: 'Hello',
-            allDay: true,
-            start: new Date(Date.now()).toDateString(),
-            end: new Date(Date.now() + 3 * 1000 * 60 * 60).toDateString(),
-        },
-    ]);
+    useEffect(() => {
+        if (
+            auth.currentUser &&
+            auth.currentUser.docRef &&
+            auth.calendarLoaded
+        ) {
+            console.log('Getting Calendar Events');
+            //This is because there is a delay between gapi loading and the user being actually authenticated
+            setTimeout(() => {
+                actions.getAllCalendarEvents(dispatch);
+            }, 1000);
+        }
+    }, [auth.calendarLoaded, auth.currentUser, dispatch]);
 
     async function getCalendar() {
+        let currentMonth = moment([moment().year(), moment().month(), 1]);
+        let currentISOMonth = currentMonth.toISOString();
+        let twoMonthLookAhead = currentMonth.add(3, 'months').toISOString();
         const calendar = await gapi.client.calendar.events.list({
-            calendarId:
-                'lambdaschool.com_5ql54gdu6bsdug0i05q61cq610@group.calendar.google.com',
-            timeMin: new Date().toISOString(),
+            calendarId: 'primary',
+            timeMin: currentISOMonth,
+            timeMax: twoMonthLookAhead,
             showDeleted: false,
             singleEvents: true,
             maxResults: 10,
@@ -57,18 +68,10 @@ const AllCalendar = () => {
             });
         });
         console.log(calEvents);
-        setEvents([...events, ...calEvents]);
-
-        // const list = await gapi.client.calendar.calendarList.list({
-        //     maxResults: 10,
-        // });
-
-        // console.log(list);
-        // console.log(list.result.items);
     }
 
     async function insertEvent() {
-        const insert = await gapi.client.calendar.events.insert({
+        await gapi.client.calendar.events.insert({
             calendarId: 'primary',
             start: {
                 dateTime: hoursFromNow(2),
@@ -80,6 +83,13 @@ const AllCalendar = () => {
             },
             summary: 'Have Fun!!',
             description: 'Enjoy a nice little break :)',
+            extendedProperties: {
+                shared: {
+                    test: 'test string',
+                    number: 123,
+                    boolean: true,
+                },
+            },
         });
 
         await getCalendar();
@@ -96,41 +106,46 @@ const AllCalendar = () => {
 
     return (
         <>
-            <SideBar>
-                <button
-                    onClick={() => {
-                        getCalendar();
-                    }}
-                >
-                    Get Calendar
-                </button>
-                <button
-                    onClick={() => {
-                        insertEvent();
-                    }}
-                >
-                    Insert Event
-                </button>
-                <DraggableCalendar
-                    localizer={localizer}
-                    events={events}
-                    style={{ height: 600 }}
-                    draggableAccessor={event => true}
-                    resizable
-                    selectable
-                    onEventResize={event => {
-                        console.log(event);
-                    }}
-                    onSelectSlot={event => {
-                        openScheduleForm(event);
-                    }}
-                    min={new Date(2019, 11, 13, 8)}
-                    max={new Date(2019, 11, 13, 18)}
-                    onSelectEvent={event => {
-                        console.log(event);
-                    }}
-                />
-            </SideBar>
+            <button
+                onClick={() => {
+                    getCalendar();
+                }}
+            >
+                Get Calendar
+            </button>
+            <button
+                onClick={() => {
+                    insertEvent();
+                }}
+            >
+                Insert Event
+            </button>
+
+            {jobs.jobs.length == 0 ? (
+                <p>Getting Events or there are no events</p>
+            ) : null}
+
+            <DraggableCalendar
+                localizer={localizer}
+                events={jobs.jobs}
+                style={{ height: 600 }}
+                draggableAccessor={event => true}
+                resizable
+                selectable
+                onEventResize={event => {
+                    console.log(event);
+                }}
+                onSelectSlot={event => {
+                    openScheduleForm(event);
+                }}
+                min={new Date(2019, 11, 13, 8)}
+                max={new Date(2019, 11, 13, 18)}
+                onSelectEvent={event => {
+                    console.log(event);
+                }}
+            />
+            <NewJob />
+            <NewJob_02 />
         </>
     );
 };

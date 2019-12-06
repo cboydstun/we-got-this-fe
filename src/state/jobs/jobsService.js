@@ -4,32 +4,12 @@ import moment from 'moment';
 const db = Firebase.getFirestore();
 
 export const service = {
+    async getAllJobs() {
+        return (await db.collection('jobs').get()).docs.map(doc => doc.data());
+    },
+
     async scheduleNewJob(values) {
-        const formatValues = values => {
-            return {
-                customer: `/customers/${values.customer}` || '',
-                details: {
-                    arrivalWindowStart: values.arrivalWindowStart,
-                    arrivalWindowEnd: values.arrivalWindowEnd,
-                    duration: values.duration,
-                    latest_end_time: moment(values.arrivalWindowEnd)
-                        .add(values.duration, 'hours')
-                        .format('LLL'),
-                },
-                location: {
-                    street: values.street,
-                    city: values.city,
-                    state: values.region,
-                    zipcode: values.zipcode,
-                },
-                type: values.cleaningType,
-            };
-        };
-
-        let formattedValues = formatValues(values);
-        console.log('Formatted Values: ', formattedValues);
-
-        let docRef = await db.collection('jobs').add({ ...formattedValues });
+        let docRef = await db.collection('jobs').add({ ...values });
         let docId = (await docRef.get()).id;
 
         console.log('NewJob DocRef: ', docId);
@@ -49,7 +29,7 @@ export const service = {
         let updatedJobs = await db
             .collection('customers')
             .doc(`${customerDocId}`)
-            .update({ jobs: [...customer.jobs, `jobs/${jobDocId}`] });
+            .update({ jobs: [...customer.jobs, `${jobDocId}`] });
 
         console.log('UpdatedJobs: ', updatedJobs);
     },

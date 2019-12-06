@@ -15,6 +15,7 @@ import {
     IconButton,
     Typography,
 } from '@material-ui/core';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -48,6 +49,7 @@ const teams = techsArray => {
 const ServiceTable = ({ jobs, match, location }) => {
     console.log(('Service Table Location: ', location));
     const classes = useStyles();
+
     return (
         <>
             <Table className={classes.table} size="small">
@@ -61,11 +63,12 @@ const ServiceTable = ({ jobs, match, location }) => {
                 </TableHead>
                 <TableBody>
                     {jobs.length &&
-                        jobs.map(job => {
+                        jobs.map((job, i) => {
+                            let scheduledDate = moment(job.end).format('LL');
                             return (
-                                <TableRow key={job.details.schedule_date}>
+                                <TableRow key={i}>
                                     <TableCell component="th" scope="row">
-                                        {job.details.schedule_date}
+                                        {scheduledDate}
                                     </TableCell>
                                     <TableCell align="right">
                                         {job.techs && teams(job.techs)}
