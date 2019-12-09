@@ -19,7 +19,7 @@ const TeamFilter = () => {
             label="Team Filter"
             value={jobs.teamFilter || ''}
             onChange={e => jobActions.setTeamFilter(dispatch, e.target.value)}
-            style={{ width: '100%' }}
+            style={{ width: '25%' }}
         >
             <MenuItem key={'asdf'} value={null}>
                 All
