@@ -115,7 +115,7 @@ const AllCalendar = () => {
                 components={{
                     event: Event,
                 }}
-                style={{ height: 600 }}
+                style={{ height: 500 }}
             />
             <NewJob />
             <NewJob_02 />

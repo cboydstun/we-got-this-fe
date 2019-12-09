@@ -13,6 +13,7 @@ const FilterContainer = styled(Box)({
     flexDirection: 'row',
     justifyContent: 'flex-content',
     marginBottom: 20,
+    marginTop: '-15px',
 });
 
 const Filters = () => {

@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
         width: `calc(100% - ${drawerWidth}px)`,
         padding: theme.spacing(2),
         [theme.breakpoints.down('sm')]: {
-            marginTop: 48,
+            marginTop: 55,
             width: '100%',
         },
     },
@@ -83,17 +83,12 @@ const activeStyles = {
 };
 
 const SideBar = ({ children }) => {
-    const [open, setOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [{ auth }, dispatch] = useStateValue();
     const classes = useStyles();
 
     const theme = useTheme();
     const smallWidth = useMediaQuery(theme.breakpoints.down('xs'));
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -131,7 +126,7 @@ const SideBar = ({ children }) => {
                             <NavLink
                                 to={routes.HOME}
                                 className={classes.link}
-                                onClick={handleClose}
+                                onClick={handleDrawerToggle}
                                 activeStyle={activeStyles}
                             >
                                 Dashboard
@@ -141,7 +136,7 @@ const SideBar = ({ children }) => {
                             <NavLink
                                 to={routes.CUSTOMERS}
                                 className={classes.link}
-                                onClick={handleClose}
+                                onClick={handleDrawerToggle}
                                 activeStyle={activeStyles}
                             >
                                 Customers
@@ -151,7 +146,7 @@ const SideBar = ({ children }) => {
                             <NavLink
                                 to={routes.TECHS}
                                 className={classes.link}
-                                onClick={handleClose}
+                                onClick={handleDrawerToggle}
                                 activeStyle={activeStyles}
                             >
                                 Techs
@@ -161,7 +156,7 @@ const SideBar = ({ children }) => {
                             <NavLink
                                 to={routes.PROFILE}
                                 className={classes.link}
-                                onClick={handleClose}
+                                onClick={handleDrawerToggle}
                                 activeStyle={activeStyles}
                             >
                                 Admin
