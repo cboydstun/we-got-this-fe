@@ -1,15 +1,11 @@
 import React from 'react';
 import { useStateValue } from '../../state';
 import { actions } from '../../state/auth/authActions';
-import { useHistory } from 'react-router-dom';
-import { routes } from '../../constants/routes';
 import Column from '../../components/styles/containers/Column';
 import Row from '../../components/styles/containers/Row';
 
 const Auth = () => {
     const [{ auth }, dispatch] = useStateValue();
-    const history = useHistory();
-
     return (
         <>
             <Row>
@@ -24,22 +20,14 @@ const Auth = () => {
                     )}
                     <button
                         onClick={async () => {
-                            let result = await actions.login(dispatch);
-                            console.log(result);
-                            if (result == true) {
-                                history.push(routes.HOME);
-                            }
+                            await actions.login(dispatch);
                         }}
                     >
                         Sign In With Google
                     </button>
                     <button
                         onClick={async () => {
-                            let result = await actions.login(dispatch);
-                            console.log(result);
-                            if (result == true) {
-                                history.push(routes.AUTH_REGISTER_COMPANY);
-                            }
+                            await actions.login(dispatch);
                         }}
                     >
                         Register With Google
