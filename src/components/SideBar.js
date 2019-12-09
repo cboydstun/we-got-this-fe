@@ -11,6 +11,9 @@ import {
     Typography,
     TextField,
     MenuItem,
+    AppBar,
+    Toolbar,
+    Hidden,
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core';
 import { NavLink, Link } from 'react-router-dom';
@@ -29,26 +32,48 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
     },
     appBar: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
+        marginBottom: 48,
     },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
     },
+    link: {
+        textDecoration: 'none',
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        color: theme.palette.common.white,
+        fontSize: 16,
+    },
+    logo: {
+        textDecoration: 'none',
+        fontWeight: theme.typography.fontWeightBold,
+        color: theme.palette.common.white,
+        marginRight: theme.spacing(2),
+        fontSize: 18,
+    },
     drawerPaper: {
-        width: drawerWidth,
         padding: theme.spacing(1),
         zIndex: 0,
-    },
-    toolbar: {
-        height: 48,
+        backgroundColor: '#2678C0',
     },
     content: {
         width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-        backgroundColor: theme.palette.background.default,
         padding: theme.spacing(2),
+        [theme.breakpoints.down('sm')]: {
+            marginTop: 48,
+            width: '100%',
+        },
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    },
+    routes: {
+        display: 'flex',
+        flexDirection: 'column',
     },
 }));
 
@@ -59,6 +84,7 @@ const activeStyles = {
 
 const SideBar = ({ children }) => {
     const [open, setOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
     const [{ auth }, dispatch] = useStateValue();
     const classes = useStyles();
 
@@ -69,125 +95,132 @@ const SideBar = ({ children }) => {
         setOpen(false);
     };
 
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
     return (
         <>
-            <Drawer
-                className={classes.drawer}
-                variant="permanent"
-                classes={{ paper: classes.drawerPaper }}
-                anchor="left"
-            >
-                {smallWidth ? (
-                    <>
+            <Hidden smUp implementation="js">
+                <AppBar position="fixed" className={classes.appBar}>
+                    <Toolbar>
                         <IconButton
-                            edge="start"
                             color="inherit"
-                            onClick={() => setOpen(true)}
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={handleDrawerToggle}
+                            className={classes.menuButton}
                         >
                             <MenuIcon />
                         </IconButton>
-
+                        <Typography variant="h6" noWrap>
+                            We Got This!
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    classes={{ paper: classes.drawerPaper }}
+                    anchor="top"
+                    ModalProps={{ keepMounted: true }}
+                >
+                    <List>
+                        <ListItem>
+                            <NavLink
+                                to={routes.HOME}
+                                className={classes.link}
+                                onClick={handleClose}
+                                activeStyle={activeStyles}
+                            >
+                                Dashboard
+                            </NavLink>
+                        </ListItem>
+                        <ListItem>
+                            <NavLink
+                                to={routes.CUSTOMERS}
+                                className={classes.link}
+                                onClick={handleClose}
+                                activeStyle={activeStyles}
+                            >
+                                Customers
+                            </NavLink>
+                        </ListItem>
+                        <ListItem>
+                            <NavLink
+                                to={routes.TECHS}
+                                className={classes.link}
+                                onClick={handleClose}
+                                activeStyle={activeStyles}
+                            >
+                                Techs
+                            </NavLink>
+                        </ListItem>
+                        <ListItem>
+                            <NavLink
+                                to={routes.PROFILE}
+                                className={classes.link}
+                                onClick={handleClose}
+                                activeStyle={activeStyles}
+                            >
+                                Admin
+                            </NavLink>
+                        </ListItem>
+                    </List>
+                </Drawer>
+            </Hidden>
+            <Hidden smDown implementation="js">
+                <Drawer
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{ paper: classes.drawerPaper }}
+                    anchor="left"
+                >
+                    <div className={classes.routes}>
                         <Typography variant="h5">
                             <Link to={routes.HOME} className={classes.logo}>
                                 We Got This!
                             </Link>
                         </Typography>
-
-                        <Drawer
-                            anchor="top"
-                            open={open}
-                            onClose={() => setOpen(false)}
+                        <NavLink
+                            exact
+                            to={routes.HOME}
+                            className={classes.link}
+                            activeStyle={activeStyles}
                         >
-                            <List>
-                                <ListItem>
-                                    <NavLink
-                                        to={routes.HOME}
-                                        onClick={handleClose}
-                                    >
-                                        Dashboard
-                                    </NavLink>
-                                </ListItem>
-                                <ListItem>
-                                    <NavLink
-                                        to={routes.CUSTOMERS}
-                                        onClick={handleClose}
-                                    >
-                                        Customers
-                                    </NavLink>
-                                </ListItem>
-                                <ListItem>
-                                    <NavLink
-                                        to={routes.TECHS}
-                                        onClick={handleClose}
-                                    >
-                                        Techs
-                                    </NavLink>
-                                </ListItem>
-                                <ListItem>
-                                    <NavLink
-                                        to={routes.PROFILE}
-                                        onClick={handleClose}
-                                    >
-                                        Admin
-                                    </NavLink>
-                                </ListItem>
-                            </List>
-                        </Drawer>
-                    </>
-                ) : (
-                    <>
-                        <div className={classes.routes}>
-                            <Typography variant="h5">
-                                <Link to={routes.HOME} className={classes.logo}>
-                                    We Got This!
-                                </Link>
-                            </Typography>
-                            <NavLink
-                                exact
-                                to={routes.HOME}
-                                className={classes.link}
-                                activeStyle={activeStyles}
-                            >
-                                Dashboard
-                            </NavLink>
-                            <NavLink
-                                to={routes.CUSTOMERS}
-                                className={classes.link}
-                                activeStyle={activeStyles}
-                            >
-                                Customers
-                            </NavLink>
-                            <NavLink
-                                to={routes.TECHS}
-                                className={classes.link}
-                                activeStyle={activeStyles}
-                            >
-                                Techs
-                            </NavLink>
-                            <NavLink
-                                to={routes.JOBS}
-                                className={classes.link}
-                                activeStyle={activeStyles}
-                            >
-                                Jobs
-                            </NavLink>
-                        </div>
-                        {auth.currentUser ? (
-                            <IconButton component={Link} to={routes.PROFILE}>
-                                <AccountCircle style={{ color: 'white' }} />
-                            </IconButton>
-                        ) : (
-                            <Button
-                                component={Link}
-                                to={routes.AUTH}
-                                className={classes.white}
-                            >
-                                Login
-                            </Button>
-                        )}
-                    </>
-                )}
-            </Drawer>
+                            Dashboard
+                        </NavLink>
+                        <NavLink
+                            to={routes.CUSTOMERS}
+                            className={classes.link}
+                            activeStyle={activeStyles}
+                        >
+                            Customers
+                        </NavLink>
+                        <NavLink
+                            to={routes.TECHS}
+                            className={classes.link}
+                            activeStyle={activeStyles}
+                        >
+                            Techs
+                        </NavLink>
+                    </div>
+                    {auth.currentUser ? (
+                        <IconButton component={Link} to={routes.PROFILE}>
+                            <AccountCircle style={{ color: 'white' }} />
+                        </IconButton>
+                    ) : (
+                        <Button
+                            component={Link}
+                            to={routes.AUTH}
+                            className={classes.white}
+                        >
+                            Login
+                        </Button>
+                    )}
+                </Drawer>
+            </Hidden>
             <div className={classes.content}>{children}</div>
         </>
     );
