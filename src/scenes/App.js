@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 //
 //Config
 import { initGoogleClient } from '../config/googleClient';
@@ -13,6 +13,8 @@ import {
     TopBar,
     CreateTeamForm,
 } from '../components';
+import PrivateRoute from '../components/routes/PrivateRoute';
+import AdminRoute from '../components/routes/AdminRoute';
 
 //Forms
 
@@ -63,81 +65,89 @@ function App() {
     const classes = useStyles();
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const history = useHistory();
 
     useEffect(() => {
         //Initiliaze Google API
         initGoogleClient(() => {
             actions.setCalendarLoaded(dispatch);
-            setIsLoading(false);
         });
 
         //Auth Change With Firebase
         Firebase.onAuthStateChanged(user => {
             if (user !== null) {
                 actions.getOrCreateCurrentUser(dispatch, user);
+                setTimeout(() => {
+                    setIsLoading(false);
+                    history.push(routes.HOME);
+                }, 300);
+            } else {
+                setIsLoading(false);
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     if (isLoading) {
         return <SplashLoading width="400px" height="400px" />;
     } else {
         return (
-            <BrowserRouter>
-                <div className={classes.root}>
-                    <CssBaseline />
-                    <TopBar />
-                    <main className={classes.content}>
-                        <div className={classes.toolbar} />
-                        <Switch>
-                            <Route
-                                exact
-                                path={routes.HOME}
-                                component={Calendar}
-                            />
-                            <Route exact path={routes.AUTH} component={Auth} />
-                            <Route path={routes.PROFILE} component={Profile} />
-                            <Route
-                                exact
-                                path={routes.TECHS}
-                                component={Techs}
-                            />
-                            <Route path={routes.JOBS} component={Jobs} />
-                            <Route
-                                exact
-                                path={routes.CUSTOMERS}
-                                component={Customers}
-                            />
-                            {mobile ? (
-                                <>
-                                    <Route
-                                        exact
-                                        path={routes.CUSTOMER_PROFILE}
-                                        component={Customer}
-                                    />
-                                    <Route
-                                        path={routes.JOB_DETAILS}
-                                        component={Job}
-                                    />
-                                </>
-                            ) : (
-                                <Route
+            <div className={classes.root}>
+                <CssBaseline />
+                <TopBar />
+                <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                    <Switch>
+                        <PrivateRoute
+                            exact
+                            path={routes.HOME}
+                            component={Calendar}
+                        />
+                        <Route exact path={routes.AUTH} component={Auth} />
+                        <PrivateRoute
+                            path={routes.PROFILE}
+                            component={Profile}
+                        />
+                        <AdminRoute
+                            exact
+                            path={routes.TECHS}
+                            component={Techs}
+                        />
+                        <PrivateRoute path={routes.JOBS} component={Jobs} />
+                        <PrivateRoute
+                            exact
+                            path={routes.CUSTOMERS}
+                            component={Customers}
+                        />
+                        {mobile ? (
+                            <>
+                                <PrivateRoute
+                                    exact
                                     path={routes.CUSTOMER_PROFILE}
                                     component={Customer}
                                 />
-                            )}
-                            <Route
-                                path={routes.CREATE_TECH}
-                                component={CreateTechForm}
+                                <PrivateRoute
+                                    path={routes.JOB_DETAILS}
+                                    component={Job}
+                                />
+                            </>
+                        ) : (
+                            <PrivateRoute
+                                path={routes.CUSTOMER_PROFILE}
+                                component={Customer}
                             />
-                            <Route
-                                path={routes.CREATE_TEAM_FORM}
-                                component={CreateTeamForm}
-                            />
-                        </Switch>
-                    </main>
-                </div>
-            </BrowserRouter>
+                        )}
+                        <AdminRoute
+                            path={routes.CREATE_TECH}
+                            component={CreateTechForm}
+                        />
+                        <AdminRoute
+                            path={routes.CREATE_TEAM_FORM}
+                            component={CreateTeamForm}
+                        />
+                    </Switch>
+                </main>
+            </div>
         );
     }
 }

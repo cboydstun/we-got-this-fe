@@ -163,13 +163,13 @@ const TopBar = () => {
                             >
                                 Techs
                             </NavLink>
-                            <NavLink
+                            {/* <NavLink
                                 to={routes.JOBS}
                                 className={classes.link}
                                 activeStyle={activeStyles}
                             >
                                 Jobs
-                            </NavLink>
+                            </NavLink> */}
                         </div>
                         {auth.currentUser ? (
                             <IconButton component={Link} to={routes.PROFILE}>
