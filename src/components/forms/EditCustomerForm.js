@@ -114,6 +114,11 @@ const EditCustomerForm = ({ handleClose }) => {
                             ]}
                         />
                         <MuiSingleSelectInput
+                            name="schedule"
+                            label="Schedule"
+                            data={paymentOptions}
+                        />
+                        <MuiSingleSelectInput
                             name="payment"
                             label="Payment Method"
                             data={paymentOptions}
