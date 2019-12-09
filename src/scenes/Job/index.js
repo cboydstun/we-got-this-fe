@@ -78,7 +78,7 @@ const Job = ({ location, history }) => {
                     )}
                     <div className={classes.column}>
                         <h1>{job.details.schedule_date}</h1>
-                        <p>{teams(job.techs)}</p>
+                        <p>Serviced By: Get this to work</p>
                         <Tabs
                             value={value}
                             onChange={handleChange}

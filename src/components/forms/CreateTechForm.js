@@ -4,6 +4,7 @@ import { useStateValue, useService } from '../../state';
 import teamService from '../../state/team/teamService';
 import techService from '../../state/tech/techService';
 import CreateTechCard from '../../scenes/Techs/CreateTechCard';
+import { routes } from '../../constants/routes';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const CreateTechForm = () => {
+const CreateTechForm = ({ history }) => {
     const classes = useStyles();
     const [{ teams }, dispatch] = useStateValue();
     const services = { team: useService(teamService, dispatch), tech: useService(techService, dispatch) };
@@ -41,7 +42,10 @@ const CreateTechForm = () => {
         setTechs(newTechs);
     };
 
-    const handleSave = async () => await Promise.all(techs.map(tech => services.tech.createTech(tech)));
+    const handleSave = async () => {
+        await Promise.all(techs.map(tech => services.tech.createTech(tech)));
+        history.push(routes.TECHS);
+    }
     const handleAddTech = () => setTechs([...techs, { displayName: '', email: '', teamId: '' }]);
 
     useEffect(() => {

@@ -9,12 +9,12 @@ export const service = {
             ...values,
         });
 
-        let customers = {};
+        let customer = {};
         let doc = await docRef.get();
         let docId = doc.id;
-        customers = { docId, ...doc.data() };
+        customer = { docId, ...doc.data() };
 
-        return customers;
+        return customer;
     },
 
     async getCustomers() {
@@ -23,8 +23,6 @@ export const service = {
         querySnapshot.forEach(doc => {
             let docId = doc.id;
             let customerData = doc.data();
-            let jobPaths = customerData.jobs.map(job => job.path);
-            customerData.jobs = jobPaths;
             let customer = { docId, ...customerData };
             customers.push(customer);
         });

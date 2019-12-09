@@ -3,16 +3,17 @@ import {
     Grid,
     Button,
     Select,
-    InputLabel,
     MenuItem,
     FormControl,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TechCard from './TechCard';
-import { useStateValue, useService } from '../../state';
+import { useStateValue } from '../../state';
 import teamService from '../../state/team/teamService';
+import { useService } from '../../state';
 import techService from '../../state/tech/techService';
 import { routes } from '../../constants/routes';
+import EditTech from '../../components/dialogs/EditTech';
 
 const useStyles = makeStyles(theme => ({
     filter: {
@@ -29,14 +30,32 @@ const filters = {
 const Techs = ({ history }) => {
     const classes = useStyles();
     const [{ techs }, dispatch] = useStateValue();
-    const services = {
-        tech: useService(techService, dispatch),
-        team: useService(teamService, dispatch),
-    };
+    const services = { tech: useService(techService, dispatch), team: useService(teamService, dispatch) }
     const [filter, setFilter] = useState('all');
+    const [techToEdit, setTechToEdit] = useState();
+
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const handleCancel = () => setEditDialogOpen(false);
+    const handleSave = async () => {
+        await services.tech.updateTech(techToEdit);
+        setEditDialogOpen(false);
+    }
 
     const handleFilterChange = e => setFilter(e.target.value);
-    const handleNewTechClick = () => history.push(routes.CREATE_TECH);
+    const handleNewTech = () => history.push(routes.CREATE_TECH);
+    const handleEdit = techId => {
+        const { displayName, email, photoUrl, team: { docId: teamId } = {} } = techs.techs.find(tech => tech.docId === techId)
+
+        setEditDialogOpen(true);
+        setTechToEdit({ displayName, email, photoUrl, teamId, docId: techId });
+    };
+
+    const handleEditorChange = e => setTechToEdit(
+        {
+            ...techToEdit,
+            [e.target.name]: e.target.files ? e.target.files[0] : e.target.value
+        }
+    );
 
     useEffect(() => {
         services.team.getAllTeams();
@@ -45,12 +64,14 @@ const Techs = ({ history }) => {
 
     return (
         <>
-            <Grid
-                container
-                xs={12}
-                justify="space-between"
-                className={classes.header}
-            >
+            <EditTech
+                open={editDialogOpen}
+                handleChange={handleEditorChange}
+                handleCancel={handleCancel}
+                handleSave={handleSave}
+                tech={techToEdit}
+            />
+            <Grid container xs={12} justify="space-between" className={classes.header}>
                 <Grid item xs={4}>
                     <h1>Technicians</h1>
                 </Grid>
@@ -68,9 +89,7 @@ const Techs = ({ history }) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={4}>
-                    <Button variant="contained" onClick={handleNewTechClick}>
-                        New Tech
-                    </Button>
+                    <Button variant="contained" onClick={handleNewTech}>New Tech</Button>
                 </Grid>
             </Grid>
             <Grid container xs={12} spacing={3} justify="space-between">
@@ -81,7 +100,7 @@ const Techs = ({ history }) => {
                         .map((tech, index) => {
                             return (
                                 <Grid item sm={12} md={5} key={index}>
-                                    <TechCard {...tech} />
+                                    <TechCard handleEdit={handleEdit} {...tech} />
                                 </Grid>
                             );
                         })}
