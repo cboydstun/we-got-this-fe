@@ -15,7 +15,7 @@ describe('We Got This Test 2', function () {
     it('Technician Route Test', function () {
         cy.visit('http://localhost:3000/')
 
-        // cy.pause()
+        
 
         cy.contains('Techs').click()
 
