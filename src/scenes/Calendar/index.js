@@ -58,8 +58,12 @@ const AllCalendar = () => {
     //Memoized the the teamFilter is only rerendered when the teamFitler changes
     let teamFilter = useMemo(() => {
         return jobs.jobs.filter(job => {
-            if (jobs.teamFilter !== null && job.team !== null) {
-                return job.team.docId == jobs.teamFilter;
+            if (
+                jobs.teamFilter !== null &&
+                !!job.details &&
+                job.details.team !== null
+            ) {
+                return job.details.team.docId == jobs.teamFilter;
             }
             return true;
         });
@@ -78,7 +82,7 @@ const AllCalendar = () => {
 
     const formatEvent = event => {
         //For events that weren't created in the system
-        if (!event.team || event.team == null) {
+        if (!event.details || event.details.team == null) {
             return {
                 style: {
                     backgroundColor: 'grey',
@@ -100,9 +104,6 @@ const AllCalendar = () => {
                 events={teamFilter}
                 views={[Views.MONTH, Views.WORK_WEEK, Views.DAY, Views.AGENDA]}
                 defaultView={Views.WORK_WEEK}
-                onEventResize={event => {
-                    console.log(event);
-                }}
                 onSelectSlot={event => {
                     openScheduleForm(event);
                 }}

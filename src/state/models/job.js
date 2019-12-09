@@ -7,7 +7,7 @@ export default {
 };
 
 function formatJob(values) {
-    let { customer, slotEvent, details } = values;
+    let { customer, slotEvent, details, team } = values;
     let { address } = customer.locations[0];
     return {
         customer: customer.docId || 'Unknown',
@@ -28,7 +28,7 @@ function formatJob(values) {
             zipcode: address.zipcode || '',
         },
         type: details.cleaningType || '',
-        team: values.team,
+        team: team,
     };
 }
 
@@ -49,17 +49,17 @@ function formatGoogleCalendarEvent(values) {
             timeZone: 'America/Chicago',
         },
         summary: customer.name,
-        description: `Customer Name: ${customer.name}`,
+        description: `Customer Name: ${customer.name}, CustomerId: ${customer.docId}, Team Name: ${team.name}, Team Id: ${team.docId}, zipcode: ${address.zipcode}, type: ${details.cleaningType}`,
         extendedProperties: {
             shared: {
-                jobId: newJobDocId,
-                customerId: customer.docId,
                 customerName: customer.name,
-                teamName: team.team || 'Clean Team 10',
-                teamId: details.team || 'TeamId',
-                team: JSON.stringify(team),
+                customerId: customer.docId,
+                jobId: newJobDocId,
                 zipcode: address.zipcode,
+                teamName: team.name || 'Unknown Team',
+                teamId: team.docId || 'Unknown Team Id',
                 type: details.cleaningType,
+                team: JSON.stringify(team),
             },
         },
     };
@@ -83,14 +83,15 @@ function formatBigCalendarEvent(calEvent) {
                 ) || ''
             ),
             details: {
-                name: customer.name || 'Unknown Name',
+                customerName: customer.name || 'Unknown Name',
                 customerId: customer.docId || 'Unknown Doc Id',
-                jobID: newJobDocId || 'Unkownn job id',
+                jobId: newJobDocId || 'Unkownn job id',
                 zipcode: address.zipcode || 'Unknown Zipcode',
                 teamName: team.name || 'Unknown Team',
+                teamId: team.docId || 'Unknown Team Id',
                 type: details.cleaningType || 'Unknown Cleaning Type',
+                team: team,
             },
-            team: team,
         };
     } else {
         //formatting from google calendar events that are pulled from the calendar
@@ -104,17 +105,18 @@ function formatBigCalendarEvent(calEvent) {
                 start: new Date(calEvent.start.dateTime || calEvent.start.date),
                 end: new Date(calEvent.end.date || calEvent.end.dateTime),
                 details: {
-                    name: shared.customerName || 'Unknown Name',
+                    customerName: shared.customerName || 'Unknown Name',
                     customerId: shared.customerId || 'Unknown customer Doc Id',
                     jobId: shared.jobId || 'Unkownn job',
                     zipcode: shared.zipcode || 'Unknown Zipcode',
                     teamName: shared.teamName || 'Unknown Team Name',
                     teamId: shared.teamId || 'Unknown Team Id',
                     type: shared.type || 'Unknown Cleaning Type',
+                    team: !!shared.team ? JSON.parse(shared.team) : null,
                 },
-                team: !!shared.team ? JSON.parse(shared.team) : null,
             };
         } else {
+            //This is for events that weren't created within the software
             return {
                 id: calEvent.id,
                 title: calEvent.summary || 'Unknown Name',

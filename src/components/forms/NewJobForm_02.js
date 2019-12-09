@@ -135,9 +135,8 @@ const NewJobForm_02 = ({ handleClose }) => {
     const availableTeams = useMemo(() => {
         return teams.teams.filter(team => {
             const teamsJobs = jobs.jobs.filter(job => {
-                console.log('Job checked? ', job);
-                if (job.team !== null) {
-                    return job.team.docId === team.docId;
+                if (job.details && job.details.team !== null) {
+                    return job.details.team.docId === team.docId;
                 }
                 return false;
             });
@@ -151,6 +150,7 @@ const NewJobForm_02 = ({ handleClose }) => {
                 )
             );
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [jobs.jobs, jobs.newJob.slotEvent.start, teams.teams]);
 
     return (
@@ -185,6 +185,7 @@ const NewJobForm_02 = ({ handleClose }) => {
                             validationSchema={Yup.object().shape({
                                 arrivalWindowStart: Yup.string().required(),
                                 arrivalWindowEnd: Yup.string().required(),
+                                team: Yup.string().required(),
                             })}
                             onSubmit={async (
                                 values,
