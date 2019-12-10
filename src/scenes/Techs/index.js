@@ -96,10 +96,10 @@ const Techs = ({ history }) => {
                 tech={editDialogData.tech}
             />
             <Grid container spacing={6} className={classes.header}>
-                <Grid item xs={3}>
+                <Grid item md={3}>
                     <h1>Technicians</h1>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item md={2}>
                     <FormControl className={classes.filter}>
                         <Select
                             value={filter}
@@ -111,7 +111,7 @@ const Techs = ({ history }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item md={3}>
                     <Button variant="contained" onClick={handleNewTech}>New Tech</Button>
                 </Grid>
             </Grid>
@@ -122,7 +122,7 @@ const Techs = ({ history }) => {
                         .filter(tech => filters[filter](tech))
                         .map((tech, index) => {
                             return (
-                                <Grid item sm={12} md={4} key={index}>
+                                <Grid item xs={12} sm={6} md={4} key={index}>
                                     <TechCard handleEdit={handleEdit} {...tech} />
                                 </Grid>
                             );
