@@ -12,7 +12,7 @@ import images from "../../images/loginPic.png";
 const useStyles = makeStyles(theme => ({
     main: {
         border: '1px solid black',
-        padding: '0'
+        padding: '0',
     },
     loginImage: {
         backgroundColor: '#2678C0',
@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
         color: '#2678C0',
         fontSize: '35px',
         marginBottom: '45px',
+        fontWeight: '100'
     },
     googleLogo: {
         height: '45px',
@@ -48,7 +49,8 @@ const useStyles = makeStyles(theme => ({
         fontSize: '20px',
         padding: '0',
         fontWeight: 'bolder',
-        color: 'lightgrey',
+        color: 'grey',
+        cursor: 'pointer',
     },
     buttonRegister: {
         border: '1px solid white',
