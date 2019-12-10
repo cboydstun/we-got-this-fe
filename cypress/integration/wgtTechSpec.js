@@ -22,7 +22,13 @@ describe('We Got This Test 2', function () {
         cy.url()
         .should('include', '/techs')
 
-        cy.get('button').click({ multiple: true })
+        cy.contains('New Tech').click()
+
+        
+
+    
     })
 } )
+
+
 
