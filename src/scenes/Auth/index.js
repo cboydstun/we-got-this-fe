@@ -13,27 +13,28 @@ const useStyles = makeStyles(theme => ({
     main: {
         border: '1px solid black',
         padding: '0',
+        height: '747px'
     },
     loginImage: {
         backgroundColor: '#2678C0',
     },
     image: {
-        width: '770px',
-        height: '611px',
-        padding: '95px',
+        width: '765px',
+        height: '740px',
+        padding: '167px',
     },
     text1: {
         textAlign: 'center',
         margin: 'auto',
         color: '#2678C0',
         fontSize: '50px',
-        paddingTop: '203px',
+        paddingTop: '221px',
     },
     text2: {
         margin: 'auto',
         color: '#2678C0',
         fontSize: '35px',
-        marginBottom: '45px',
+        marginBottom: '50px',
         fontWeight: '100'
     },
     googleLogo: {
@@ -64,7 +65,7 @@ const useStyles = makeStyles(theme => ({
         border: '1px solid black',
         margin: 'auto',
         cursor: 'pointer',
-        marginBottom: '29px',
+        marginBottom: '35px',
     },
     flex2: {
         display: 'flex',
