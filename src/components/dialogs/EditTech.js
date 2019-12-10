@@ -88,7 +88,7 @@ export default function EditTech({ isEditing, tech, handleChange, handleCancel, 
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCancel}>Cancel</Button>
-                <Button onClick={handleSave}>Save</Button>
+                <Button onClick={handleSave}>{isEditing ? 'Save' : 'Create'}</Button>
             </DialogActions>
         </Dialog>
     ) : null;

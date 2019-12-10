@@ -50,7 +50,9 @@ const Techs = ({ history }) => {
     const [editDialogData, setEditDialogData] = useState({ open: false });
     const handleCancel = () => setEditDialogData({ ...editDialogData, open: false });
     const handleSave = async () => {
-        await services.tech.updateTech(editDialogData.tech);
+        const saveFunction = editDialogData.isEditing ? services.tech.updateTech : services.tech.createTech;
+
+        saveFunction(editDialogData.tech);
         setEditDialogData({ ...editDialogData, open: false });
     }
 
@@ -74,7 +76,7 @@ const Techs = ({ history }) => {
     const handleEditorChange = e => setEditDialogData(
         {
             ...editDialogData,
-            tech: { [e.target.name]: e.target.files ? e.target.files[0] : e.target.value },
+            tech: { ...editDialogData.tech, [e.target.name]: e.target.files ? e.target.files[0] : e.target.value },
         }
     );
 
@@ -93,7 +95,7 @@ const Techs = ({ history }) => {
                 handleSave={handleSave}
                 tech={editDialogData.tech}
             />
-            <Grid container xs={12} spacing={8} className={classes.header}>
+            <Grid container spacing={6} className={classes.header}>
                 <Grid item xs={3}>
                     <h1>Technicians</h1>
                 </Grid>
@@ -113,7 +115,7 @@ const Techs = ({ history }) => {
                     <Button variant="contained" onClick={handleNewTech}>New Tech</Button>
                 </Grid>
             </Grid>
-            <Grid container className={classes.techs} xs={12} justify="space-between">
+            <Grid container className={classes.techs} justify="space-between">
                 {techs &&
                     techs.techs &&
                     techs.techs
