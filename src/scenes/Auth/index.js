@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 
   root3: {
     backgroundColor: props => props.backgroundColor,
+    backgroundSize: props => props.backgroundSize,
   },
 
   root4: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles({
 const Auth = () => {
   const [{ auth }, dispatch] = useStateValue();
   const history = useHistory();
-  const props = { color: "#2678C0", fontWeight: "bold", backgroundColor: "#2678C0", border: "10px" };
+  const props = { color: "#2678C0", fontWeight: "bold", backgroundColor: "#2678C0", border: "10px", backgroundSize: "100%" };
   const classes = useStyles(props);
 
   return (
