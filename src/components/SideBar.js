@@ -165,7 +165,7 @@ const SideBar = ({ children }) => {
                     </List>
                 </Drawer>
             </Hidden>
-            <Hidden smDown implementation="js">
+            <Hidden xsDown implementation="js">
                 <Drawer
                     className={classes.drawer}
                     variant="permanent"
