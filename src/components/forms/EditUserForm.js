@@ -41,6 +41,7 @@ const roles = ['admin', 'tech'];
 const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
     const [state, setState] = useState([]);
     const classes = useStyles();
+    // const [{ users }, dispatch] = useStateValue();
     useEffect(() => {
         if (status) {
             setState([...state, status]);
@@ -158,13 +159,17 @@ const EditUserForm = withFormik({
         role: Yup.string().required('Must select at least 1 role'),
     }),
 
-    handleSubmit(values, { setStatus, props, resetForm }) {
+    handleSubmit(values, { setStatus, props, resetForm, handleClose }) {
         actions.updateUser(props.dispatch, { ...values }).then(res => {
+            console.log('RES', res )
             if (res == true) {
                 console.log('redirecting');
             }
+            resetForm();
+            handleClose();
         });
-        resetForm();
+        // onSubmit={handleSubmit()}
+        // resetForm();
     },
 })(UserForm);
 
