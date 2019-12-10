@@ -11,7 +11,7 @@ describe('We Got This Test', function () {
     })
 } )
 
-describe('We Got This Test', function () {
+describe('We Got This Test 2', function () {
     it('Test New Tech Button Functionality', function () {
         cy.request('/techs')
 
