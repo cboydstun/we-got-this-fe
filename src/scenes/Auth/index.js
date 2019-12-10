@@ -19,8 +19,8 @@ const useStyles = makeStyles(theme => ({
     },
     image: {
         width: '770px',
-        height: '877px',
-        padding: '66px',
+        height: '611px',
+        padding: '95px',
     },
     text1: {
         textAlign: 'center',
@@ -33,22 +33,42 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto',
         color: '#2678C0',
         fontSize: '35px',
+        marginBottom: '45px',
     },
     googleLogo: {
-        height: '47px',
+        height: '45px',
         width: '50px',
-        paddingTop: '3px',
+        paddingTop: '7px',
     },
     buttonSignIn: {
         height: '50px',
         width: '240px',
         backgroundColor: 'white',
-        margin: 'auto',
-        border: '1px solid white'
+        border: '1px solid white',
+        fontSize: '20px',
+        padding: '0',
+        fontWeight: 'bolder',
+        color: 'lightgrey',
+    },
+    buttonRegister: {
+        border: '1px solid white',
+        textDecoration: 'underline',
+        cursor: 'pointer',
+        color: '#2678C0',
+        fontSize: '1.0rem'
     },
     flex: {
         display: 'flex',
-        border: '1px solid black'
+        border: '1px solid black',
+        margin: 'auto',
+        cursor: 'pointer',
+        marginBottom: '29px',
+    },
+    flex2: {
+        display: 'flex',
+        margin: 'auto',
+        color: '#2678C0',
+        fontSize: '1.0rem'
     }
 
    
@@ -87,8 +107,9 @@ const Auth = () => {
             Sign In With Google
           </button>
           </div>
-          <div>Don't have an account?</div>
-          <button
+          <div className={classes.flex2}>
+          <p>Don't have an account?</p>
+          <button className={classes.buttonRegister}
             onClick={async () => {
               let result = await actions.login(dispatch);
               console.log(result);
@@ -99,6 +120,7 @@ const Auth = () => {
           >
             Register With Google
           </button>
+          </div>
         </Column>
       </Row>
     </div>
