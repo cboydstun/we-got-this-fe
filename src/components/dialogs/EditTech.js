@@ -28,13 +28,13 @@ const useStyles = makeStyles({
     },
 })
 
-export default function EditTech({ tech, handleChange, handleCancel, handleSave, open }) {
+export default function EditTech({ isEditing, tech, handleChange, handleCancel, handleSave, open }) {
     const classes = useStyles();
     const [{ teams }] = useStateValue();
 
     return tech ? (
         <Dialog open={open} maxWidth="xs">
-            <DialogTitle>Edit Technician</DialogTitle>
+            <DialogTitle>{isEditing ? 'Edit Technician' : 'New Technician'}</DialogTitle>
             <DialogContent>
                 <TextField
                     id="techName"
@@ -88,7 +88,7 @@ export default function EditTech({ tech, handleChange, handleCancel, handleSave,
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCancel}>Cancel</Button>
-                <Button onClick={handleSave}>Save</Button>
+                <Button onClick={handleSave}>{isEditing ? 'Save' : 'Create'}</Button>
             </DialogActions>
         </Dialog>
     ) : null;

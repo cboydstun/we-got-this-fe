@@ -8,7 +8,6 @@ export const types = {
     AUTH_SUCCESS: 'AUTH_SUCCESS',
     AUTH_LOGOUT: 'AUTH_LOGOUT',
 
-    CREATE_COMPANY: 'CREATE_COMPANY',
     COMPANY_LIST: 'COMPANY_LIST',
     EDIT_ADMIN: 'EDIT_ADMIN',
     GET_USERS: 'GET_USERS',
@@ -42,10 +41,11 @@ export const actions = {
             let data = await service.getOrCreateCurrentUser(user);
             console.log(data);
 
-            dispatch({
+            await dispatch({
                 type: types.AUTH_SUCCESS,
                 payload: data,
             });
+            return true;
         } catch (error) {
             return error;
         }
@@ -74,21 +74,6 @@ export const actions = {
         }
     },
 
-    async createCompany(dispatch, values) {
-        try {
-            let newCompany = await service.createCompany(values);
-            if (!newCompany) {
-                throw new Error('Failed to create Company');
-            }
-            dispatch({
-                type: types.CREATE_COMPANY,
-                payload: newCompany,
-            });
-            return true;
-        } catch (err) {
-            return Error;
-        }
-    },
     async getCompany(dispatch, values) {
         try {
             let companyInfo = await service.getCompany(values);

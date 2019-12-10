@@ -7,8 +7,6 @@ export const jobsState = {
     teamFilter: null,
     newServiceFormOpen: false,
     newServiceForm_02Open: false,
-    customerForJob: null,
-    slotEvent: null,
     calendarFetched: false,
     newJob: {
         slotEvent: null,
@@ -53,7 +51,6 @@ export default function reducer(state, action) {
         case types.SET_SLOT_EVENT:
             return {
                 ...state,
-                slotEvent: payload,
                 newJob: { ...state.newJob, slotEvent: payload },
             };
         case types.SET_NEW_JOB_CUSTOMER:
