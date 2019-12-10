@@ -49,13 +49,9 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
-    toolbar: {
-        height: 48,
-    },
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(3),
     },
 }));
 
@@ -74,13 +70,15 @@ function App() {
         });
 
         //Auth Change With Firebase
-        Firebase.onAuthStateChanged(user => {
+        Firebase.onAuthStateChanged(async user => {
             if (user !== null) {
-                actions.getOrCreateCurrentUser(dispatch, user);
-                setTimeout(() => {
-                    setIsLoading(false);
+                let res = await actions.getOrCreateCurrentUser(dispatch, user);
+                if (res === true) {
                     history.push(routes.HOME);
-                }, 300);
+                    setIsLoading(false);
+                }
+                // setTimeout(() => {
+                // }, 400);
             } else {
                 setIsLoading(false);
             }
@@ -94,59 +92,59 @@ function App() {
         return (
             <div className={classes.root}>
                 <CssBaseline />
-                <TopBar />
-                <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                    <Switch>
-                        <PrivateRoute
-                            exact
-                            path={routes.HOME}
-                            component={Calendar}
-                        />
-                        <Route exact path={routes.AUTH} component={Auth} />
-                        <PrivateRoute
-                            path={routes.PROFILE}
-                            component={Profile}
-                        />
-                        <AdminRoute
-                            exact
-                            path={routes.TECHS}
-                            component={Techs}
-                        />
-                        <PrivateRoute path={routes.JOBS} component={Jobs} />
-                        <PrivateRoute
-                            exact
-                            path={routes.CUSTOMERS}
-                            component={Customers}
-                        />
-                        {mobile ? (
-                            <>
+                <SideBar>
+                    <main className={classes.content}>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path={routes.HOME}
+                                component={Calendar}
+                            />
+                            <Route exact path={routes.AUTH} component={Auth} />
+                            <PrivateRoute
+                                path={routes.PROFILE}
+                                component={Profile}
+                            />
+                            <AdminRoute
+                                exact
+                                path={routes.TECHS}
+                                component={Techs}
+                            />
+                            <PrivateRoute path={routes.JOBS} component={Jobs} />
+                            <PrivateRoute
+                                exact
+                                path={routes.CUSTOMERS}
+                                component={Customers}
+                            />
+                            {mobile ? (
+                                <>
+                                    <PrivateRoute
+                                        exact
+                                        path={routes.CUSTOMER_PROFILE}
+                                        component={Customer}
+                                    />
+                                    <PrivateRoute
+                                        path={routes.JOB_DETAILS}
+                                        component={Job}
+                                    />
+                                </>
+                            ) : (
                                 <PrivateRoute
-                                    exact
                                     path={routes.CUSTOMER_PROFILE}
                                     component={Customer}
                                 />
-                                <PrivateRoute
-                                    path={routes.JOB_DETAILS}
-                                    component={Job}
-                                />
-                            </>
-                        ) : (
-                            <PrivateRoute
-                                path={routes.CUSTOMER_PROFILE}
-                                component={Customer}
+                            )}
+                            <AdminRoute
+                                path={routes.CREATE_TECH}
+                                component={CreateTechForm}
                             />
-                        )}
-                        <AdminRoute
-                            path={routes.CREATE_TECH}
-                            component={CreateTechForm}
-                        />
-                        <AdminRoute
-                            path={routes.CREATE_TEAM_FORM}
-                            component={CreateTeamForm}
-                        />
-                    </Switch>
-                </main>
+                            <AdminRoute
+                                path={routes.CREATE_TEAM_FORM}
+                                component={CreateTeamForm}
+                            />
+                        </Switch>
+                    </main>
+                </SideBar>
             </div>
         );
     }
