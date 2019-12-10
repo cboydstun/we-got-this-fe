@@ -1,4 +1,3 @@
-import button from './Button';
 import createTeamForm from './forms/CreateTeamForm';
 import userList from './UserList';
 
@@ -8,7 +7,6 @@ import registerCompany from './forms/RegisterCompany';
 import sidebar from './SideBar';
 import topbar from './TopBar';
 
-export const Button = button;
 export const CreateTeamForm = createTeamForm;
 export const UserList = userList;
 

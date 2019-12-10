@@ -11,6 +11,9 @@ import { styled } from '@material-ui/core/styles';
 const FilterContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'flex-content',
+    marginBottom: 20,
+    marginTop: '-15px',
 });
 
 const Filters = () => {

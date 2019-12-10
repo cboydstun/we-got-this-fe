@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 //
 //Config
 import { initGoogleClient } from '../config/googleClient';
@@ -13,6 +13,8 @@ import {
     TopBar,
     CreateTeamForm,
 } from '../components';
+import PrivateRoute from '../components/routes/PrivateRoute';
+import AdminRoute from '../components/routes/AdminRoute';
 
 //Forms
 
@@ -47,13 +49,9 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
-    toolbar: {
-        height: 48,
-    },
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(3),
     },
 }));
 
@@ -63,81 +61,89 @@ function App() {
     const classes = useStyles();
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const history = useHistory();
 
     useEffect(() => {
         //Initiliaze Google API
         initGoogleClient(() => {
             actions.setCalendarLoaded(dispatch);
-            setIsLoading(false);
         });
 
         //Auth Change With Firebase
-        Firebase.onAuthStateChanged(user => {
+        Firebase.onAuthStateChanged(async user => {
             if (user !== null) {
-                actions.getOrCreateCurrentUser(dispatch, user);
+                let res = await actions.getOrCreateCurrentUser(dispatch, user);
+                if (res === true) {
+                    history.push(routes.HOME);
+                    setIsLoading(false);
+                }
+            } else {
+                setIsLoading(false);
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     if (isLoading) {
         return <SplashLoading width="400px" height="400px" />;
     } else {
         return (
-            <BrowserRouter>
-                <div className={classes.root}>
-                    <CssBaseline />
-                    <TopBar />
+            <div className={classes.root}>
+                <CssBaseline />
+                <SideBar>
                     <main className={classes.content}>
-                        <div className={classes.toolbar} />
                         <Switch>
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path={routes.HOME}
                                 component={Calendar}
                             />
                             <Route exact path={routes.AUTH} component={Auth} />
-                            <Route path={routes.PROFILE} component={Profile} />
-                            <Route
+                            <PrivateRoute
+                                path={routes.PROFILE}
+                                component={Profile}
+                            />
+                            <AdminRoute
                                 exact
                                 path={routes.TECHS}
                                 component={Techs}
                             />
-                            <Route path={routes.JOBS} component={Jobs} />
-                            <Route
+                            <PrivateRoute path={routes.JOBS} component={Jobs} />
+                            <PrivateRoute
                                 exact
                                 path={routes.CUSTOMERS}
                                 component={Customers}
                             />
                             {mobile ? (
                                 <>
-                                    <Route
+                                    <PrivateRoute
                                         exact
                                         path={routes.CUSTOMER_PROFILE}
                                         component={Customer}
                                     />
-                                    <Route
+                                    <PrivateRoute
                                         path={routes.JOB_DETAILS}
                                         component={Job}
                                     />
                                 </>
                             ) : (
-                                <Route
+                                <PrivateRoute
                                     path={routes.CUSTOMER_PROFILE}
                                     component={Customer}
                                 />
                             )}
-                            <Route
+                            <AdminRoute
                                 path={routes.CREATE_TECH}
                                 component={CreateTechForm}
                             />
-                            <Route
+                            <AdminRoute
                                 path={routes.CREATE_TEAM_FORM}
                                 component={CreateTeamForm}
                             />
                         </Switch>
                     </main>
-                </div>
-            </BrowserRouter>
+                </SideBar>
+            </div>
         );
     }
 }

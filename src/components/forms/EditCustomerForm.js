@@ -102,16 +102,10 @@ const EditCustomerForm = ({ handleClose }) => {
                     </Grid>
 
                     <Grid item className={classes.column} xs={6}>
-                        <MuiAutosuggest
+                        <MuiSingleSelectInput
                             name="schedule"
-                            type="text"
                             label="Schedule"
-                            options={[
-                                { display: '2 Weeks' },
-                                { display: '3 Weeks' },
-                                { display: 'Monthly' },
-                                { display: '6 Weeks' },
-                            ]}
+                            data={paymentOptions}
                         />
                         <MuiSingleSelectInput
                             name="payment"

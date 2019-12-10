@@ -2,7 +2,6 @@ import React from 'react';
 
 //Components
 import { TextField, MenuItem } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
 
 //State
 import { actions as jobActions } from '../../../../state/jobs/jobsActions';
@@ -17,9 +16,10 @@ const TeamFilter = () => {
             type="text"
             id="team-filter"
             label="Team Filter"
+            margin="none"
             value={jobs.teamFilter || ''}
             onChange={e => jobActions.setTeamFilter(dispatch, e.target.value)}
-            style={{ width: '100%' }}
+            style={{ width: '25%' }}
         >
             <MenuItem key={'asdf'} value={null}>
                 All
