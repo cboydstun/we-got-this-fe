@@ -10,16 +10,7 @@ When did they sign up / cancel?
     "accounts": {
         "jackies_cleaning_4321": {
             "name": "Jackies Cleaning",
-            "package": "Independent", //"Small Team", "Large Team"
-            "acquisition": {
-                "create_date": "11/5/19",
-                "source": "Phone Call" // "Customer Call"
-            },
-            "retention": {
-                "cancel_date": "2/2/25",
-                "reason": "They hate us"
-            },
-            "type": "free",
+            "create_date": "11/5/19",
             "users": [Users],
 			"teams": [
 				{
@@ -45,30 +36,25 @@ How do I contact this person?
 {
     "users": {
         "jackie_fention_12345": {
-            "name": "Jackie Fention",
-            "contact": {
-                "email": "jackie@jackiescleaning.com",
-                "primary_phone": "(432) 456-1940",
-                "secondary_phone": "(432) 456-1943",
-            },
-            "company": "jackies_cleaning_4321",
-            "password": **********
-            "admin": true,
+            "displayName": "Jackie Fention",
+            "email": "jackie@jackiescleaning.com",
+            "phone": {
+                primary: "(432) 456-1940",
+                secondary: "(432) 456-1943",
+            }
+            "roles": ["admin", "tech", "superadmin"],
+            "disabled": true,
+            "photoUrl": "string-the-photo.com"
         },
         "susy_smith_123124": {
-            "name": "Susy Smith",
-            "contact": {
-                "email": "susy@jackiescleaning.com",
-                "primary_phone": "(432) 863-1293
-            },
-            "company": "jackies_cleaning_4321",
-            "admin": false,
-            "password": **********
-            "jobs": [
-                "job_frankie_customer_123342354",
-                "job_julia_customer_9829349",
-                "job_julia_customer_98938973",
-            ]
+            "displayName": "Susy Smith",
+            "email": "susy@jackiescleaning.com",
+            "phone": {
+                primary: "(432) 456-1940",
+            }
+            "roles": ["admin", "tech", "superadmin"],
+            "disabled": false,
+            "photoUrl": null
         }
 }
 ```
@@ -85,8 +71,10 @@ What jobs do we have scheduled for them?
 {
     "customers": {
         "customer_id_1234423": {
-		    “account_id”: "jackies_cleaning_4321",
             "name": "Frank Sinatra",
+            "payment": "Cash/Check",
+            "paymentAmount": 140,
+            "schedule": "Monthly",
             "contact": {
                 "email": "Frank@fankies.com",
                 "phone": "(456) 456-1234"
@@ -151,6 +139,24 @@ What jobs do we have scheduled for them?
 
 ```
 
+# Teams
+
+"teams": {
+"doc-id": {
+"name": "420 Blazers",
+"users": [
+"user_id_1",
+"user_id_2",
+"user_id_3
+]
+}
+}
+
+```
+
+
+```
+
 # Jobs
 
 Who was on this job?
@@ -163,15 +169,9 @@ Who worked this job?
 ```
 {
     "jobs": {
-        "_id": "job_frankie_cleaning_123342354",
         "customer": "customer_id_1234423",
         "details": {
             "scheduled_date": "10/31/19",
-            "rescheduled_dates": [
-                "11/4/19",
-                "11/5/19",
-                "11/19/19"
-            ],
             "time": "9:00 A.M.",
 			"start_time": 9434582903423,
 			"end_time": 9874589032345,
@@ -180,35 +180,46 @@ Who worked this job?
             "street": "1234 Heath",
             "city": "Boise",
             "state": "ID",
-            "zip": "87540"
+            "zipcode": "87540"
         },
-        "techs": [
-            {
-                "user_id": "susy_smith_123124",
-                "name": "Susy Smith",
-                "start_time": 9434582903423,
-                "end_time": 9874589032345
-            },
-            {
-                "user_id": "susy_smith_123124",
-                "name": "Helga Bergoli",
-                "start_time": 1230909845,
-                "end_time": 0983740298534
-            }
-        ],
+        "team": {
+            "docId": "1yaSTVlyP0skCgnf03Hw",
+            "name": "Team B",
+            "users": [
+                {
+                    "docId": "susy_smith_123124",
+                    "name": "Susy Smith",
+                    "start_time": 9434582903423,
+                    "end_time": 9874589032345
+                },
+                {
+                    "docId": "susy_smith_123124",
+                    "name": "Helga Bergoli",
+                    "start_time": 1230909845,
+                    "end_time": 0983740298534
+                }
+            ],
+        },
         "type": ["Recurring", "Special"],
         "approved_checklist_url": "urltochecklist.com",
         "confirmed_checklist_url": "urltochekclistconfirmed.com",
-        "pre_photos": [
-            "url_to_photo_1.com",
-            "url_to_photo_2.com",
-            "url_to_photo_3.com",
+        "photos": [
+            {
+                url: "url_to_photo_1.com",
+                tag: "kitchen",
+                note: "note about this photo"
+            },
+            {
+                url: "url_to_photo_2.com",
+                tag: "kitchen",
+                note: "note about this photo"
+            },
+            {
+                url: "url_to_photo_3.com",
+                tag: "bathroom",
+                note: "note about this photo"
+            }
         ]
-        "post_photos: [
-            "url_to_photo_4.com",
-            "url_to_photo_5.com",
-            "url_to_photo_6.com"
-        ],
         "notes": "This place was a disaster and now it's beautiful"
     }
 }

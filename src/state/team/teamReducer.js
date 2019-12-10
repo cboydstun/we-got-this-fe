@@ -1,4 +1,4 @@
-import { types } from './teamActions';
+import service from './teamService';
 
 export const teamState = {
     teams: [],
@@ -8,9 +8,11 @@ export default function reducer(state, action) {
     const { type, payload } = action;
 
     switch (type) {
-        case types.TEAM_CREATE:
-            return { ...state, teams: { ...state.teams, payload } };
+        case service.createTeam.success:
+            return { ...state, teams: [...state.teams, payload] };
+        case service.getAllTeams.success:
+            return { ...state, teams: payload };
         default:
             return { ...state };
-    };
-};
+    }
+}

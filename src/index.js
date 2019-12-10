@@ -5,13 +5,15 @@ import * as serviceWorker from './serviceWorker';
 import './index.css';
 
 import { StateProvider } from './state';
-import { mainReducer, initialState } from './state/reducers';
+import { mainReducer, initialState } from './state/reducers.js';
 
-// require('dotenv').config();
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
     <StateProvider reducer={mainReducer} initialState={initialState}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </StateProvider>,
     document.getElementById('root')
 );

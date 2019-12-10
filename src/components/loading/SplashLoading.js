@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Lottie from 'react-lottie';
 import splash from '../lotties/loading-ring.json';
 
-const SplashLoading = () => {
+const SplashLoading = ({ height = '100%', width = '100%' }) => {
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -16,8 +16,8 @@ const SplashLoading = () => {
         <div>
             <Lottie
                 options={defaultOptions}
-                height={400}
-                width={400}
+                height={height}
+                width={width}
                 isStopped={false}
                 isPaused={false}
             />
