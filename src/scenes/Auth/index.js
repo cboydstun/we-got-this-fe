@@ -20,18 +20,18 @@ const useStyles = makeStyles({
 
   root3: {
     backgroundColor: props => props.backgroundColor,
-    backgroundSize: props => props.backgroundSize,
   },
 
   root4: {
-      border: props => props.border
+      borderRadius: props => props.borderRadius,
+      boxShadow: props => props.boxShadow
   }
 });
 
 const Auth = () => {
   const [{ auth }, dispatch] = useStateValue();
   const history = useHistory();
-  const props = { color: "#2678C0", fontWeight: "bold", backgroundColor: "#2678C0", border: "10px", backgroundSize: "100%" };
+  const props = { color: "#2678C0", fontWeight: "bold", backgroundColor: "#2678C0", borderRadius: "4px", backgroundSize: "100%", boxShadow: "10px" };
   const classes = useStyles(props);
 
   return (
@@ -48,7 +48,7 @@ const Auth = () => {
           ) : (
             <h4>{auth.currentUser && auth.currentUser.displayName}</h4>
           )}
-          <button 
+          <button className={`${classes.root4}`}
             onClick={async () => {
               let result = await actions.login(dispatch);
               console.log(result);
