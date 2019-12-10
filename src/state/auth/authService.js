@@ -31,9 +31,9 @@ export const service = {
                 photoURL,
                 disabled: false,
                 phone: {
-                    primary: '3233233232',
-                    secondary: '3233233232',
+                    primary: null,
                 },
+                roles: ['tech', 'admin', 'superAdmin'],
             });
 
             docRef.get().then(doc => {
