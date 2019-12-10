@@ -77,8 +77,6 @@ function App() {
                     history.push(routes.HOME);
                     setIsLoading(false);
                 }
-                // setTimeout(() => {
-                // }, 400);
             } else {
                 setIsLoading(false);
             }
