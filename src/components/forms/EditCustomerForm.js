@@ -1,121 +1,140 @@
 import React from 'react';
-import { Formik, withFormik, Form, Field } from 'formik';
-import _ from 'lodash';
+
+//Components
+import MuiTextInput from '../formItems/MuiTextInput';
+import MuiPhoneInput from '../formItems/MuiPhoneInput';
+import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
+import MuiTextAreaInput from '../formItems/MuiTextAreaInput';
+import { Grid, Button } from '@material-ui/core';
+import { Form, Formik } from 'formik';
+
+//State
+import { useStateValue } from '../../state';
+import { actions } from '../../state/customer/customerActions';
 import * as Yup from 'yup';
-import { withRouter } from 'react-router-dom';
-import { withState } from '../../state';
 
-const EditCustomer = ({
-    errors,
-    touched,
-    values,
-    status,
-    userCreated,
-    setFieldValue,
-    history,
-}) => {
+//Styles
+import { makeStyles } from '@material-ui/core';
+
+//Constants
+import paymentOptions from '../../constants/paymentOptions';
+import referralOptions from '../../constants/referralOptions';
+import MuiAutosuggest from '../formItems/MuiAutosuggest';
+
+const useStyles = makeStyles({
+    button: {
+        marginTop: 20,
+        marginBottom: 15,
+        float: 'right',
+    },
+    column: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+});
+
+const EditCustomerForm = ({ handleClose }) => {
+    const [{ customers }, dispatch] = useStateValue();
+    const classes = useStyles();
+
+    let curr = customers.currentCustomer;
+    let { address } = curr.locations[0];
+
     return (
-        <Formik style={{ maxWidth: 450 }}>
-            {!_.isEmpty(
-                _.intersection(Object.keys(touched), Object.keys(errors))
-            ) && (
-                <div>
-                    <p>There's some issues</p>
-                    <p>
-                        {_.intersection(
-                            Object.keys(touched),
-                            Object.keys(errors)
-                        ).map(key => errors[key])}
-                    </p>
-                </div>
-            )}
+        <Formik
+            initialValues={{
+                docId: curr.docId,
+                name: curr.name || '',
+                email: curr.contact.email || '',
+                phoneNumber: curr.contact.phone || '',
+                street: address.street || '',
+                city: address.city || '',
+                region: 'ID',
+                zipcode: address.zipcode || '',
+                notes: curr.notes || '',
+                payment: curr.payment || '',
+                paymentAmount: curr.paymentAmount || '',
+                hearabout: curr.hearabout || '',
+                schedule: curr.schedule || '',
+            }}
+            validationSchema={Yup.object().shape({
+                name: Yup.string().required('Must enter a First Name'),
+                email: Yup.string().email(),
+                phoneNumber: Yup.string().required('Must enter a Phone Number'),
+                street: Yup.string().required('Must enter an Address'),
+                city: Yup.string().required('Must enter an City'),
+                region: Yup.string().required('Must enter a State'),
+                zipcode: Yup.number().required('Must enter an Zip'),
+            })}
+            onSubmit={(values, { resetForm }) => {
+                actions.updateCustomer(dispatch, { ...values }).then(res => {
+                    console.log(res);
+                    if (res == true) {
+                        console.log('redirecting');
+                    }
+                    resetForm();
+                    handleClose();
+                });
+            }}
+        >
+            <Form>
+                <Grid container spacing={3}>
+                    <Grid item className={classes.column} xs={6}>
+                        <MuiTextInput name="name" label="Name" type="text" />
+                        <MuiTextInput name="email" label="Email" type="text" />
+                        <MuiPhoneInput
+                            name="phoneNumber"
+                            label="Phone Number"
+                            type="text"
+                        />
+                        <MuiTextInput
+                            name="street"
+                            label="Street"
+                            type="text"
+                        />
+                        <MuiTextInput name="city" label="City" type="text" />
+                        <MuiTextInput name="region" label="State" type="text" />
+                        <MuiTextInput
+                            name="zipcode"
+                            label="Zip"
+                            type="number"
+                        />
+                    </Grid>
 
-            <div>
-                <label>
-                    Customer Name
-                    <Field type="Text" name="name" />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Customer Phone Number
-                    <Field
-                        name="phoneNumber"
-                        render={({ field, value, onChange }) => (
-                            <input
-                                {...field}
-                                type="tel"
-                                placeholder="(713) 264-1320"
-                                onChange={e => {
-                                    let formatted = checkPhone(e);
-                                    setFieldValue('phoneNumber', formatted);
-                                }}
-                            />
-                        )}
-                    />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Customer Email
-                    <Field type="email" name="email" />
-                </label>
-            </div>
-
-            <button type="submit">Submit</button>
-            <button
-                onClick={() => {
-                    history.push('/');
-                }}
-            >
-                Cancel
-            </button>
+                    <Grid item className={classes.column} xs={6}>
+                        <MuiSingleSelectInput
+                            name="schedule"
+                            label="Schedule"
+                            data={paymentOptions}
+                        />
+                        <MuiSingleSelectInput
+                            name="payment"
+                            label="Payment Method"
+                            data={paymentOptions}
+                        />
+                        <MuiSingleSelectInput
+                            name="hearabout"
+                            label="How did you hear about us?"
+                            data={referralOptions}
+                        />
+                        <MuiTextAreaInput
+                            name="notes"
+                            label="Notes"
+                            type="text"
+                        />
+                    </Grid>
+                </Grid>
+                <Button
+                    className={classes.button}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                >
+                    Save Edits
+                </Button>
+            </Form>
         </Formik>
     );
 };
 
-function checkPhone(obj) {
-    let str = obj.target.value.replace(/[^0-9]+?/g, '');
-    switch (str.length) {
-        case 10:
-            str =
-                '(' +
-                str.substr(0, 3) +
-                ') ' +
-                str.substr(3, 3) +
-                '-' +
-                str.substr(6, 4);
-            break;
-        default:
-            return;
-    }
-    return str;
-}
-
-const EditCustomerForm = withFormik({
-    mapPropsToValues: ({ name, phoneNumber, email }) => {
-        return {
-            name: name || '',
-            phoneNumber: phoneNumber || '',
-            email: email || '',
-        };
-    },
-
-    validationSchema: Yup.object().shape({
-        name: Yup.string()
-            .required('You must have a Customer Name')
-            .min(4, 'Your customer name cannot be less than 3 letters.'),
-        phoneNumber: Yup.string()
-            .required('You must provide a customer phone number')
-            .min(10, 'Your phone must be at least 10 digits'),
-        email: Yup.string()
-            .email('The email provided is not valid')
-            .required('You must provide an email'),
-    }),
-
-    handleSubmit: function(values, { props, resetForm }) {
-        console.log('Submitting');
-    },
-})(EditCustomer);
-
-export default withState(withRouter(EditCustomerForm));
+export default EditCustomerForm;

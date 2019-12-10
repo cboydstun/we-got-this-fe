@@ -11,13 +11,14 @@ export const service = {
         let currentUser;
         let querySnapshot = await db
             .collection('users')
-            .where('email', '==', email)
+            .where('email', '==', 'scottknight7@gmail.com')
             .limit(1)
             .get();
 
         if (!querySnapshot.empty) {
             console.log('Got Current User');
             querySnapshot.forEach(doc => {
+                console.log('Doc: ', doc, 'Doc Data ', doc.data());
                 let docRef = doc.id;
                 currentUser = { docRef, ...doc.data() };
             });
@@ -28,6 +29,11 @@ export const service = {
                 email,
                 displayName,
                 photoURL,
+                disabled: false,
+                phone: {
+                    primary: '3233233232',
+                    secondary: '3233233232',
+                },
             });
 
             docRef.get().then(doc => {
@@ -38,33 +44,97 @@ export const service = {
         return currentUser;
     },
 
-    //
-    //UPDATE CURRENT USER
-    async updateCurrentUser(updateUserInfo) {
+    //Edit Admin
+    async editAdmin(updateAdmin) {
         let docRef = await db
-            .collection('users')
-            .doc(`${updateUserInfo.docRef}`)
+            .collection('accounts')
+            .doc(`${updateAdmin.docRef}`)
             .put({
-                ...updateUserInfo,
+                ...updateAdmin,
             });
 
-        let updatedUser = null;
+        let updatedAdmin = null;
         docRef.get().then(doc => {
             let docRef = doc.id;
-            updatedUser = { docRef, ...doc.data() };
+            updatedAdmin = { docRef, ...doc.data() };
         });
-
-        return updatedUser;
+        return updatedAdmin;
     },
 
     async createCompany(values) {
         let docRef = await db.collection('accounts').add({
-           ...values
+            ...values,
         });
-        let company = {}
-        let doc = await docRef.get()
+        let company = {};
+        let doc = await docRef.get();
         let docId = doc.id;
-        company = {docId, ...doc.data()}
+        company = { docId, ...doc.data() };
         return company;
-    }
+    },
+    //GET COMPANY
+    async getCompany(accountId) {
+        let currentCompany;
+        let querySnapshot = await db
+            .collection('accounts')
+            .where('company', '==', accountId)
+            .get();
+        querySnapshot.forEach(function(doc) {
+            let docId = doc.id;
+            currentCompany = { docId, ...doc.data() };
+        });
+        return currentCompany;
+    },
+
+    //GET USERS
+    async getUsers() {
+        let users = [];
+        let querySnapshot = await db.collection('users').get();
+        querySnapshot.forEach(doc => {
+            let docId = doc.id;
+            let userData = doc.data();
+            // let jobPaths = customerData.jobs.map(job => job.path);
+            // customerData.jobs = jobPaths;
+            let user = { docId, ...userData };
+            users.push(user);
+        });
+        return users;
+    },
+    // GIVE ADMIN STATUS
+    // async giveAdminStatus(){
+    //     let docRef = await db.collection('users').add({
+    //         ...values,
+    //     });
+    //     let adminRole = {};
+    //     let doc = await docRef.get();
+    //     let docId = doc.id;
+    //     adminRole = { docId, ...doc.data() };
+    //     return adminRole;
+    // }
+    async updateUser(values) {
+        let docId = values.docId;
+        const formatData = values => {
+            return {
+                displayName: values.displayName,
+                phone: {
+                    primary: values.phone,
+                },
+                email: values.email,
+                role: [values.role || 'tech'],
+            };
+        };
+        //Don't set the docId to the actual record... like an idiot.
+        delete values.docId;
+        //Update the user
+        await db
+            .collection('users')
+            .doc(`${docId}`)
+            .update(formatData(values));
+
+        let doc = await db
+            .collection('users')
+            .doc(`${docId}`)
+            .get();
+        let updatedUser = { docId: doc.id, ...doc.data() };
+        return updatedUser;
+    },
 };

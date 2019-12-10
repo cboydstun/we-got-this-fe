@@ -1,32 +1,17 @@
 import { types } from './authActions';
 
 export const authState = {
-    loadingUser: false,
     currentUser: null,
-    errorMessage: null,
+    calendarLoaded: false,
 };
 
 export default function reducer(state, action) {
     let { payload } = action;
-    console.log('Dispatched Action', action);
     switch (action.type) {
-        case types.AUTH_START:
-            return {
-                ...state,
-                loadingUser: true,
-            };
         case types.AUTH_SUCCESS:
             return {
                 ...state,
-                loadingUser: false,
                 currentUser: payload,
-            };
-        case types.AUTH_ERROR:
-            return {
-                ...state,
-                loadingUser: false,
-                errorMessage: payload || null,
-                currentUser: null,
             };
         case types.AUTH_LOGOUT:
             return {
@@ -34,10 +19,55 @@ export default function reducer(state, action) {
                 currentUser: null,
             };
         case types.CREATE_COMPANY:
-            return{
+            return {
                 ...state,
                 company: payload,
-            };    
+            };
+        case types.COMPANY_LIST:
+            return {
+                ...state,
+                currentCompany: payload,
+            };
+        case types.EDIT_ADMIN:
+            return {
+                ...state,
+                currentAdmin: payload,
+            };
+        case types.GET_USERS:
+            return {
+                ...state,
+                users: [...payload],
+            };
+        case types.SET_CURRENT_USER:
+            return {
+                ...state,
+                currentUsers: [...payload],
+            };
+        case types.GIVE_ADMIN_STATUS:
+            return {
+                ...state,
+                admin: payload,
+            };
+        case types.UPDATE_USER:
+            //get the docId from payload
+            let { docId } = payload;
+            //find user in global state
+            let index = state.users.findIndex(user => user.docId == docId);
+            let updatedUser = state.users[index];
+            //update user in global state
+
+            updatedUser = payload;
+
+            //return
+            return {
+                ...state,
+                users: [...state.users],
+            };
+        case types.CALENDAR_LOADED:
+            return {
+                ...state,
+                calendarLoaded: true,
+            };
         default:
             return {
                 ...state,

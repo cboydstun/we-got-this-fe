@@ -5,47 +5,49 @@ import { service } from './authService';
 let gapi = window.gapi;
 
 export const types = {
-    AUTH_START: 'AUTH_START',
     AUTH_SUCCESS: 'AUTH_SUCCESS',
-    AUTH_ERROR: 'AUTH_ERROR',
-
     AUTH_LOGOUT: 'AUTH_LOGOUT',
 
-    AUTH_UPDATE_USER_START: 'AUTH_UPDATE_USER_START',
-    AUTH_UPDATE_USER_SUCCESS: 'AUTH_UPDATE_USER_SUCCESS',
-    AUTH_UPDATE_USER_ERROR: 'AUTH_UPDATE_USER_ERROR',
-    CREATE_COMPANY: "CREATE_COMPANY"
+    COMPANY_LIST: 'COMPANY_LIST',
+    EDIT_ADMIN: 'EDIT_ADMIN',
+    GET_USERS: 'GET_USERS',
+    SET_CURRENT_USER: 'SET_CURRENT_USER',
+    GIVE_ADMIN_STATUS: 'GIVE_ADMIN_STATUS',
+    UPDATE_USER: 'UPDATE_USER',
+
+    CALENDAR_LOADED: 'CALENDAR_LOADED',
 };
 
 export const actions = {
     async login(dispatch) {
         try {
-            dispatch({ type: types.AUTH_START });
             const googleAuth = gapi.auth2.getAuthInstance();
             const googleUser = await googleAuth.signIn();
 
             const token = googleUser.getAuthResponse().id_token;
             const credential = auth.GoogleAuthProvider.credential(token);
 
-            await Firebase.signInWithCredential(credential);
+            let result = await Firebase.signInWithCredential(credential);
+            console.log('Firebase credential: ', result);
+            return true;
         } catch (error) {
-            dispatch({ type: types.AUTH_ERROR });
+            console.log(error);
+            return false;
         }
     },
 
     async getOrCreateCurrentUser(dispatch, user) {
         try {
-            dispatch({ type: types.AUTH_START });
-
             let data = await service.getOrCreateCurrentUser(user);
             console.log(data);
 
-            dispatch({
+            await dispatch({
                 type: types.AUTH_SUCCESS,
                 payload: data,
             });
+            return true;
         } catch (error) {
-            dispatch({ type: types.AUTH_ERROR });
+            return error;
         }
     },
 
@@ -56,36 +58,89 @@ export const actions = {
         dispatch({ type: types.AUTH_LOGOUT });
     },
 
-    async updateCurrentUser(dispatch, user) {
+    async editAdmin(dispatch, values) {
         try {
-            dispatch({ type: types.AUTH_UPDATE_USER_START });
-
-            let updatedUser = await service.updateCurrentUser(user);
-            if (!updatedUser) {
-                throw new Error('Failed to update User');
+            let updatedAdmin = await service.editAdmin(values);
+            if (!updatedAdmin) {
+                throw new Error('Failed to update Admin');
             }
             dispatch({
-                type: types.AUTH_UPDATE_USER_SUCCESS,
-                payload: updatedUser,
+                type: types.EDIT_ADMIN,
+                payload: updatedAdmin,
             });
+            return true;
         } catch (err) {
-            dispatch({ type: types.AUTH_UPDATE_USER_ERROR });
+            return err;
         }
     },
 
-    async createCompany(dispatch, values) {
-        try{
-            let newCompany = await service.createCompany(values);
-            if (!newCompany) {
-                throw new Error("Failed to create Company");
+    async getCompany(dispatch, values) {
+        try {
+            let companyInfo = await service.getCompany(values);
+            console.log('company info', companyInfo);
+
+            dispatch({
+                type: types.COMPANY_LIST,
+                payload: companyInfo,
+            });
+            return true;
+        } catch (error) {
+            dispatch({ type: types.AUTH_ERROR });
+        }
+    },
+    async getUsers(dispatch) {
+        try {
+            console.log('Action to get Users');
+            let users = await service.getUsers();
+            if (!users) {
+                throw new Error('Failed to get users');
             }
             dispatch({
-                type: types.CREATE_COMPANY,
-                payload: newCompany,
+                type: types.GET_USERS,
+                payload: users,
             });
-            return true
+            return true;
+        } catch (err) {
+            return err;
+        }
+    },
+    async setCurrentUser(dispatch, user) {
+        await dispatch({ type: types.SET_CURRENT_USER, payload: user });
+        return true;
+    },
+    async giveAdminStatus(dispatch, values) {
+        try {
+            let adminStatus = await service.giveAdminStatus(values);
+            if (!adminStatus) {
+                throw new Error('Not an Admin');
+            }
+            dispatch({
+                type: types.GIVE_ADMIN_STATUS,
+                payload: adminStatus,
+            });
+            return true;
         } catch (err) {
             return Error;
         }
-    }
+    },
+    async updateUser(dispatch, values) {
+        try {
+            let updatedUser = await service.updateUser(values);
+            console.log(
+                'UpdatedUser returned from service in Action: ',
+                updatedUser
+            );
+            dispatch({
+                type: types.UPDATE_USER,
+                payload: updatedUser,
+            });
+        } catch (error) {
+            return error;
+        }
+    },
+    setCalendarLoaded(dispatch) {
+        dispatch({
+            type: types.CALENDAR_LOADED,
+        });
+    },
 };
