@@ -70,13 +70,15 @@ function App() {
         });
 
         //Auth Change With Firebase
-        Firebase.onAuthStateChanged(user => {
+        Firebase.onAuthStateChanged(async user => {
             if (user !== null) {
-                actions.getOrCreateCurrentUser(dispatch, user);
-                setTimeout(() => {
-                    setIsLoading(false);
+                let res = await actions.getOrCreateCurrentUser(dispatch, user);
+                if (res === true) {
                     history.push(routes.HOME);
-                }, 400);
+                    setIsLoading(false);
+                }
+                // setTimeout(() => {
+                // }, 400);
             } else {
                 setIsLoading(false);
             }

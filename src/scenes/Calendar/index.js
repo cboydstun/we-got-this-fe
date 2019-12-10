@@ -36,10 +36,10 @@ const AllCalendar = () => {
             //at 1500 seconds I find no issues
             setTimeout(() => {
                 actions.getAllCalendarEvents(dispatch);
-            }, 1500);
+            }, 2000);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [auth.currentUser, auth.calendarLoaded]);
 
     //This is redundant and should be pulled elsewhere, but this is what I've got
     //Pull the teams so the filters can access it
