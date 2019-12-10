@@ -169,7 +169,6 @@ Who worked this job?
 ```
 {
     "jobs": {
-        "_id": "job_frankie_cleaning_123342354",
         "customer": "customer_id_1234423",
         "details": {
             "scheduled_date": "10/31/19",
@@ -183,21 +182,24 @@ Who worked this job?
             "state": "ID",
             "zipcode": "87540"
         },
-        "team": "Team B",
-        "techs": [
-            {
-                "user_id": "susy_smith_123124",
-                "name": "Susy Smith",
-                "start_time": 9434582903423,
-                "end_time": 9874589032345
-            },
-            {
-                "user_id": "susy_smith_123124",
-                "name": "Helga Bergoli",
-                "start_time": 1230909845,
-                "end_time": 0983740298534
-            }
-        ],
+        "team": {
+            "docId": "1yaSTVlyP0skCgnf03Hw",
+            "name": "Team B",
+            "users": [
+                {
+                    "docId": "susy_smith_123124",
+                    "name": "Susy Smith",
+                    "start_time": 9434582903423,
+                    "end_time": 9874589032345
+                },
+                {
+                    "docId": "susy_smith_123124",
+                    "name": "Helga Bergoli",
+                    "start_time": 1230909845,
+                    "end_time": 0983740298534
+                }
+            ],
+        },
         "type": ["Recurring", "Special"],
         "approved_checklist_url": "urltochecklist.com",
         "confirmed_checklist_url": "urltochekclistconfirmed.com",

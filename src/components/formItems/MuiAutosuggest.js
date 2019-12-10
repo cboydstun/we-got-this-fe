@@ -9,21 +9,30 @@ import { useField } from 'formik';
 const MuiAutosuggest = props => {
     const [field, meta] = useField(props);
 
+    console.log(field);
+
     return (
         <Autocomplete
-            freeSolo
-            options={props.options.map(option => option.display)}
-            value={field.value}
+            options={props.options}
+            getOptionLabel={option => option[props.displayKey]}
+            // renderOption={option => option[props.valueKey]}
+            name={props.name}
+            // value={field.value}
+            onChange={(event, value) => {
+                // console.log('Event', e, 'Value', value);
+                let { target } = event;
+                let newE = { ...event, target: { ...event.target, value } };
+                field.onChange(newE);
+            }}
             renderInput={params => (
                 <TextField
                     {...params}
-                    type={props.type}
+                    {...field}
+                    {...props}
                     name={props.name}
                     label={props.label}
                     margin="none"
                     error={meta.touched && !!meta.error}
-                    value={field.value}
-                    onChange={field.onChange}
                     fullWidth
                 />
             )}
