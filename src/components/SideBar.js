@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     content: {
         width: `calc(100% - ${drawerWidth}px)`,
         padding: theme.spacing(2),
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             marginTop: 55,
             width: '100%',
         },
