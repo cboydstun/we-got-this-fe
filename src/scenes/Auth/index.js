@@ -7,8 +7,6 @@ import Column from "../../components/styles/containers/Column";
 import Row from "../../components/styles/containers/Row";
 import { makeStyles } from "@material-ui/core/styles";
 import images from "../../images/loginPic.png";
-
-
 const useStyles = makeStyles(theme => ({
     main: {
         // border: '1px solid black',
@@ -76,15 +74,12 @@ const useStyles = makeStyles(theme => ({
         color: '#2678C0',
         fontSize: '1.0rem'
     }
-
    
 }));
-
 const Auth = () => {
   const [{ auth }, dispatch] = useStateValue();
   const history = useHistory();
   const classes = useStyles();
-
   return (
     <div className={classes.main}>
       <Row>
@@ -131,7 +126,5 @@ const Auth = () => {
       </Row>
     </div>
   );
-
 };
-
 export default Auth;
