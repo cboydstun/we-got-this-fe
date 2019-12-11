@@ -122,17 +122,17 @@ const NewJobForm = ({ handleClose }) => {
                                         )}
                                     />
                                 </Grid>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    style={{
-                                        marginTop: 20,
-                                        float: 'right',
-                                    }}
-                                >
-                                    Next ->
+                                <Grid item xs={6}>
+                                    <Grid container justify="center" alignItems="center" style={{ height: '100%' }}>
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                        >
+                                            Next ->
                                     </Button>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </form>
                     </Grid>
