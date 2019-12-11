@@ -28,6 +28,7 @@ import MuiPhoneInput from '../formItems/MuiPhoneInput';
 import MuiSingleSelectInput from '../formItems/MuiSingleSelectInput';
 
 import moment from 'moment';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const SelectedTime = styled(withTheme(Paper))(props => ({
     padding: props.theme.spacing(1),
@@ -37,6 +38,7 @@ const SelectedTime = styled(withTheme(Paper))(props => ({
 const NewJobForm = ({ handleClose }) => {
     const [loading, setLoading] = useState(true);
     const [{ customers, jobs }, dispatch] = useStateValue();
+    const [selectedCustomer, setSelectedCustomer] = useState();
 
     //
     //If there are no customers, get the customers from the database
@@ -80,6 +82,14 @@ const NewJobForm = ({ handleClose }) => {
         );
     };
 
+    const handleExistingCustomerSubmit = e => {
+        e.preventDefault();
+
+        if (selectedCustomer) {
+            jobActions.setNewJobCustomer(dispatch, selectedCustomer);
+        }
+    }
+
     return (
         <>
             <DialogContent>
@@ -94,57 +104,37 @@ const NewJobForm = ({ handleClose }) => {
 
                     {/* Select Customer Form Option */}
                     <Grid item xs={12}>
-                        <Formik
-                            initialValues={{
-                                customer: '',
-                            }}
-                            validationSchema={Yup.object().shape({
-                                customer: Yup.string().required(),
-                            })}
-                            onSubmit={(values, { resetForm }) => {
-                                //Get the index of the customer selected
-                                let index = customers.customers.findIndex(
-                                    customer =>
-                                        customer.docId == values.customer
-                                );
-                                //Get the customer
-                                let customer = customers.customers[index];
-                                console.log(customer);
-                                //Send it from global state
-                                jobActions.setNewJobCustomer(
-                                    dispatch,
-                                    customer
-                                );
-                            }}
-                        >
-                            <Form>
-                                <Grid container spacing={1}>
-                                    <Grid item xs={12}>
-                                        <h3>Select Existing Customer</h3>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <MuiSingleSelectInput
-                                            name="customer"
-                                            label="Select By Name"
-                                            data={customers.customers}
-                                            valueKey="docId"
-                                            displayKey="name"
-                                        />
-                                    </Grid>
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        style={{
-                                            marginTop: 20,
-                                            float: 'right',
-                                        }}
-                                    >
-                                        Next ->
-                                    </Button>
+                        <form onSubmit={handleExistingCustomerSubmit}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={12}>
+                                    <h3>Select Existing Customer</h3>
                                 </Grid>
-                            </Form>
-                        </Formik>
+                                <Grid item xs={6}>
+                                    <Autocomplete
+                                        options={customers.customers}
+                                        getOptionLabel={customer => customer.name}
+                                        onChange={(_, customer) => setSelectedCustomer(customer)}
+                                        filterOptions={(customers, state) =>
+                                            customers.filter(customer =>
+                                                customer.name.toLowerCase().includes(state.inputValue.toLowerCase()))}
+                                        renderInput={params => (
+                                            <TextField name="customer" {...params} variant="outlined" fullWidth />
+                                        )}
+                                    />
+                                </Grid>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    style={{
+                                        marginTop: 20,
+                                        float: 'right',
+                                    }}
+                                >
+                                    Next ->
+                                    </Button>
+                            </Grid>
+                        </form>
                     </Grid>
 
                     {/* New Customer Form */}
