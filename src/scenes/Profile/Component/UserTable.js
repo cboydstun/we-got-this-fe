@@ -36,6 +36,35 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+/*
+    Displays information about the currently registered users.
+
+    Example Props:
+        "users": [
+            {
+            "docId": "1yaSTVlyP0skCgnf03Hw",
+            "company": "We Got This!",
+            "company_code": "we-got-this-12343",
+            "disabled": false,
+            "displayName": "Mister Clean",
+            "email": "scottknight7@gmail.com",
+            "phone": {
+                "primary": "(555) 555-5555"
+            },
+            "phoneNumber": "3233233232",
+            "photoUrl": "https://example.com",
+            "role": [
+                "tech"
+            ],
+            "roles": [
+                "tech",
+                "superadmin",
+                "admin"
+            ],
+            "type": "admin"
+            },
+        ]
+*/
 const UserTable = ({ users }) => {
     const [{ auth }, dispatch] = useStateValue();
     const [state, setState] = useState();

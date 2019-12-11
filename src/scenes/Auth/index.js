@@ -128,6 +128,7 @@ const Auth = () => {
       </Row>
     </div>
   );
+
 };
 
 export default Auth;
