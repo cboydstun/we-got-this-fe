@@ -26,6 +26,12 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+/*
+    Displays a header for the table of customers.
+
+    Example Props:
+        "title": "Customers"
+*/
 const TableHeader = ({ title }) => {
     const classes = useStyles();
     return (

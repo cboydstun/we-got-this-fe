@@ -19,6 +19,24 @@ const EditButton = styled(Button)({
     alignSelf: 'flex-end',
 });
 
+/*
+    Displays extra information about a customer and their needs,
+    circumstances, requirements, etc.
+
+    Example Props:
+        "customer": {
+            "docId": "I0G0og0tcoa0KUlrzxPK",
+            "contact": "Object",
+            "hearabout": null,
+            "jobs": "Array[1]",
+            "locations": "Array[1]",
+            "name": "Zoe",
+            "notes": "What a beautiful woman!",
+            "payment": null,
+            "paymentAmount": null,
+            "schedule": null
+        }
+*/
 const CustomerNotes = ({ customer }) => {
     return (
         <NotesCard>
