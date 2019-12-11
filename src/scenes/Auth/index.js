@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     },
     flex: {
         display: 'flex',
-        border: '5px solid #B4B6F8',
+        border: '5px solid #C5D3F3',
         margin: 'auto',
         cursor: 'pointer',
         marginBottom: '35px',
