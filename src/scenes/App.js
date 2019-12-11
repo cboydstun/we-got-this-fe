@@ -52,7 +52,6 @@ const useStyles = makeStyles(theme => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: '0'
     },
 }));
 
