@@ -58,7 +58,7 @@ const headerCells = [
     {
         id: 'type',
         align: 'right',
-        label: 'Type',
+        label: 'Customer Type',
     },
 ];
 
