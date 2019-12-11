@@ -1,128 +1,134 @@
-import React from 'react';
-import { useStateValue } from '../../state';
-import { actions } from '../../state/auth/authActions';
-import { useHistory } from 'react-router-dom';
-import { routes } from '../../constants/routes';
-import { makeStyles } from '@material-ui/core/styles';
-import images from '../../images/loginPic.png';
-import { Grid } from '@material-ui/core';
+import React from "react";
+import { useStateValue } from "../../state";
+import { actions } from "../../state/auth/authActions";
+import { useHistory } from "react-router-dom";
+import { routes } from "../../constants/routes";
+import Column from "../../components/styles/containers/Column";
+import Row from "../../components/styles/containers/Row";
+import { makeStyles } from "@material-ui/core/styles";
+import images from "../../images/loginPic.png";
+
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        color: '#2678C0',
-        fontWeight: 'bold',
-        [theme.breakpoints.down('xs')]: {
-            fontSize: '18px',
-        },
+    main: {
+        border: '1px solid black',
+        padding: '0',
+        height: '747px'
     },
-    container: {
-        [theme.breakpoints.down('xs')]: {
-            flexDirection: 'column-reverse',
-        },
-    },
-    root2: {
-        color: '#2678C0',
-        [theme.breakpoints.down('xs')]: {
-            fontSize: '14px',
-        },
-    },
-    root4: {
-        borderRadius: 4,
-        boxShadow: 10,
-    },
-    imgContainer: {
+    loginImage: {
         backgroundColor: '#2678C0',
-        flex: 1,
     },
-    img: {
-        backgroundImage: `url(${images})`,
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'contain',
-        backgroundAttachment: 'fixed',
-        width: '100%',
-        height: `calc(100vh - ${theme.spacing(4)}px)`,
-        [theme.breakpoints.down('xs')]: {
-            width: '90vw',
-            height: '50vh',
-        },
+    image: {
+        width: '765px',
+        height: '740px',
+        padding: '167px',
     },
-    loginContainer: {
-        flex: 1,
+    text1: {
+        textAlign: 'center',
+        margin: 'auto',
+        color: '#2678C0',
+        fontSize: '50px',
+        paddingTop: '221px',
     },
+    text2: {
+        margin: 'auto',
+        color: '#2678C0',
+        fontSize: '35px',
+        marginBottom: '50px',
+        fontWeight: '100'
+    },
+    googleLogo: {
+        height: '45px',
+        width: '50px',
+        paddingTop: '7px',
+    },
+    buttonSignIn: {
+        height: '50px',
+        width: '240px',
+        backgroundColor: 'white',
+        border: '1px solid white',
+        fontSize: '20px',
+        padding: '0',
+        fontWeight: 'bolder',
+        color: 'grey',
+        cursor: 'pointer',
+    },
+    buttonRegister: {
+        border: '1px solid white',
+        textDecoration: 'underline',
+        cursor: 'pointer',
+        color: '#2678C0',
+        fontSize: '1.0rem'
+    },
+    flex: {
+        display: 'flex',
+        border: '1px solid black',
+        margin: 'auto',
+        cursor: 'pointer',
+        marginBottom: '35px',
+    },
+    flex2: {
+        display: 'flex',
+        margin: 'auto',
+        color: '#2678C0',
+        fontSize: '1.0rem'
+    }
+
+   
 }));
 
 const Auth = () => {
-    const [{ auth }, dispatch] = useStateValue();
-    const history = useHistory();
+  const [{ auth }, dispatch] = useStateValue();
+  const history = useHistory();
+  const classes = useStyles();
 
-    const classes = useStyles();
+  return (
+    <div className={classes.main}>
+      <Row>
+        <Column className={classes.zeroPadding}>
+            <div className={classes.loginImage}><img className={classes.image} src={images} /></div>
+        </Column>
+        <Column>
+          <h1 className={classes.text1}>Welcome back!</h1>
+          <h2 className={classes.text2}>We know you got this!</h2>
+          {auth.loadingUser ? (
+            <h4>Loading</h4>
+          ) : (
+            <h4>{auth.currentUser && auth.currentUser.displayName}</h4>
+          )}
+          <div className={classes.flex}>
+          <img className={classes.googleLogo} src='https://www.sketchappsources.com/resources/source-image/google-g-logo.jpg'></img>
+          <button className={classes.buttonSignIn} 
+            onClick={async () => {
+              let result = await actions.login(dispatch);
+              console.log(result);
+              if (result == true) {
+                history.push(routes.HOME);
+              }
+            }}
+          >
+            Sign In With Google
+          </button>
+          </div>
+          <div className={classes.flex2}>
+          <p>Don't have an account?</p>
+          <button className={classes.buttonRegister}
+            onClick={async () => {
+              let result = await actions.login(dispatch);
+              console.log(result);
+              if (result == true) {
+                history.push(routes.AUTH_REGISTER_COMPANY);
+              }
+            }}
+          >
+            Register With Google
+          </button>
+          </div>
+        </Column>
+      </Row>
+    </div>
+  );
 
-    return (
-        <Grid
-            container
-            lg={2}
-            spacing={2}
-            direction="row"
-            justify="space-around"
-            alignItems="center"
-            className={classes.container}
-        >
-            <Grid item className={classes.imgContainer}>
-                <div className={classes.img}></div>
-            </Grid>
-            <Grid
-                container
-                item
-                justify="center"
-                alignItems="center"
-                className={classes.loginContainer}
-            >
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
-                    <h1 className={classes.root}>Welcome back!</h1>
-                    <h2 className={classes.root2}>We know you got this!</h2>
-                    {auth.loadingUser ? (
-                        <h4>Loading</h4>
-                    ) : (
-                        <h4>
-                            {auth.currentUser && auth.currentUser.displayName}
-                        </h4>
-                    )}
-                    <button
-                        className={classes.root4}
-                        onClick={async () => {
-                            let result = await actions.login(dispatch);
-                            console.log(result);
-                            if (result == true) {
-                                history.push(routes.HOME);
-                            }
-                        }}
-                    >
-                        Sign In With Google
-                    </button>
-                    <div>Don't have an account?</div>
-                    <button
-                        onClick={async () => {
-                            let result = await actions.login(dispatch);
-                            console.log(result);
-                            if (result == true) {
-                                history.push(routes.AUTH_REGISTER_COMPANY);
-                            }
-                        }}
-                    >
-                        Register With Google
-                    </button>
-                </div>
-            </Grid>
-        </Grid>
-    );
 };
 
 export default Auth;
