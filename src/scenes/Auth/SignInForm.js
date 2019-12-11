@@ -44,7 +44,7 @@ const SignInForm = () => {
                 placeholder="Password"
                 onChange={e => handleChange(e)}
             />
-            <button type="submite">Create Account</button>
+            <button type="submit">Create Account</button>
         </form>
     );
 };

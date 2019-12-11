@@ -35,6 +35,23 @@ const Title = styled(Box)({
     alignItems: 'center',
 });
 
+/*
+    Displays information about a specific customer.
+
+    Example Props:
+        "customer": {
+            "docId": "I0G0og0tcoa0KUlrzxPK",
+            "contact": "Object",
+            "hearabout": null,
+            "jobs": "Array[1]",
+            "locations": "Array[1]",
+            "name": "Zoe",
+            "notes": "What a beautiful woman!",
+            "payment": null,
+            "paymentAmount": null,
+            "schedule": null
+        }
+*/
 const CustomerCard = ({ customer }) => {
     const classes = useStyles();
     const [, dispatch] = useStateValue();
@@ -53,7 +70,7 @@ const CustomerCard = ({ customer }) => {
             <Grid item>
                 <CustomerImage
                     img={customer.img}
-                    //    https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?)'
+                //    https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?)'
                 />
             </Grid>
             <Grid item xs={6} sm container>
