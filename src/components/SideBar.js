@@ -53,14 +53,14 @@ const useStyles = makeStyles(theme => ({
         fontSize: 18,
     },
     drawerPaper: {
-        padding: theme.spacing(1),
+        padding: '11px',
         zIndex: 0,
         backgroundColor: '#2678C0',
     },
     content: {
         width: `calc(100% - ${drawerWidth}px)`,
-        padding: theme.spacing(2),
-        [theme.breakpoints.down('sm')]: {
+        // padding: theme.spacing(2),
+        [theme.breakpoints.down('xs')]: {
             marginTop: 55,
             width: '100%',
         },

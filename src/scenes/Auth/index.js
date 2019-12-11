@@ -7,13 +7,11 @@ import Column from "../../components/styles/containers/Column";
 import Row from "../../components/styles/containers/Row";
 import { makeStyles } from "@material-ui/core/styles";
 import images from "../../images/loginPic.png";
-
-
 const useStyles = makeStyles(theme => ({
     main: {
-        border: '1px solid black',
+        // border: '1px solid black',
         padding: '0',
-        height: '747px'
+        height: '100%'
     },
     loginImage: {
         backgroundColor: '#2678C0',
@@ -47,11 +45,13 @@ const useStyles = makeStyles(theme => ({
         width: '240px',
         backgroundColor: 'white',
         border: '1px solid white',
+        borderRadius: '4px',
         fontSize: '20px',
         padding: '0',
         fontWeight: 'bolder',
         color: 'grey',
         cursor: 'pointer',
+        outline: 'none',
     },
     buttonRegister: {
         border: '1px solid white',
@@ -62,10 +62,11 @@ const useStyles = makeStyles(theme => ({
     },
     flex: {
         display: 'flex',
-        border: '1px solid black',
+        border: '5px solid #B4B6F8',
         margin: 'auto',
         cursor: 'pointer',
         marginBottom: '35px',
+        padding: '10px',
     },
     flex2: {
         display: 'flex',
@@ -73,15 +74,12 @@ const useStyles = makeStyles(theme => ({
         color: '#2678C0',
         fontSize: '1.0rem'
     }
-
    
 }));
-
 const Auth = () => {
   const [{ auth }, dispatch] = useStateValue();
   const history = useHistory();
   const classes = useStyles();
-
   return (
     <div className={classes.main}>
       <Row>
@@ -96,16 +94,16 @@ const Auth = () => {
           ) : (
             <h4>{auth.currentUser && auth.currentUser.displayName}</h4>
           )}
-          <div className={classes.flex}>
-          <img className={classes.googleLogo} src='https://www.sketchappsources.com/resources/source-image/google-g-logo.jpg'></img>
-          <button className={classes.buttonSignIn} 
-            onClick={async () => {
+          <div className={classes.flex} onClick={async () => {
               let result = await actions.login(dispatch);
               console.log(result);
               if (result == true) {
                 history.push(routes.HOME);
               }
-            }}
+            }}>
+          <img className={classes.googleLogo} src='https://www.sketchappsources.com/resources/source-image/google-g-logo.jpg'></img>
+          <button className={classes.buttonSignIn} 
+            
           >
             Sign In With Google
           </button>
@@ -129,5 +127,4 @@ const Auth = () => {
     </div>
   );
 };
-
 export default Auth;

@@ -47,6 +47,31 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+/*
+    Displays information about a specific tech.
+
+    Example Props:
+        "handleEdit": "handleEdit()",
+        "docId": "mljjtLxunQHGiyGymRmt",
+        "team": {
+            "docId": "gYoobfPzHpk4CYfp3f88",
+            "name": "Clean Team",
+            "users": "Array[3]"
+        },
+        "disabled": true,
+        "displayName": "Tester McGee",
+        "email": "testermcgee@gmail.com",
+        "phone": {
+            "primary": "(555) 555-5555"
+        },
+        "photoUrl": "https://example.com",
+        "role": [
+            "tech"
+        ],
+        "roles": [
+            "tech"
+        ]
+*/
 const TechCard = ({ docId, displayName, photoUrl, disabled, team, handleEdit }) => {
     const classes = useStyles({ disabled });
     const [, dispatch] = useStateValue();

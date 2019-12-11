@@ -39,6 +39,12 @@ const Image = styled(({ img, ...other }) => <ButtonBase {...other} />)({
     },
 });
 
+/*
+    Displays a specific customer's headshot image.
+
+    Example Props:
+        "img": "http://example.com/"
+*/
 const CustomerImage = ({ img }) => {
     const [{ customers }, dispatch] = useStateValue();
     const [loading, setLoading] = useState(false);
@@ -77,22 +83,22 @@ const CustomerImage = ({ img }) => {
                     <SplashLoading />
                 </div>
             ) : (
-                <>
-                    <input
-                        type="file"
-                        ref={fileInput}
-                        id="imgUpload"
-                        onChange={e => handleFileChange(e)}
-                        style={{ display: 'none' }}
-                    />
-                    <Image
-                        img={img || uploadedImg}
-                        onClick={() => fileInput.current.click()}
-                    >
-                        <p>Click to change</p>
-                    </Image>
-                </>
-            )}
+                    <>
+                        <input
+                            type="file"
+                            ref={fileInput}
+                            id="imgUpload"
+                            onChange={e => handleFileChange(e)}
+                            style={{ display: 'none' }}
+                        />
+                        <Image
+                            img={img || uploadedImg}
+                            onClick={() => fileInput.current.click()}
+                        >
+                            <p>Click to change</p>
+                        </Image>
+                    </>
+                )}
         </>
     );
 };
