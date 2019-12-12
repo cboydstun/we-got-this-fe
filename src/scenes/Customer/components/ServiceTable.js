@@ -46,6 +46,26 @@ const teams = techsArray => {
     return team.slice(0, -2);
 };
 
+/*
+    Displays a specific customer's service history in a table format.
+
+    Example Props:
+        "jobs": [
+            "Object"
+        ],
+        "match": {
+            "path": "/customers/:customer_id",
+            "url": "/customers/I0G0og0tcoa0KUlrzxPK",
+            "isExact": true,
+            "params": "Object"
+        },
+        "location": {
+            "pathname": "/customers/I0G0og0tcoa0KUlrzxPK",
+            "search": "",
+            "hash": "",
+            "key": "e58lws"
+        }
+*/
 const ServiceTable = ({ jobs, match, location }) => {
     console.log(('Service Table Location: ', location));
     const classes = useStyles();
