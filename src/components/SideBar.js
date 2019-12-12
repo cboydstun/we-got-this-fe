@@ -14,210 +14,105 @@ import {
     AppBar,
     Toolbar,
     Hidden,
+    ListItemIcon,
+    ListItemText,
+    Grid
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { routes } from '../constants/routes';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import { CalendarToday, People, Contacts, SettingsApplications } from '@material-ui/icons';
 
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { useStateValue } from '../state';
 
-const drawerWidth = 150;
-
 const useStyles = makeStyles(theme => ({
     root: {
-        display: 'flex',
+        width: '90px',
+        zIndex: '2',
     },
-    appBar: {
-        marginBottom: 48,
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    link: {
-        textDecoration: 'none',
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
-        color: theme.palette.common.white,
-        fontSize: 16,
-    },
-    logo: {
-        textDecoration: 'none',
-        fontWeight: theme.typography.fontWeightBold,
-        color: theme.palette.common.white,
-        marginRight: theme.spacing(2),
-        fontSize: 18,
-    },
-    drawerPaper: {
-        padding: theme.spacing(1),
-        zIndex: 0,
-        backgroundColor: '#2678C0',
-    },
-    content: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        padding: theme.spacing(2),
-        [theme.breakpoints.down('sm')]: {
-            marginTop: 55,
-            width: '100%',
-        },
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
-    },
-    routes: {
+
+    container: {
+        height: '100%',
+        backgroundColor: theme.palette.primary.main,
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
     },
+
+    mainItems: {
+        height: '60%',
+    },
+
+    item: {
+        '& > *': {
+            display: 'flex',
+            justifyContent: 'center',
+            color: 'white',
+            padding: theme.spacing(1),
+        }
+    }
 }));
 
-const activeStyles = {
-    fontWeight: 600,
-    textDecoration: 'underline',
-};
-
-const SideBar = ({ children }) => {
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [{ auth }, dispatch] = useStateValue();
+const Item = ({ linkTo, exact, children }) => {
     const classes = useStyles();
 
-    const theme = useTheme();
-    const smallWidth = useMediaQuery(theme.breakpoints.down('xs'));
+    return (
+        <ListItem button exact={exact} className={classes.item} component={NavLink} to={linkTo} activeClassName="Mui-selected">
+            {children}
+        </ListItem>
+    )
+};
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+const SideBar = () => {
+    const [expanded, setExpanded] = useState(false);
+    const [{ auth }, dispatch] = useStateValue();
+    const theme = useTheme();
+    const classes = useStyles();
+
+    const handleHamburgerClick = () => setExpanded(!expanded);
 
     return (
-        <>
-            <Hidden smUp implementation="js">
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            edge="start"
-                            onClick={handleDrawerToggle}
-                            className={classes.menuButton}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" noWrap>
-                            We Got This!
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <Drawer
-                    variant="temporary"
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    classes={{ paper: classes.drawerPaper }}
-                    anchor="top"
-                    ModalProps={{ keepMounted: true }}
-                >
-                    <List>
-                        <ListItem>
-                            <NavLink
-                                to={routes.HOME}
-                                className={classes.link}
-                                onClick={handleDrawerToggle}
-                                activeStyle={activeStyles}
-                            >
-                                Dashboard
-                            </NavLink>
-                        </ListItem>
-                        <ListItem>
-                            <NavLink
-                                to={routes.CUSTOMERS}
-                                className={classes.link}
-                                onClick={handleDrawerToggle}
-                                activeStyle={activeStyles}
-                            >
-                                Customers
-                            </NavLink>
-                        </ListItem>
-                        <ListItem>
-                            <NavLink
-                                to={routes.TECHS}
-                                className={classes.link}
-                                onClick={handleDrawerToggle}
-                                activeStyle={activeStyles}
-                            >
-                                Techs
-                            </NavLink>
-                        </ListItem>
-                        <ListItem>
-                            <NavLink
-                                to={routes.PROFILE}
-                                className={classes.link}
-                                onClick={handleDrawerToggle}
-                                activeStyle={activeStyles}
-                            >
-                                Admin
-                            </NavLink>
-                        </ListItem>
-                    </List>
-                </Drawer>
-            </Hidden>
-            <Hidden xsDown implementation="js">
-                <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{ paper: classes.drawerPaper }}
-                    anchor="left"
-                >
-                    <div className={classes.routes}>
-                        <Typography variant="h5">
-                            <Link to={routes.HOME} className={classes.logo}>
-                                We Got This!
-                            </Link>
-                        </Typography>
-                        <NavLink
-                            exact
-                            to={routes.HOME}
-                            className={classes.link}
-                            activeStyle={activeStyles}
-                        >
-                            Dashboard
-                        </NavLink>
-                        <NavLink
-                            to={routes.CUSTOMERS}
-                            className={classes.link}
-                            activeStyle={activeStyles}
-                        >
-                            Customers
-                        </NavLink>
-                        <NavLink
-                            to={routes.TECHS}
-                            className={classes.link}
-                            activeStyle={activeStyles}
-                        >
-                            Techs
-                        </NavLink>
-                    </div>
-                    {auth.currentUser ? (
-                        <IconButton component={Link} to={routes.PROFILE}>
-                            <AccountCircle style={{ color: 'white' }} />
-                        </IconButton>
-                    ) : (
-                        <Button
-                            component={Link}
-                            to={routes.AUTH}
-                            className={classes.white}
-                        >
-                            Login
-                        </Button>
-                    )}
-                </Drawer>
-            </Hidden>
-            <div className={classes.content}>{children}</div>
-        </>
+        <Drawer
+            open={true}
+            variant="permanent"
+            className={classes.root}
+            PaperProps={
+                {
+                    style: {
+                        width: 'inherit',
+                        position: 'static',
+                        color: 'white',
+                    },
+
+                    className: classes.container,
+                }
+            }
+        >
+            <List>
+                <ListItem button className={classes.item} onClick={handleHamburgerClick}>
+                    <ListItemIcon><MenuIcon /></ListItemIcon>
+                </ListItem>
+            </List>
+            <List className={classes.mainItems}>
+                <Item exact linkTo={routes.HOME}>
+                    <ListItemIcon><CalendarToday /></ListItemIcon>
+                </Item>
+                <Item linkTo={routes.CUSTOMERS}>
+                    <ListItemIcon><People /></ListItemIcon>
+                </Item>
+                <Item linkTo={routes.TECHS}>
+                    <ListItemIcon><Contacts /></ListItemIcon>
+                </Item>
+            </List>
+            <List>
+                <ListItem button className={classes.item}>
+                    <ListItemIcon><SettingsApplications /></ListItemIcon>
+                </ListItem>
+            </List>
+        </Drawer>
     );
 };
 
