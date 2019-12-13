@@ -67,7 +67,7 @@ const Item = ({ linkTo, exactLink, icon: Icon, children, ...rest }) => {
                 button
                 className={classes.item}
                 exact={exactLink}
-                component={NavLink}
+                component={linkTo && NavLink}
                 to={linkTo || ''}
                 {...rest}
             >
@@ -103,7 +103,7 @@ const SideBar = () => {
                 }
             >
                 <List>
-                    <Item exactLink icon={MenuIcon} onClick={handleHamburgerClick} />
+                    <Item icon={MenuIcon} onClick={handleHamburgerClick} />
                 </List>
                 <List className={classes.mainItems}>
                     <Item linkTo={routes.HOME} icon={CalendarToday}>
