@@ -17,6 +17,7 @@ export const types = {
     SET_SLOT_EVENT: 'jobs/set_slot_event',
     GET_ALL_JOBS: 'calendar/get_all_jobs',
     ADD_JOB_TO_JOBS: 'jobs/add_job_to_jobs',
+    ADD_UPDATE_PHOTO_ON_JOB: 'jobs/add_update_photo_on_job',
 };
 
 export const actions = {
@@ -200,6 +201,38 @@ export const actions = {
         } catch (error) {
             console.log('Scheduling Job Error: ', error);
             return error;
+        }
+    },
+    async uploadJobImage(dispatch, values) {
+        try {
+            let formatted = jobModel.formatJobImage(values);
+            let savedJob = await jobService.uploadJobImage(formatted);
+
+            //Write Dispatch function here
+            dispatch({
+                type: customerTypes.ADD_IMAGE_TO_JOB,
+                payload: formatted,
+            });
+
+            return true;
+        } catch (err) {
+            console.log(err);
+            return err;
+        }
+    },
+    async updateJobImage(dispatch, values) {
+        try {
+            let formatted = jobModel.formatJobImage(values);
+            await jobService.updateJobImage(formatted);
+
+            dispatch({
+                type: customerTypes.UPDATE_IMAGE_ON_JOB,
+                payload: formatted,
+            });
+            return true;
+        } catch (err) {
+            return err;
+            console.log(err);
         }
     },
 };
