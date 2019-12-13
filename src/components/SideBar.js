@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import {
-    Button,
     Drawer,
-    Divider,
     List,
     ListItem,
-    useMediaQuery,
-    Icon,
-    IconButton,
-    Typography,
-    TextField,
-    MenuItem,
-    AppBar,
-    Toolbar,
-    Hidden,
     ListItemIcon,
     ListItemText,
     Grid,
@@ -29,9 +18,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { useStateValue } from '../state';
 
+const SideBarContext = createContext();
+
 const useStyles = makeStyles(theme => ({
     root: {
         width: props => !props.expanded && '90px',
+        height: '100%',
+        position: 'fixed',
         zIndex: '2',
     },
 
@@ -59,15 +52,16 @@ const useStyles = makeStyles(theme => ({
     },
 
     itemText: {
-        display: props => props.compactDisplay ? 'none' : 'inline'
+        display: props => !props.expanded ? 'none' : 'inline'
     },
 }));
 
-const Item = ({ linkTo, exactLink, compactDisplay, icon: Icon, children, ...rest }) => {
-    const classes = useStyles({ compactDisplay });
+const Item = ({ linkTo, exactLink, icon: Icon, children, ...rest }) => {
+    const { expanded } = useContext(SideBarContext);
+    const classes = useStyles({ expanded });
 
     return (
-        <Tooltip title={(compactDisplay && children) ? children : ''} placement="right">
+        <Tooltip title={(!expanded && children) ? children : ''} placement="right">
             <ListItem
                 button
                 className={classes.item}
@@ -91,43 +85,45 @@ const SideBar = () => {
     const handleHamburgerClick = () => setExpanded(!expanded);
 
     return (
-        <Drawer
-            open={true}
-            variant="permanent"
-            className={classes.root}
-            component="nav"
-            PaperProps={
-                {
-                    style: {
-                        width: 'inherit',
-                        position: 'static',
-                        color: 'white',
-                    },
+        <SideBarContext.Provider value={{ expanded }}>
+            <Drawer
+                open={true}
+                variant="permanent"
+                className={classes.root}
+                component="nav"
+                PaperProps={
+                    {
+                        style: {
+                            width: 'inherit',
+                            position: 'static',
+                            color: 'white',
+                        },
 
-                    className: classes.container,
+                        className: classes.container,
+                    }
                 }
-            }
-        >
-            <List>
-                <Item compactDisplay={!expanded} exactLink icon={MenuIcon} onClick={handleHamburgerClick} />
-            </List>
-            <List className={classes.mainItems}>
-                <Item compactDisplay={!expanded} linkTo={routes.HOME} icon={CalendarToday}>
-                    Calendar
-                </Item>
-                <Item compactDisplay={!expanded} linkTo={routes.CUSTOMERS} icon={People}>
-                    Customers
-                </Item>
-                <Item compactDisplay={!expanded} linkTo={routes.TECHS} icon={Contacts}>
-                    Teams
-                </Item>
-            </List>
-            <List>
-                <Item compactDisplay={!expanded} icon={SettingsApplications}>
-                    Settings
-                </Item>
-            </List>
-        </Drawer>
+            >
+                <List>
+                    <Item exactLink icon={MenuIcon} onClick={handleHamburgerClick} />
+                </List>
+                <List className={classes.mainItems}>
+                    <Item linkTo={routes.HOME} icon={CalendarToday}>
+                        Calendar
+                    </Item>
+                    <Item linkTo={routes.CUSTOMERS} icon={People}>
+                        Customers
+                    </Item>
+                    <Item linkTo={routes.TECHS} icon={Contacts}>
+                        Teams
+                    </Item>
+                </List>
+                <List>
+                    <Item icon={SettingsApplications}>
+                        Settings
+                    </Item>
+                </List>
+            </Drawer>
+        </SideBarContext.Provider>
     );
 };
 
