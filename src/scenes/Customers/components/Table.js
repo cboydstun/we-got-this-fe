@@ -17,21 +17,44 @@ import { useStateValue } from '../../../state';
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
+        backgroundColor: "#E5E5E5"
     },
-    paper: {
-        marginTop: theme.spacing(3),
-        width: '100%',
-        overflowX: 'auto',
-        marginBottom: theme.spacing(2),
-    },
+    // paper: {
+    //     marginTop: theme.spacing(3),
+    //     width: '100%',
+    //     overflowX: 'auto',
+    //     marginBottom: theme.spacing(2),
+    // },
     table: {
-        minWidth: 650,
+        // minWidth: 650,
+        width: "100%",
+        marginLeft: "30px",
+        marginRight: "30px",
+        backgroundColor: "#FFFFFF",
     },
     header: {
         '& th': {
             fontWeight: 600,
+            color: "pink",
+            width: '200px',
         },
     },
+    button: {
+        borderRadius: "6px",
+        backgroundColor: "#2678C0",
+        paddingLeft: "12px",
+        paddingRight: "12px",
+        paddingTop: "8px",
+        paddingBottom: "8px",
+        color: "white",
+        outline: "none",
+    },
+    spacing: {
+        padding: "0",
+    },
+    border: {
+        border: "1px solid black",
+    }
 }));
 
 const headerCells = [
@@ -41,23 +64,33 @@ const headerCells = [
         label: 'Customer Name',
     },
     {
+        id: 'phone',
+        align: 'left',
+        label: 'Phone Number',
+    },
+    {
         id: 'street',
-        align: 'right',
+        align: 'left',
         label: 'Street Address',
     },
     {
-        id: 'firstService',
-        align: 'right',
-        label: 'First Service Date',
+        id: 'zip',
+        align: 'left',
+        label: 'Zip',
     },
-    {
-        id: 'nextService',
-        align: 'right',
-        label: 'Next Service Date',
-    },
+    // {
+    //     id: 'firstService',
+    //     align: 'right',
+    //     label: 'First Service Date',
+    // },
+    // {
+    //     id: 'nextService',
+    //     align: 'right',
+    //     label: 'Next Service Date',
+    // },
     {
         id: 'type',
-        align: 'right',
+        align: 'left',
         label: 'Customer Type',
     },
 ];
@@ -111,10 +144,11 @@ const CustomerTable = ({ customers, onRequestSort, orderBy, order }) => {
         <>
             <Table className={classes.table} size="small">
                 <TableHead>
-                    <TableRow className={classes.header}>
+                    <TableRow className={classes.border}>
                         {headerCells.map(headCell => {
                             return (
                                 <TableCell
+                                    // className={classes.spacing}
                                     key={headCell.id}
                                     align={headCell.align}
                                     sortDirection={
@@ -139,7 +173,7 @@ const CustomerTable = ({ customers, onRequestSort, orderBy, order }) => {
                         getSorting(order, orderBy)
                     ).map(customer => {
                         return (
-                            <TableRow key={customer.docId}>
+                            <TableRow className={classes.border} key={customer.docId}>
                                 <TableCell component="th" scope="row">
                                     <Link
                                         to={`${routes.CUSTOMERS}/${customer.docId}`}
@@ -153,18 +187,24 @@ const CustomerTable = ({ customers, onRequestSort, orderBy, order }) => {
                                         {customer.name}
                                     </Link>
                                 </TableCell>
-                                <TableCell align="right">
+                                <TableCell align="left">
+                                    {customer.contact.phone}
+                                </TableCell>
+                                <TableCell align="left">
                                     {customer.locations[0].address.street}
                                 </TableCell>
-                                <TableCell align="right">
-                                    {customer.firstServiceDate || 'No services'}
+                                <TableCell align="left">
+                                    {customer.locations[0].address.zipcode}
                                 </TableCell>
-                                <TableCell align="right">
+                                {/* <TableCell align="right">
                                     {customer.nextServiceDate ||
                                         'No service scheduled'}
-                                </TableCell>
-                                <TableCell align="right">
+                                </TableCell> */}
+                                <TableCell className={classes.header} align="left">
                                     {customer.type || 'Unknown'}
+                                </TableCell>
+                                <TableCell className={classes.spacing} align="left">
+                                    <button className={classes.button}>View Customer Details</button>
                                 </TableCell>
                             </TableRow>
                         );
