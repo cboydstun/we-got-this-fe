@@ -16,7 +16,8 @@ import {
     Hidden,
     ListItemIcon,
     ListItemText,
-    Grid
+    Grid,
+    Tooltip
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
@@ -30,7 +31,7 @@ import { useStateValue } from '../state';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '90px',
+        width: props => !props.expanded && '90px',
         zIndex: '2',
     },
 
@@ -47,30 +48,45 @@ const useStyles = makeStyles(theme => ({
     },
 
     item: {
-        '& > *': {
-            display: 'flex',
-            justifyContent: 'center',
-            color: 'white',
-            padding: theme.spacing(1),
-        }
-    }
+        paddingRight: theme.spacing(6),
+    },
+
+    itemIconContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        color: 'white',
+        padding: theme.spacing(1),
+    },
+
+    itemText: {
+        display: props => props.compactDisplay ? 'none' : 'inline'
+    },
 }));
 
-const Item = ({ linkTo, exact, children }) => {
-    const classes = useStyles();
+const Item = ({ linkTo, exactLink, compactDisplay, icon: Icon, children, ...rest }) => {
+    const classes = useStyles({ compactDisplay });
 
     return (
-        <ListItem button exact={exact} className={classes.item} component={NavLink} to={linkTo} activeClassName="Mui-selected">
-            {children}
-        </ListItem>
+        <Tooltip title={(compactDisplay && children) ? children : ''} placement="right">
+            <ListItem
+                button
+                className={classes.item}
+                exact={exactLink}
+                component={NavLink}
+                to={linkTo || ''}
+                {...rest}
+            >
+                <ListItemIcon className={classes.itemIconContainer}><Icon /></ListItemIcon>
+                <ListItemText className={classes.itemText} primary={children} />
+            </ListItem>
+        </Tooltip>
     )
 };
 
 const SideBar = () => {
     const [expanded, setExpanded] = useState(false);
     const [{ auth }, dispatch] = useStateValue();
-    const theme = useTheme();
-    const classes = useStyles();
+    const classes = useStyles({ expanded });
 
     const handleHamburgerClick = () => setExpanded(!expanded);
 
@@ -79,6 +95,7 @@ const SideBar = () => {
             open={true}
             variant="permanent"
             className={classes.root}
+            component="nav"
             PaperProps={
                 {
                     style: {
@@ -92,25 +109,23 @@ const SideBar = () => {
             }
         >
             <List>
-                <ListItem button className={classes.item} onClick={handleHamburgerClick}>
-                    <ListItemIcon><MenuIcon /></ListItemIcon>
-                </ListItem>
+                <Item compactDisplay={!expanded} exactLink icon={MenuIcon} onClick={handleHamburgerClick} />
             </List>
             <List className={classes.mainItems}>
-                <Item exact linkTo={routes.HOME}>
-                    <ListItemIcon><CalendarToday /></ListItemIcon>
+                <Item compactDisplay={!expanded} linkTo={routes.HOME} icon={CalendarToday}>
+                    Calendar
                 </Item>
-                <Item linkTo={routes.CUSTOMERS}>
-                    <ListItemIcon><People /></ListItemIcon>
+                <Item compactDisplay={!expanded} linkTo={routes.CUSTOMERS} icon={People}>
+                    Customers
                 </Item>
-                <Item linkTo={routes.TECHS}>
-                    <ListItemIcon><Contacts /></ListItemIcon>
+                <Item compactDisplay={!expanded} linkTo={routes.TECHS} icon={Contacts}>
+                    Teams
                 </Item>
             </List>
             <List>
-                <ListItem button className={classes.item}>
-                    <ListItemIcon><SettingsApplications /></ListItemIcon>
-                </ListItem>
+                <Item compactDisplay={!expanded} icon={SettingsApplications}>
+                    Settings
+                </Item>
             </List>
         </Drawer>
     );
