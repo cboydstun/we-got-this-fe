@@ -5,18 +5,19 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    Grid,
     Tooltip
 } from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import { routes } from '../constants/routes';
 
-import { CalendarToday, People, Contacts, SettingsApplications } from '@material-ui/icons';
-
-import MenuIcon from '@material-ui/icons/Menu';
-
-import { useStateValue } from '../state';
+import {
+    Menu as MenuIcon,
+    CalendarToday,
+    People,
+    Contacts,
+    SettingsApplications,
+} from '@material-ui/icons';
 
 const SideBarContext = createContext();
 
@@ -79,7 +80,6 @@ const Item = ({ linkTo, exactLink, icon: Icon, children, ...rest }) => {
 
 const SideBar = () => {
     const [expanded, setExpanded] = useState(false);
-    const [{ auth }, dispatch] = useStateValue();
     const classes = useStyles({ expanded });
 
     const handleHamburgerClick = () => setExpanded(!expanded);
@@ -90,7 +90,6 @@ const SideBar = () => {
                 open={true}
                 variant="permanent"
                 className={classes.root}
-                component="nav"
                 PaperProps={
                     {
                         style: {
@@ -108,7 +107,7 @@ const SideBar = () => {
                 </List>
                 <List className={classes.mainItems}>
                     <Item linkTo={routes.HOME} icon={CalendarToday}>
-                        Calendar
+                        Schedule
                     </Item>
                     <Item linkTo={routes.CUSTOMERS} icon={People}>
                         Customers
