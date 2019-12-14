@@ -13,18 +13,14 @@ import { Link } from "react-router-dom";
 import { routes } from "../../../constants/routes";
 import { actions } from "../../../state/customer/customerActions";
 import { useStateValue } from "../../../state";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
-    backgroundColor: "#E5E5E5"
+    // width: "100%",
+    backgroundColor: "#E5E5E5",
+    marginTop: "100px",
   },
-  // paper: {
-  //     marginTop: theme.spacing(3),
-  //     width: '100%',
-  //     overflowX: 'auto',
-  //     marginBottom: theme.spacing(2),
-  // },
   table: {
     // minWidth: 650,
     width: "95%",
@@ -151,7 +147,7 @@ const CustomerTable = ({ customers, onRequestSort, orderBy, order }) => {
                 <TableCell
                   key={headCell.id}
                   align={headCell.align}
-                //   sortDirection={orderBy === headCell.id ? order : false}
+                  sortDirection={orderBy === headCell.id ? order : false}
                 >
                   <TableSortLabel
                     active={orderBy === headCell.id}

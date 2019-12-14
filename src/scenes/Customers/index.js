@@ -7,11 +7,18 @@ import { useStateValue } from '../../state';
 import { actions } from '../../state/customer/customerActions';
 import CustomerTableHeader from './components/TableHeader';
 
+const useStyles = makeStyles(theme => ({
+    root: {
+        marginTop: "84px",
+      },
+}));
+
 const Customers = () => {
     const [loading, setLoading] = useState(true);
     const [{ customers }, dispatch] = useStateValue();
     const [order, setOrder] = useState('desc');
     const [orderBy, setOrderBy] = useState('name');
+    const classes = useStyles();
 
     useEffect(() => {
         //Check if the customers in State is there
@@ -33,11 +40,12 @@ const Customers = () => {
 
     return (
         <div>
-            <CustomerTableHeader title="All Customers" />
+            <CustomerTableHeader title="Customers" />
             {loading ? (
                 <h2>Loading...</h2>
             ) : (
                 <CustomerTable
+                    className={classes.root}
                     customers={customers.customers}
                     onRequestSort={handleRequestSort}
                     orderBy={orderBy}
