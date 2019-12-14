@@ -102,7 +102,7 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <div className={classes.root}>
-                    <SideBar mobile={mobile} />
+                    <SideBar />
                     <main className={classes.content}>
                         <Switch>
                             <PrivateRoute
