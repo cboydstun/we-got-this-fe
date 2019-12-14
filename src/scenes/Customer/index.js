@@ -46,7 +46,7 @@ const Customer = ({ match }) => {
     useEffect(() => {
         let { customer_id } = match.params;
 
-        //If customer is passed properly
+        // If customer is passed properly
         if (customers.currentCustomer) {
             console.log('Bypassing');
             setLoading(false);

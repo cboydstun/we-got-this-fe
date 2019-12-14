@@ -33,7 +33,7 @@ const Customers = () => {
 
     return (
         <div>
-            <CustomerTableHeader title="Customers" />
+            <CustomerTableHeader title="All Customers" />
             {loading ? (
                 <h2>Loading...</h2>
             ) : (
