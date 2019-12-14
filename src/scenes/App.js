@@ -49,12 +49,13 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         height: '100%',
+        flexDirection: props => props.mobile ? 'column' : 'row',
     },
     content: {
         padding: theme.spacing(3),
-        position: 'absolute',
-        left: '90px',
-        width: 'calc(100% - 90px)',
+        position: 'relative',
+        left: props => !props.mobile && '90px',
+        width: props => !props.mobile && 'calc(100% - 90px)',
     },
 }));
 
@@ -69,8 +70,8 @@ const theme = createMuiTheme({
 function App() {
     const [{ auth }, dispatch] = useStateValue();
     const [isLoading, setIsLoading] = useState(true);
-    const classes = useStyles();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const classes = useStyles({ mobile });
     const history = useHistory();
 
     useEffect(() => {
@@ -101,7 +102,7 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <div className={classes.root}>
-                    <SideBar />
+                    <SideBar mobile={mobile} />
                     <main className={classes.content}>
                         <Switch>
                             <PrivateRoute

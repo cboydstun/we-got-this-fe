@@ -5,7 +5,9 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    Tooltip
+    Tooltip,
+    useMediaQuery,
+    useTheme,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
@@ -23,9 +25,10 @@ const SideBarContext = createContext();
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: props => !props.expanded && '90px',
-        height: '100%',
-        position: 'fixed',
+        width: props => props.mobile && '100%' || !props.expanded && '90px',
+        height: props => !props.mobile && '100%' || !props.expanded && '72px',
+        position: props => props.mobile ? 'static' : 'fixed',
+        overflow: props => props.mobile && 'hidden',
         zIndex: '2',
     },
 
@@ -34,11 +37,11 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.primary.main,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: props => !props.mobile && 'space-between',
     },
 
     mainItems: {
-        height: '60%',
+        height: props => !props.mobile && '60%',
     },
 
     item: {
@@ -80,7 +83,9 @@ const Item = ({ linkTo, exactLink, icon: Icon, children, ...rest }) => {
 
 const SideBar = () => {
     const [expanded, setExpanded] = useState(false);
-    const classes = useStyles({ expanded });
+    const theme = useTheme();
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const classes = useStyles({ expanded, mobile });
 
     const handleHamburgerClick = () => setExpanded(!expanded);
 
