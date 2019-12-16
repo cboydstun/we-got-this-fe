@@ -27,9 +27,10 @@ const SideBarContext = createContext();
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: props => props.mobile && '100%' || !props.expanded && '90px',
-        height: props => !props.mobile && '100%' || !props.expanded && '72px',
-        position: props => props.mobile ? 'static' : 'fixed',
+        width: props => (props.mobile && '100%') || (!props.expanded && '90px'),
+        height: props =>
+            (!props.mobile && '100%') || (!props.expanded && '72px'),
+        position: props => (props.mobile ? 'static' : 'fixed'),
         overflow: props => props.mobile && 'hidden',
         zIndex: '2',
     },
@@ -58,16 +59,31 @@ const useStyles = makeStyles(theme => ({
     },
 
     itemText: {
-        display: props => !props.expanded ? 'none' : 'inline'
+        display: props =>
+            props.expanded || (props.override && props.mobile)
+                ? 'inline'
+                : 'none',
     },
 }));
 
-const Item = ({ linkTo, exactLink, icon: Icon, children, ...rest }) => {
+const Item = ({
+    linkTo,
+    exactLink,
+    icon: Icon,
+    children,
+    override = false,
+    ...rest
+}) => {
     const { expanded } = useContext(SideBarContext);
-    const classes = useStyles({ expanded });
+    const theme = useTheme();
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const classes = useStyles({ expanded, override, mobile });
 
     return (
-        <Tooltip title={(!expanded && children) ? children : ''} placement="right">
+        <Tooltip
+            title={!expanded && children ? children : ''}
+            placement="right"
+        >
             <ListItem
                 button
                 className={classes.item}
@@ -76,11 +92,13 @@ const Item = ({ linkTo, exactLink, icon: Icon, children, ...rest }) => {
                 to={linkTo || ''}
                 {...rest}
             >
-                <ListItemIcon className={classes.itemIconContainer}><Icon /></ListItemIcon>
+                <ListItemIcon className={classes.itemIconContainer}>
+                    <Icon />
+                </ListItemIcon>
                 <ListItemText className={classes.itemText} primary={children} />
             </ListItem>
         </Tooltip>
-    )
+    );
 };
 
 const SideBar = ({ history }) => {
@@ -91,7 +109,7 @@ const SideBar = ({ history }) => {
 
     const handleHamburgerClick = () => setExpanded(!expanded);
 
-    useEffect(() => history.listen(() => setExpanded(false)), []);
+    useEffect(() => history.listen(() => setExpanded(false)), [history]);
 
     return (
         <SideBarContext.Provider value={{ expanded }}>
@@ -99,20 +117,24 @@ const SideBar = ({ history }) => {
                 open={true}
                 variant="permanent"
                 className={classes.root}
-                PaperProps={
-                    {
-                        style: {
-                            width: 'inherit',
-                            position: 'static',
-                            color: 'white',
-                        },
+                PaperProps={{
+                    style: {
+                        width: 'inherit',
+                        position: 'static',
+                        color: 'white',
+                    },
 
-                        className: classes.container,
-                    }
-                }
+                    className: classes.container,
+                }}
             >
                 <List>
-                    <Item icon={MenuIcon} onClick={handleHamburgerClick} />
+                    <Item
+                        icon={MenuIcon}
+                        onClick={handleHamburgerClick}
+                        override={true}
+                    >
+                        We Got This!!
+                    </Item>
                 </List>
                 <List className={classes.mainItems}>
                     <Item linkTo={routes.HOME} icon={CalendarToday}>
@@ -126,9 +148,7 @@ const SideBar = ({ history }) => {
                     </Item>
                 </List>
                 <List>
-                    <Item icon={SettingsApplications}>
-                        Settings
-                    </Item>
+                    <Item icon={SettingsApplications}>Settings</Item>
                 </List>
             </Drawer>
         </SideBarContext.Provider>
