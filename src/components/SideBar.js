@@ -1,4 +1,5 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
     Drawer,
     List,
@@ -9,6 +10,7 @@ import {
     useMediaQuery,
     useTheme,
 } from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import { routes } from '../constants/routes';
@@ -81,13 +83,15 @@ const Item = ({ linkTo, exactLink, icon: Icon, children, ...rest }) => {
     )
 };
 
-const SideBar = () => {
+const SideBar = ({ history }) => {
     const [expanded, setExpanded] = useState(false);
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const classes = useStyles({ expanded, mobile });
 
     const handleHamburgerClick = () => setExpanded(!expanded);
+
+    useEffect(() => history.listen(() => setExpanded(false)), []);
 
     return (
         <SideBarContext.Provider value={{ expanded }}>
@@ -131,4 +135,4 @@ const SideBar = () => {
     );
 };
 
-export default SideBar;
+export default withRouter(SideBar);
