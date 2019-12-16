@@ -77,18 +77,22 @@ const Job = ({ location, history }) => {
             ) : (
                 <>
                     {mobile && (
-                        <IconButton onClick={() => history.goBack()}>
-                            <ArrowBackIcon />
-                            {customers.currentCustomer.name}
-                        </IconButton>
+                        <Grid item xs={12}>
+                            <IconButton onClick={() => history.goBack()}>
+                                <ArrowBackIcon />
+                                {customers.currentCustomer.name}
+                            </IconButton>
+                        </Grid>
                     )}
                     <Grid item>
-                        <h2>
-                            {moment(job.details.arrivalWindowStart).format(
-                                'LL'
-                            )}
-                        </h2>
-                        <p>Serviced By: Get this to work</p>
+                        <Grid item>
+                            <h2>
+                                {moment(job.details.arrivalWindowStart).format(
+                                    'LL'
+                                )}
+                            </h2>
+                            <p>Serviced By: Get this to work</p>
+                        </Grid>
                         <Grid container>
                             <Grid item>
                                 <Tabs

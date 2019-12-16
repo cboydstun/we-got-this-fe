@@ -42,14 +42,19 @@ import { actions } from '../state/auth/authActions';
 import Firebase from '../config/firebase';
 
 import { CssBaseline, Grid } from '@material-ui/core';
-import { useTheme, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import {
+    useTheme,
+    makeStyles,
+    createMuiTheme,
+    ThemeProvider,
+} from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         height: '100%',
-        flexDirection: props => props.mobile ? 'column' : 'row',
+        flexDirection: props => (props.mobile ? 'column' : 'row'),
     },
     content: {
         padding: theme.spacing(3),
@@ -139,11 +144,11 @@ function App() {
                                     />
                                 </>
                             ) : (
-                                    <PrivateRoute
-                                        path={routes.CUSTOMER_PROFILE}
-                                        component={Customer}
-                                    />
-                                )}
+                                <PrivateRoute
+                                    path={routes.CUSTOMER_PROFILE}
+                                    component={Customer}
+                                />
+                            )}
                             <AdminRoute
                                 path={routes.CREATE_TECH}
                                 component={CreateTechForm}
