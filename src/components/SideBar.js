@@ -148,7 +148,9 @@ const SideBar = ({ history }) => {
                     </Item>
                 </List>
                 <List>
-                    <Item icon={SettingsApplications}>Settings</Item>
+                    <Item linkTo={routes.PROFILE} icon={SettingsApplications}>
+                        Settings
+                    </Item>
                 </List>
             </Drawer>
         </SideBarContext.Provider>
