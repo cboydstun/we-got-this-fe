@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -6,20 +6,20 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Button
+  Button,
 } from "@material-ui/core";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import { Link } from "react-router-dom";
 import { routes } from "../../../constants/routes";
 import { actions } from "../../../state/customer/customerActions";
 import { useStateValue } from "../../../state";
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const useStyles = makeStyles(theme => ({
   root: {
     // width: "100%",
     backgroundColor: "#E5E5E5",
-    marginTop: "100px",
+    marginTop: "100px"
   },
   table: {
     // minWidth: 650,
@@ -28,11 +28,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#FFFFFF"
   },
   header: {
-      "& th": {
-        fontWeight: 600,
-        width: "200px",
-        backgroundColor: "#FFFAFA",
-    },
+    "& th": {
+      fontWeight: 600,
+      width: "200px",
+      backgroundColor: "#FFFAFA"
+    }
   },
   button: {
     borderRadius: "6px",
@@ -43,14 +43,15 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: "8px",
     color: "white",
     outline: "none",
-    margin: "10px",
+    margin: "10px"
   },
   spacing: {
     padding: "0",
     width: "160px",
+    // backgroundColor: "#E5E5E5",
   },
   border: {
-    border: "1px solid #F2EEEE",
+    border: "1px solid #F2EEEE"
   }
 }));
 
@@ -75,20 +76,15 @@ const headerCells = [
     align: "left",
     label: "Zip"
   },
-  // {
-  //     id: 'firstService',
-  //     align: 'right',
-  //     label: 'First Service Date',
-  // },
-  // {
-  //     id: 'nextService',
-  //     align: 'right',
-  //     label: 'Next Service Date',
-  // },
   {
     id: "type",
     align: "left",
     label: "Customer Type"
+  },
+  {
+    id: "type",
+    align: "left",
+    label: ""
   }
 ];
 
@@ -136,6 +132,15 @@ const CustomerTable = ({ customers, onRequestSort, orderBy, order }) => {
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
+//   const handleFilterChange = e => setFilter(e.target.value);
+
+//   const filters = {
+//     all: () => true,
+//     active: tech => !tech.disabled,
+//     disabled: tech => tech.disabled,
+// };
+
+// const [filter, setFilter] = useState('all');
 
   return (
     <>
