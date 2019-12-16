@@ -85,7 +85,6 @@ function App() {
             if (user !== null) {
                 let res = await actions.getOrCreateCurrentUser(dispatch, user);
                 if (res === true) {
-                    history.push(routes.HOME);
                     setIsLoading(false);
                 }
             } else {
