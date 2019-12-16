@@ -41,26 +41,37 @@ import { actions } from '../state/auth/authActions';
 //Fire
 import Firebase from '../config/firebase';
 
-import { CssBaseline } from '@material-ui/core';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { CssBaseline, Grid } from '@material-ui/core';
+import { useTheme, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
+        height: '100%',
+        flexDirection: props => props.mobile ? 'column' : 'row',
     },
     content: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing(3),
+        position: 'relative',
+        left: props => !props.mobile && '90px',
+        width: props => !props.mobile && 'calc(100% - 90px)',
     },
 }));
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#2678C0',
+        },
+    },
+});
 
 function App() {
     const [{ auth }, dispatch] = useStateValue();
     const [isLoading, setIsLoading] = useState(true);
-    const classes = useStyles();
-    const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const classes = useStyles({ mobile });
     const history = useHistory();
 
     useEffect(() => {
@@ -88,60 +99,63 @@ function App() {
         return <SplashLoading width="400px" height="400px" />;
     } else {
         return (
-            <div className={classes.root}>
+            <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <SideBar>
-                    <Switch>
-                        <PrivateRoute
-                            exact
-                            path={routes.HOME}
-                            component={Calendar}
-                        />
-                        <Route exact path={routes.AUTH} component={Auth} />
-                        <PrivateRoute
-                            path={routes.PROFILE}
-                            component={Profile}
-                        />
-                        <AdminRoute
-                            exact
-                            path={routes.TECHS}
-                            component={Techs}
-                        />
-                        <PrivateRoute
-                            exact
-                            path={routes.CUSTOMERS}
-                            component={Customers}
-                        />
-                        {mobile ? (
-                            <>
-                                <PrivateRoute
-                                    exact
-                                    path={routes.CUSTOMER_PROFILE}
-                                    component={Customer}
-                                />
-                                <PrivateRoute
-                                    path={routes.JOB_DETAILS}
-                                    component={Job}
-                                />
-                            </>
-                        ) : (
+                <div className={classes.root}>
+                    <SideBar />
+                    <main className={classes.content}>
+                        <Switch>
                             <PrivateRoute
-                                path={routes.CUSTOMER_PROFILE}
-                                component={Customer}
+                                exact
+                                path={routes.HOME}
+                                component={Calendar}
                             />
-                        )}
-                        <PrivateRoute path={routes.JOBS} component={Jobs} />
-                        <AdminRoute
-                            path={routes.CREATE_TECH}
-                            component={CreateTechForm}
-                        />
-                        <AdminRoute
-                            path={routes.CREATE_TEAM_FORM}
-                            component={CreateTeamForm}
-                        />
-                    </Switch>
-                </SideBar>
-            </div>
+                            <Route exact path={routes.AUTH} component={Auth} />
+                            <PrivateRoute
+                                path={routes.PROFILE}
+                                component={Profile}
+                            />
+                            <AdminRoute
+                                exact
+                                path={routes.TECHS}
+                                component={Techs}
+                            />
+                            <PrivateRoute path={routes.JOBS} component={Jobs} />
+                            <PrivateRoute
+                                exact
+                                path={routes.CUSTOMERS}
+                                component={Customers}
+                            />
+                            {mobile ? (
+                                <>
+                                    <PrivateRoute
+                                        exact
+                                        path={routes.CUSTOMER_PROFILE}
+                                        component={Customer}
+                                    />
+                                    <PrivateRoute
+                                        path={routes.JOB_DETAILS}
+                                        component={Job}
+                                    />
+                                </>
+                            ) : (
+                                    <PrivateRoute
+                                        path={routes.CUSTOMER_PROFILE}
+                                        component={Customer}
+                                    />
+                                )}
+                            <AdminRoute
+                                path={routes.CREATE_TECH}
+                                component={CreateTechForm}
+                            />
+                            <AdminRoute
+                                path={routes.CREATE_TEAM_FORM}
+                                component={CreateTeamForm}
+                            />
+                        </Switch>
+                    </main>
+                </div>
+            </ThemeProvider>
         );
     }
 }

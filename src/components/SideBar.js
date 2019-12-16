@@ -1,56 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
-    Button,
     Drawer,
-    Divider,
+    drawerWidth,
     List,
     ListItem,
+    ListItemIcon,
+    ListItemText,
+    Tooltip,
     useMediaQuery,
-    Icon,
-    IconButton,
-    Typography,
-    TextField,
-    MenuItem,
-    AppBar,
-    Toolbar,
-    Hidden,
+    useTheme,
 } from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core';
-import { NavLink, Link } from 'react-router-dom';
+
+import { makeStyles } from '@material-ui/core';
+import { NavLink } from 'react-router-dom';
 import { routes } from '../constants/routes';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import {
+    Menu as MenuIcon,
+    CalendarToday,
+    People,
+    Contacts,
+    SettingsApplications,
+} from '@material-ui/icons';
 
-import MenuIcon from '@material-ui/icons/Menu';
-
-import { useStateValue } from '../state';
-
-const drawerWidth = 150;
+const SideBarContext = createContext();
 
 const useStyles = makeStyles(theme => ({
-    root: {
+root: {
+        width: props => (props.mobile && '100%') || (!props.expanded && '90px'),
+        height: props =>
+            (!props.mobile && '100%') || (!props.expanded && '72px'),
+        position: props => (props.mobile ? 'static' : 'fixed'),
+        overflow: props => props.mobile && 'hidden',
+        zIndex: '2',
+    },
+
+    container: {
+        height: '100%',
+        backgroundColor: theme.palette.primary.main,
         display: 'flex',
+        flexDirection: 'column',
+        justifyContent: props => !props.mobile && 'space-between',
     },
-    appBar: {
-        marginBottom: 48,
+
+    mainItems: {
+        height: props => !props.mobile && '60%',
     },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    link: {
-        textDecoration: 'none',
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
-        color: theme.palette.common.white,
-        fontSize: 16,
-    },
-    logo: {
-        textDecoration: 'none',
-        fontWeight: theme.typography.fontWeightBold,
-        color: theme.palette.common.white,
-        marginRight: theme.spacing(2),
-        fontSize: 18,
+
+    item: {
+        paddingRight: theme.spacing(6),
     },
     drawerPaper: {
         padding: '11px',
@@ -59,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
         flexGrow: 1,
-        width: `calc(100% - ${drawerWidth}px)`,
+        // width: `calc(100% - ${drawerWidth}px)`,
         // padding: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
             marginTop: 55,
@@ -76,150 +75,109 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
     },
+
+    itemIconContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        color: 'white',
+        padding: theme.spacing(1),
+    },
+
+    itemText: {
+        display: props =>
+            props.expanded || (props.override && props.mobile)
+                ? 'inline'
+                : 'none',
+    },
 }));
 
-const activeStyles = {
-    fontWeight: 600,
-    textDecoration: 'underline',
-};
-
-const SideBar = ({ children }) => {
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [{ auth }, dispatch] = useStateValue();
-    const classes = useStyles();
-
+const Item = ({
+    linkTo,
+    exactLink,
+    icon: Icon,
+    children,
+    override = false,
+    ...rest
+}) => {
+    const { expanded } = useContext(SideBarContext);
     const theme = useTheme();
-    const smallWidth = useMediaQuery(theme.breakpoints.down('xs'));
-
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const classes = useStyles({ expanded, override, mobile });
 
     return (
-        <>
-            <Hidden smUp implementation="js">
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            edge="start"
-                            onClick={handleDrawerToggle}
-                            className={classes.menuButton}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" noWrap>
-                            We Got This!
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <Drawer
-                    variant="temporary"
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    classes={{ paper: classes.drawerPaper }}
-                    anchor="top"
-                    ModalProps={{ keepMounted: true }}
-                >
-                    <List>
-                        <ListItem>
-                            <NavLink
-                                to={routes.HOME}
-                                className={classes.link}
-                                onClick={handleDrawerToggle}
-                                activeStyle={activeStyles}
-                            >
-                                Dashboard
-                            </NavLink>
-                        </ListItem>
-                        <ListItem>
-                            <NavLink
-                                to={routes.CUSTOMERS}
-                                className={classes.link}
-                                onClick={handleDrawerToggle}
-                                activeStyle={activeStyles}
-                            >
-                                Customers
-                            </NavLink>
-                        </ListItem>
-                        <ListItem>
-                            <NavLink
-                                to={routes.TECHS}
-                                className={classes.link}
-                                onClick={handleDrawerToggle}
-                                activeStyle={activeStyles}
-                            >
-                                Techs
-                            </NavLink>
-                        </ListItem>
-                        <ListItem>
-                            <NavLink
-                                to={routes.PROFILE}
-                                className={classes.link}
-                                onClick={handleDrawerToggle}
-                                activeStyle={activeStyles}
-                            >
-                                Admin
-                            </NavLink>
-                        </ListItem>
-                    </List>
-                </Drawer>
-            </Hidden>
-            <Hidden xsDown implementation="js">
-                <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{ paper: classes.drawerPaper }}
-                    anchor="left"
-                >
-                    <div className={classes.routes}>
-                        <Typography variant="h5">
-                            <Link to={routes.HOME} className={classes.logo}>
-                                We Got This!
-                            </Link>
-                        </Typography>
-                        <NavLink
-                            exact
-                            to={routes.HOME}
-                            className={classes.link}
-                            activeStyle={activeStyles}
-                        >
-                            Dashboard
-                        </NavLink>
-                        <NavLink
-                            to={routes.CUSTOMERS}
-                            className={classes.link}
-                            activeStyle={activeStyles}
-                        >
-                            Customers
-                        </NavLink>
-                        <NavLink
-                            to={routes.TECHS}
-                            className={classes.link}
-                            activeStyle={activeStyles}
-                        >
-                            Techs
-                        </NavLink>
-                    </div>
-                    {auth.currentUser ? (
-                        <IconButton component={Link} to={routes.PROFILE}>
-                            <AccountCircle style={{ color: 'white' }} />
-                        </IconButton>
-                    ) : (
-                        <Button
-                            component={Link}
-                            to={routes.AUTH}
-                            className={classes.white}
-                        >
-                            Login
-                        </Button>
-                    )}
-                </Drawer>
-            </Hidden>
-            <div className={classes.content}>{children}</div>
-        </>
+        <Tooltip
+            title={!expanded && children ? children : ''}
+            placement="right"
+        >
+            <ListItem
+                button
+                className={classes.item}
+                exact={exactLink}
+                component={linkTo && NavLink}
+                to={linkTo || ''}
+                {...rest}
+            >
+                <ListItemIcon className={classes.itemIconContainer}>
+                    <Icon />
+                </ListItemIcon>
+                <ListItemText className={classes.itemText} primary={children} />
+            </ListItem>
+        </Tooltip>
     );
 };
 
-export default SideBar;
+const SideBar = ({ history }) => {
+    const [expanded, setExpanded] = useState(false);
+    const theme = useTheme();
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const classes = useStyles({ expanded, mobile });
+
+    const handleHamburgerClick = () => setExpanded(!expanded);
+
+    useEffect(() => history.listen(() => setExpanded(false)), [history]);
+
+    return (
+        <SideBarContext.Provider value={{ expanded }}>
+            <Drawer
+                open={true}
+                variant="permanent"
+                className={classes.root}
+                PaperProps={{
+                    style: {
+                        width: 'inherit',
+                        position: 'static',
+                        color: 'white',
+                    },
+
+                    className: classes.container,
+                }}
+            >
+                <List>
+                    <Item
+                        icon={MenuIcon}
+                        onClick={handleHamburgerClick}
+                        override={true}
+                    >
+                        We Got This!!
+                    </Item>
+                </List>
+                <List className={classes.mainItems}>
+                    <Item linkTo={routes.HOME} icon={CalendarToday}>
+                        Schedule
+                    </Item>
+                    <Item linkTo={routes.CUSTOMERS} icon={People}>
+                        Customers
+                    </Item>
+                    <Item linkTo={routes.TECHS} icon={Contacts}>
+                        Teams
+                    </Item>
+                </List>
+                <List>
+                    <Item icon={SettingsApplications}>Settings</Item>
+                </List>
+            </Drawer>
+        </SideBarContext.Provider>
+    );
+};
+
+export default withRouter(SideBar);

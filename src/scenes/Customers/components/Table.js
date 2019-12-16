@@ -13,16 +13,10 @@ import { Link } from "react-router-dom";
 import { routes } from "../../../constants/routes";
 import { actions } from "../../../state/customer/customerActions";
 import { useStateValue } from "../../../state";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+// import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    // width: "100%",
-    backgroundColor: "#E5E5E5",
-    marginTop: "100px"
-  },
   table: {
-    // minWidth: 650,
     width: "95%",
     marginLeft: "62px",
     backgroundColor: "#FFFFFF"
@@ -35,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   button: {
-    borderRadius: "6px",
+    borderRadius: "7px",
     backgroundColor: "#2678C0",
     paddingLeft: "12px",
     paddingRight: "12px",
@@ -48,7 +42,6 @@ const useStyles = makeStyles(theme => ({
   spacing: {
     padding: "0",
     width: "160px",
-    // backgroundColor: "#E5E5E5",
   },
   border: {
     border: "1px solid #F2EEEE"
@@ -82,8 +75,8 @@ const headerCells = [
     label: "Customer Type"
   },
   {
-    id: "type",
-    align: "left",
+    id: "",
+    align: "",
     label: ""
   }
 ];

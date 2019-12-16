@@ -8,19 +8,15 @@ import { actions } from "../../state/customer/customerActions";
 import CustomerTableHeader from "./components/TableHeader";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: "84px"
-  },
+  // root: {
+  //   marginTop: "84px"
+  // },
 
   flex: {
     display: "flex",
     // border: "1px solid black",
     marginLeft: "63px",
     // justifyContent: "space-around",
-  },
-
-  title: {
-      fontWeight: "none",
   },
 
   margin: {
@@ -55,28 +51,11 @@ const Customers = () => {
     setOrderBy(property);
   };
 
-  const handleFilterChange = e => setFilter(e.target.value);
-
-  const filters = {
-    all: () => true,
-    active: tech => !tech.disabled,
-    disabled: tech => tech.disabled,
-};
-
-const [filter, setFilter] = useState('all');
-
   return (
     <div className={classes.root}>
       {/* <CustomerTableHeader title="Customers" className={classes.title} /> */}
         <div className={classes.flex} >
             <h1 className={classes.title}>Customers</h1>
-      <FormControl className={classes.margin}>
-        <Select value={filter} onChange={handleFilterChange}>
-          <MenuItem value="all">All</MenuItem>
-          <MenuItem value="active">Active</MenuItem>
-          <MenuItem value="disabled">Archived</MenuItem>
-        </Select>
-      </FormControl>
       </div>
       {loading ? (
         <h2>Loading...</h2>

@@ -20,10 +20,8 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         marginTop: '75px',
         flexDirection: 'row',
-        // marginBottom: theme.spacing(2),
     },
     title: {
-        // marginRight: theme.spacing(2)
         marginLeft: "44px",
     },
 }));

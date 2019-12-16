@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
         maxWidth: '330px',
         maxHeight: '120px',
         background: props => props.disabled && '#dcdbdb',
+        backgroundColor: '#FFFFFF',
+        borderRadius: "6px",
+        border: "2px solid black",
 
         '& *': {
             margin: '0',
@@ -25,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 
         '& .photo': {
             maxWidth: '120px',
+            borderRadius: "6px",
         },
     },
 
@@ -80,6 +84,7 @@ const TechCard = ({ docId, displayName, photoUrl, disabled, team, handleEdit }) 
     const handleArchive = () => service.setTechDisabled(docId, !disabled);
 
     return (
+        // <div className={classes.root}>
         <div className={classes.root}>
             <img className="photo" src={photoUrl} alt={displayName} />
             <div className={classes.info}>
@@ -91,6 +96,7 @@ const TechCard = ({ docId, displayName, photoUrl, disabled, team, handleEdit }) 
                 </div>
             </div>
         </div>
+        // </div>
     );
 };
 
