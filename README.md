@@ -12,11 +12,27 @@
 
 🚫Add contributor info below, make sure add images and edit the social links for each member. Add to or delete these place-holders as needed
 
-|                                                      [Student 1](https://github.com/lucasbaze)                                                       |                                                [Student 2](https://github.com/sanny-io)                                                        |                                               [Student 3](https://github.com/DemeryMA)                                                       |                                              [Student 4](https://github.com/NicholasInterest1)                                                        |                                                      [Student 5](https://github.com/)                                                       |
+[Student 1](https://github.com/lucasbaze)  
+[Student 2](https://github.com/sanny-io)       
+[Student 3](https://github.com/DemeryMA) 
+[Student 4](https://github.com/NicholasInterest1) 
 | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-| [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) |
-|                                [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/)                                |                            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/honda0306)                             |                          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/Mister-Corn)                           |                          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/NandoTheessen)                           |                           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/wvandolah)                            |
-|                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |                 [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                 |                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |                 [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                 |                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |
+[<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)
+[<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/)
+[<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)
+[<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/)
+[<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) |
+
+
+[<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/)|                           
+[<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/honda0306) 
+[<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/Mister-Corn)                       
+[<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/NandoTheessen) 
+[<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/wvandolah)                            |
+
+
+
+[ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |            [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                 |           [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |            [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                 |           [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |
 
 <br>
 <br>
@@ -33,25 +49,23 @@
 
 ## Project Overview
 
-1️⃣ [Trello Board](https://trello.com/b/0eUO2xK1/cleaning-management)
+[Trello Board](https://trello.com/b/0eUO2xK1/cleaning-management)
 
 1️⃣ [Product Canvas](🚫add link to product canvas here)
 
-1️⃣ [UX Design files](🚫add link to design files here) - 🚫 delete if not applicable
+[UX Design files](https://www.figma.com/file/IYZo7sHGDjXcPbXu5uf3qN/Untitled?node-id=0%3A1) 
 
 🚫 Replace lorem ipsum with a description of your project
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+We Got This Cleaning App also known as "LuxApplication" is a client based application used to organize the administration and human resources aspects of owner Scott Knights cleaning business. The application allows the user to create read update and delete data for their cleaning service with a bonus integrated google calendar feature which allows for the scheduling of appointments, the servicing of technicians, and the acceptance of new customers. The application is desktop and mobile friendly and allows for greater organization and efficiancy opposed to their current pen and paper system.
 
 ### 4️⃣ Key Features
 
--   feature one
--   feature two
--   feature three
--   feature four
--   feature five
+-   Login/Register via Google
+-   Integrated Google Calendar
+-   Create/Archive/Edit Customers
+-   Create/Archive/Edit Technicians
+-   
 
 ## 1️⃣ Tech Stack
 
