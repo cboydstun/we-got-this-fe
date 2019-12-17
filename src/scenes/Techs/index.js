@@ -120,7 +120,12 @@ const Techs = ({ history }) => {
                     techs.techs &&
                     techs.techs
                         .filter(tech => filters[filter](tech))
-                        .sort((a, b) => (a.displayName.toLowerCase() > b.displayName.toLowerCase()) ? 1 : -1)
+                        .sort((a, b) => {
+                            if (a.disabled && !b.disabled) return 1;
+                            if (a.disabled && b.disabled) return 0;
+
+                            return -1;
+                        })
                         .map((tech, index) => {
                             return (
                                 <Grid item xs={12} sm={6} md={4} key={index}>
