@@ -50,6 +50,8 @@ import {
 } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
+import ReactGA from 'react-ga';
+
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
@@ -98,6 +100,11 @@ function App() {
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        return history.listen(location => {
+            ReactGA.set({ page: location.pathname });
+            ReactGA.pageview(location.pathname);
+        });
     }, [dispatch]);
 
     if (isLoading) {
@@ -144,11 +151,11 @@ function App() {
                                     />
                                 </>
                             ) : (
-                                <PrivateRoute
-                                    path={routes.CUSTOMER_PROFILE}
-                                    component={Customer}
-                                />
-                            )}
+                                    <PrivateRoute
+                                        path={routes.CUSTOMER_PROFILE}
+                                        component={Customer}
+                                    />
+                                )}
                             <AdminRoute
                                 path={routes.CREATE_TECH}
                                 component={CreateTechForm}
