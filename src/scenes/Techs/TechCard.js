@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
         background: props => props.disabled && '#dcdbdb',
         backgroundColor: '#FFFFFF',
         borderRadius: "6px",
-        border: "2px solid black",
+        // border: "1px solid black",
 
         '& *': {
             margin: '0',
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
         '& .photo': {
             maxWidth: '120px',
-            borderRadius: "6px",
+            // borderRadius: "6px",
         },
     },
 

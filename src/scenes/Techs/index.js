@@ -33,6 +33,12 @@ const useStyles = makeStyles(theme => ({
     filter: {
         width: '100%',
     },
+
+    button: {
+        backgroundColor: "#2678C0",
+        fontSize: "14px",
+        padding: "5px",
+    }
 }));
 
 const filters = {
@@ -112,7 +118,7 @@ const Techs = ({ history }) => {
                     </FormControl>
                 </Grid>
                 <Grid item md={3}>
-                    <Button variant="contained" onClick={handleNewTech}>New Tech</Button>
+                    <Button className={classes.button} variant="contained" onClick={handleNewTech}>New Tech</Button>
                 </Grid>
             </Grid>
             <Grid container className={classes.techs} justify="space-between">
