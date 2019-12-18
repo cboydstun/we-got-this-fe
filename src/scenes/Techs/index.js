@@ -24,20 +24,28 @@ const useStyles = makeStyles(theme => ({
 
     techs: {
         '& > *': {
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1),
-
+            marginTop: "30px",
         },
     },
 
     filter: {
-        width: '100%',
+        width: '163px',
     },
 
     button: {
         backgroundColor: "#2678C0",
-        fontSize: "14px",
+        fontSize: "12px",
         padding: "5px",
+        width: "120px",
+        borderRadius: "6px",
+        color: "white",
+        marginLeft: "100px",
+    },
+    main: {
+        padding: "40px",
+    },
+    space: {
+        marginLeft: "30px",
     }
 }));
 
@@ -93,6 +101,7 @@ const Techs = ({ history }) => {
 
     return (
         <>
+        <div className={classes.main}>
             <EditTech
                 open={editDialogData.open}
                 isEditing={editDialogData.isEditing}
@@ -102,12 +111,13 @@ const Techs = ({ history }) => {
                 tech={editDialogData.tech}
             />
             <Grid container spacing={6} className={classes.header}>
-                <Grid item md={3}>
+                <Grid item md={2}>
                     <h1>Technicians</h1>
                 </Grid>
-                <Grid item md={2}>
-                    <FormControl className={classes.filter}>
+                <Grid item md={1}>
+                    <FormControl>
                         <Select
+                            className={classes.filter}
                             value={filter}
                             onChange={handleFilterChange}
                         >
@@ -117,7 +127,7 @@ const Techs = ({ history }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item md={3}>
+                <Grid className={classes.space} item md={3}>
                     <Button className={classes.button} variant="contained" onClick={handleNewTech}>New Tech</Button>
                 </Grid>
             </Grid>
@@ -134,6 +144,7 @@ const Techs = ({ history }) => {
                             );
                         })}
             </Grid>
+            </div>
         </>
     );
 };
