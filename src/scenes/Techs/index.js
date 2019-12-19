@@ -92,7 +92,7 @@ const Techs = ({ history }) => {
     }, []);
 
     return (
-        loading ? <SplashLoading /> :
+        loading ? <SplashLoading height="25%" width="25%" /> :
             <>
                 <EditTech
                     open={editDialogData.open}
