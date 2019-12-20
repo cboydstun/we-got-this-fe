@@ -1,13 +1,19 @@
 export const routes = {
     AUTH: '/auth',
-    HOME: '/dashboard',
+    HOME: '/',
     PROFILE: '/profile',
-    CALENDAR: '/calendar',
+    JOBS: '/jobs',
     TECHS: '/techs',
     CREATE_CUSTOMER_FORM: '/create-customer',
-    CREATE_TEAM_FORM: '/team/create',
-    INVITE_TECH: '/invite-tech',
+    CREATE_TEAM_FORM: '/teams/create',
+    CREATE_TECH: '/techs/create',
     REGISTER_COMPANY: '/register-company',
+    AUTH_REGISTER_COMPANY: '/auth/register-company',
+    CUSTOMERS: '/customers',
+    CUSTOMER_PROFILE: '/customers/:customer_id',
+    JOB_DETAILS: '/customers/:customer_id/:job_id',
+    USERS: '/users',
+    USER_PROFILE: '/users/:user_id',
 };
 
 export const privateRoutes = [
@@ -36,13 +42,29 @@ export const privateRoutes = [
         path: routes.CREATE_TEAM_FORM,
     },
     {
-        name: 'Invite Tech',
-        path: routes.INVITE_TECH,
+        name: 'Create Tech',
+        path: routes.CREATE_TECH,
     },
     {
         name: 'Register Company',
         path: routes.REGISTER_COMPANY,
     },
+    {
+        name: 'Customers',
+        path: routes.CUSTOMERS,
+    },
+    {
+        name: 'Specific Customer',
+        path: routes.CUSTOMER_PROFILE,
+    },
+    {
+        name: 'Users',
+        path: routes.USERS,
+    },
+    {
+        name: 'Specific User',
+        path: routes.USER_PROFILE,
+    }
 ];
 
 export const publicRoutes = [
