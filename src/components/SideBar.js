@@ -44,8 +44,9 @@ root: {
         justifyContent: props => !props.mobile && 'space-between',
     },
 
-    mainItems: {
-        height: props => !props.mobile && '60%',
+    menuItem: {
+        paddingTop: props => !props.mobile && theme.spacing(2),
+        paddingBottom: props => !props.mobile && theme.spacing(2),
     },
 
     item: {
@@ -115,6 +116,7 @@ const Item = ({
                 exact={exactLink}
                 component={linkTo && NavLink}
                 to={linkTo || ''}
+                activeClassName="Mui-selected"
                 {...rest}
             >
                 <ListItemIcon className={classes.itemIconContainer}>
@@ -154,15 +156,14 @@ const SideBar = ({ history }) => {
             >
                 <List>
                     <Item
+                        className={classes.menuItem}
                         icon={MenuIcon}
                         onClick={handleHamburgerClick}
                         override={true}
                     >
                         We Got This!!
                     </Item>
-                </List>
-                <List className={classes.mainItems}>
-                    <Item linkTo={routes.HOME} icon={CalendarToday}>
+                    <Item exactLink linkTo={routes.HOME} icon={CalendarToday}>
                         Schedule
                     </Item>
                     <Item linkTo={routes.CUSTOMERS} icon={People}>
@@ -171,8 +172,6 @@ const SideBar = ({ history }) => {
                     <Item linkTo={routes.TECHS} icon={Contacts}>
                         Teams
                     </Item>
-                </List>
-                <List>
                     <Item linkTo={routes.PROFILE} icon={SettingsApplications}>
                         Settings
                     </Item>

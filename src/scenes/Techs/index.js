@@ -13,6 +13,7 @@ import teamService from '../../state/team/teamService';
 import { useService } from '../../state';
 import techService from '../../state/tech/techService';
 import EditTech from '../../components/dialogs/EditTech';
+import SplashLoading from '../../components/loading/SplashLoading';
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -60,14 +61,16 @@ const Techs = ({ history }) => {
     const [{ techs }, dispatch] = useStateValue();
     const services = { tech: useService(techService, dispatch), team: useService(teamService, dispatch) }
     const [filter, setFilter] = useState('all');
+    const [loading, setLoading] = useState(true);
 
     const [editDialogData, setEditDialogData] = useState({ open: false });
-    const handleCancel = () => setEditDialogData({ ...editDialogData, open: false });
+    const handleCancel = () => setEditDialogData({ ...editDialogData, open: false, loading: false });
     const handleSave = async () => {
         const saveFunction = editDialogData.isEditing ? services.tech.updateTech : services.tech.createTech;
 
-        saveFunction(editDialogData.tech);
-        setEditDialogData({ ...editDialogData, open: false });
+        setEditDialogData({ ...editDialogData, loading: true });
+        await saveFunction(editDialogData.tech);
+        handleCancel();
     }
 
     const handleFilterChange = e => setFilter(e.target.value);
@@ -95,57 +98,66 @@ const Techs = ({ history }) => {
     );
 
     useEffect(() => {
-        services.team.getAllTeams();
-        services.tech.getAllTechs();
+        (async () => {
+            await services.team.getAllTeams();
+            await services.tech.getAllTechs();
+            setLoading(false);
+        })();
     }, []);
 
     return (
-        <>
-        <div className={classes.main}>
-            <EditTech
-                open={editDialogData.open}
-                isEditing={editDialogData.isEditing}
-                handleChange={handleEditorChange}
-                handleCancel={handleCancel}
-                handleSave={handleSave}
-                tech={editDialogData.tech}
-            />
-            <Grid container spacing={6} className={classes.header}>
-                <Grid item md={2}>
-                    <h1>Technicians</h1>
+        loading ? <SplashLoading height="25%" width="25%" /> :
+            <div className={classes.main}>
+                <EditTech
+                    open={editDialogData.open}
+                    isEditing={editDialogData.isEditing}
+                    loading={editDialogData.loading}
+                    handleChange={handleEditorChange}
+                    handleCancel={handleCancel}
+                    handleSave={handleSave}
+                    tech={editDialogData.tech}
+                />
+                <Grid container spacing={6} className={classes.header}>
+                    <Grid item md={2}>
+                        <h1>Technicians</h1>
+                    </Grid>
+                    <Grid item md={1}>
+                        <FormControl>
+                            <Select
+                                className={classes.filter}
+                                value={filter}
+                                onChange={handleFilterChange}
+                            >
+                                <MenuItem value="all">All</MenuItem>
+                                <MenuItem value="active">Active</MenuItem>
+                                <MenuItem value="disabled">Archived</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid className={classes.space} item md={3}>
+                        <Button className={classes.button} variant="contained" onClick={handleNewTech}>New Tech</Button>
+                    </Grid>
                 </Grid>
-                <Grid item md={1}>
-                    <FormControl>
-                        <Select
-                            className={classes.filter}
-                            value={filter}
-                            onChange={handleFilterChange}
-                        >
-                            <MenuItem value="all">All</MenuItem>
-                            <MenuItem value="active">Active</MenuItem>
-                            <MenuItem value="disabled">Archived</MenuItem>
-                        </Select>
-                    </FormControl>
+                <Grid container className={classes.techs} justify="space-between">
+                    {techs &&
+                        techs.techs &&
+                        techs.techs
+                            .filter(tech => filters[filter](tech))
+                            .sort((a, b) => {
+                                if (a.disabled && !b.disabled) return 1;
+                                if (a.disabled && b.disabled) return 0;
+
+                                return -1;
+                            })
+                            .map((tech, index) => {
+                                return (
+                                    <Grid item xs={12} sm={6} md={4} key={index}>
+                                        <TechCard handleEdit={handleEdit} {...tech} />
+                                    </Grid>
+                                );
+                            })}
                 </Grid>
-                <Grid className={classes.space} item md={3}>
-                    <Button className={classes.button} variant="contained" onClick={handleNewTech}>New Tech</Button>
-                </Grid>
-            </Grid>
-            <Grid container className={classes.techs} justify="space-between">
-                {techs &&
-                    techs.techs &&
-                    techs.techs
-                        .filter(tech => filters[filter](tech))
-                        .map((tech, index) => {
-                            return (
-                                <Grid item xs={12} sm={6} md={4} key={index}>
-                                    <TechCard handleEdit={handleEdit} {...tech} />
-                                </Grid>
-                            );
-                        })}
-            </Grid>
             </div>
-        </>
     );
 };
 
