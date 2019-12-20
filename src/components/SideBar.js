@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
     Drawer,
+    drawerWidth,
     List,
     ListItem,
     ListItemIcon,
@@ -26,7 +27,7 @@ import {
 const SideBarContext = createContext();
 
 const useStyles = makeStyles(theme => ({
-    root: {
+root: {
         width: props => (props.mobile && '100%') || (!props.expanded && '90px'),
         height: props =>
             (!props.mobile && '100%') || (!props.expanded && '72px'),
@@ -50,6 +51,30 @@ const useStyles = makeStyles(theme => ({
 
     item: {
         paddingRight: theme.spacing(6),
+    },
+    drawerPaper: {
+        padding: '11px',
+        zIndex: 0,
+        backgroundColor: '#2678C0',
+    },
+    content: {
+        flexGrow: 1,
+        // width: `calc(100% - ${drawerWidth}px)`,
+        // padding: theme.spacing(2),
+        [theme.breakpoints.down('xs')]: {
+            marginTop: 55,
+            width: '100%',
+        },
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    },
+    routes: {
+        display: 'flex',
+        flexDirection: 'column',
     },
 
     itemIconContainer: {
