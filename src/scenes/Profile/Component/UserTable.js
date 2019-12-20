@@ -83,7 +83,7 @@ const UserTable = ({ users }) => {
                     <TableRow className={classes.header}>
                         <TableCell>User List</TableCell>
                         <TableCell align="left">Email</TableCell>
-                        <TableCell align="left">Admin</TableCell>
+                        <TableCell align="t">Admin</TableCell>
                         <TableCell> </TableCell>
                     </TableRow>
                 </TableHead>
