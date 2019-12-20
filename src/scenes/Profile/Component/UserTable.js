@@ -82,8 +82,8 @@ const UserTable = ({ users }) => {
                 <TableHead>
                     <TableRow className={classes.header}>
                         <TableCell>User List</TableCell>
-                        <TableCell align="right">Email</TableCell>
-                        <TableCell align="right">Admin</TableCell>
+                        <TableCell align="left">Email</TableCell>
+                        <TableCell align="left">Admin</TableCell>
                         <TableCell> </TableCell>
                     </TableRow>
                 </TableHead>
@@ -95,10 +95,10 @@ const UserTable = ({ users }) => {
                                     <TableCell component="th" scope="row">
                                         {user.displayName || 'No name provided'}
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell align="left">
                                         {user.email || 'No email included'}
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell align="left">
                                         <input type="checkbox" checked={true} />
                                     </TableCell>
                                     <TableCell align="right">
