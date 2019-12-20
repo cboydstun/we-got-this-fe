@@ -28,12 +28,17 @@ const useStyles = makeStyles(theme => ({
     },
     table: {
         minWidth: 650,
+        backgroundColor: "#FFFFFF",
     },
     header: {
         '& th': {
             fontWeight: 600,
+            color: "#2678C0",
         },
     },
+    main: {
+        border: "1px solid #f5f5f5",
+    }
 }));
 
 /*
@@ -72,12 +77,13 @@ const UserTable = ({ users }) => {
 
     return (
         <>
+        <div className={classes.main}>
             <Table className={classes.table} size="small">
                 <TableHead>
                     <TableRow className={classes.header}>
                         <TableCell>User List</TableCell>
-                        <TableCell align="right">Admin</TableCell>
                         <TableCell align="right">Email</TableCell>
+                        <TableCell align="right">Admin</TableCell>
                         <TableCell> </TableCell>
                     </TableRow>
                 </TableHead>
@@ -90,10 +96,10 @@ const UserTable = ({ users }) => {
                                         {user.displayName || 'No name provided'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        <input type="checkbox" checked={true} />
+                                        {user.email || 'No email included'}
                                     </TableCell>
                                     <TableCell align="right">
-                                        {user.email || 'No email included'}
+                                        <input type="checkbox" checked={true} />
                                     </TableCell>
                                     <TableCell align="right">
                                         <EditUser user={user} />
@@ -103,6 +109,7 @@ const UserTable = ({ users }) => {
                         })}
                 </TableBody>
             </Table>
+            </div>
         </>
     );
 };

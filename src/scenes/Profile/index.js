@@ -10,14 +10,14 @@ import { IconButton } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
     profile: {
         display: 'flex',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         width: '328px',
         padding: '0 30px',
         marginBottom: '50px',
     },
     info: {
         display: 'flex',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
     },
     edit: {
         height: '20px',
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         height: '100px',
         width: '100px',
         borderRadius: '5px',
-        border: '1px solid black',
+        // border: '1px solid black',
         marginTop: '6px',
         marginRight: '15px',
     },
@@ -44,6 +44,20 @@ const useStyles = makeStyles(theme => ({
         fontSize: '14px',
         marginTop: '0',
     },
+    button: {
+        borderRadius: "7px",
+        backgroundColor: "#2678C0",
+        paddingLeft: "12px",
+        paddingRight: "12px",
+        paddingTop: "8px",
+        paddingBottom: "8px",
+        color: "white",
+        outline: "none",
+        margin: "10px"
+    },
+    profileInfo: {
+        alignItems: "center",
+    }
 }));
 
 const Profile = () => {
@@ -102,6 +116,7 @@ const Profile = () => {
                 <UserTable users={auth.users} />
             )}
             <button
+            className={classes.button}
                 onClick={() => {
                     actions.logout(dispatch);
                 }}
