@@ -31,8 +31,11 @@ The app will be a database that stores information regarding business operations
 
 -   Scheduling jobs for customers
 -   Integrating with Google Calendar
--   feature four
--   feature five
+-   View customers information
+-   Filter jobs by zip code
+-   Uploading checklist/pictures related to job
+-   Add and edit customers
+-   Assign jobs to teams
 
 ## Tech Stack
 
@@ -42,6 +45,13 @@ The app will be a database that stores information regarding business operations
 
 -   We learned it in Lambda School
 
+#### Reducers
+
+-   We learned it in Lambda School
+
+#### Formik
+
+- We used formik for our forms because they come with .yup validation and we learned it in Lambda
 #### Material UI
 
 -   Makes creating nice looking front-ends easier
