@@ -3,7 +3,7 @@ import { types } from './jobsActions';
 export const jobsState = {
     jobs: [],
     dateFilter: null,
-    zipcodeFilter: null,
+    zipcodeFilter: '',
     teamFilter: null,
     newServiceFormOpen: false,
     newServiceForm_02Open: false,

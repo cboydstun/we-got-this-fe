@@ -1,5 +1,4 @@
 import { types } from './customerActions';
-import { Stats } from 'fs';
 // import service from './customerService';
 
 export const customerState = {
@@ -76,7 +75,70 @@ export default function reducer(state, action) {
                 ...state,
                 customers: [...state.customers],
             };
+        case types.ADD_IMAGE_TO_JOB:
+            //desctructure needed elements off payload
+            let { url, tag, note } = payload;
 
+            //Get the job that needs to be updated
+
+            let customerJob = state.customerJobs.find(
+                job => job.docId == payload.jobId
+            );
+
+            //Add the photo to the job
+            //If there is no property photo property on the job already
+            if (!customerJob.photos) {
+                customerJob.photos = [{ url, tag, note }];
+            } else {
+                //There are photos already on the job
+                customerJob.photos = [
+                    ...customerJob.photos,
+                    { url, tag, note },
+                ];
+            }
+
+            return {
+                ...state,
+                customerJobs: [...state.customerJobs],
+            };
+        case types.UPDATE_IMAGE_ON_JOB:
+            //  let {url, tag, note} = payload;
+
+            //Get Index
+            let customerJobFirst = state.customerJobs.find(
+                job => job.docId == payload.jobId
+            );
+
+            //Get item in index
+            let photoIndex = customerJobFirst.photos.findIndex(photo => {
+                return (
+                    photo.url === payload.url ||
+                    photo.tag === payload.tag ||
+                    photo.note === payload.note
+                );
+            });
+            customerJobFirst.photos[photoIndex] = {
+                url: payload.url,
+                tag: payload.tag,
+                note: payload.note,
+            };
+
+            return {
+                ...state,
+                customerJobs: [...state.customerJobs],
+            };
+
+        case types.UPLOAD_UPDATE_CHECKLIST:
+            let checklistJob = state.customerJobs.find(
+                job => job.docId == payload.jobId
+            );
+
+            checklistJob.approved_checklist_url = payload.downloadURL;
+
+            return {
+                ...state,
+                customerJobs: [...state.customerJobs],
+            };
         default:
             return {
                 ...state,
