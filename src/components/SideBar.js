@@ -27,7 +27,7 @@ import {
 const SideBarContext = createContext();
 
 const useStyles = makeStyles(theme => ({
-root: {
+    root: {
         width: props => (props.mobile && '100%') || (!props.expanded && '90px'),
         height: props =>
             (!props.mobile && '100%') || (!props.expanded && '72px'),
@@ -107,7 +107,7 @@ const Item = ({
 
     return (
         <Tooltip
-            title={!expanded && children ? children : ''}
+            title={(!expanded && !mobile && children) ? children : ''}
             placement="right"
         >
             <ListItem
