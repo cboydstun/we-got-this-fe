@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@testing-library/react';
+import {render} from 'providers';
 import CustomerCard from '../scenes/Customer/components/CustomerCard';
 
 const customer = {
@@ -31,11 +31,12 @@ jest.mock('../state/customer/customerActions', () => {
 
 //
 //Mock State
-jest.mock('../state', () => {
-	return {
-		useStateValue: jest.fn(() => [{}, () => {}]),
-	};
-});
+//No need to mock when wrapped with the state consumer... I do believe
+// jest.mock('../state', () => {
+// 	return {
+// 		useStateValue: jest.fn(() => [{}, () => {}]),
+// 	};
+// });
 
 //
 //Mock component
