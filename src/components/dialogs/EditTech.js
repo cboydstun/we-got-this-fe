@@ -35,7 +35,7 @@ export default function EditTech({ loading, isEditing, tech, handleChange, handl
     const [{ teams }] = useStateValue();
 
     return tech ? (
-        <Dialog open={open} maxWidth="xs">
+        <Dialog open={open} maxWidth="xs" onClose={handleCancel}>
             <DialogTitle>{isEditing ? 'Edit Technician' : 'New Technician'}</DialogTitle>
             <DialogContent>
                 {loading ? <SplashLoading /> : <>
