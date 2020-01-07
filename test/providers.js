@@ -1,7 +1,7 @@
 import React from 'react';
-import {StateProvider} from '../state';
+import {StateProvider} from '../src/state';
 import {MemoryRouter} from 'react-router-dom';
-import {render} from '@testing-library/react';
+import {render as rtlRender} from '@testing-library/react';
 
 const mainReducer = (state, action) => {
 	let {payload} = action;
@@ -19,20 +19,17 @@ const initialState = {
 	jobs: {},
 };
 
-export const StateConsumer = ({children}) => {
+function Wrapper({children}) {
 	return (
 		<StateProvider reducer={mainReducer} initialState={initialState}>
 			<MemoryRouter>{children}</MemoryRouter>
 		</StateProvider>
 	);
-};
+}
 
-test('it renders', () => {
-	const {debug} = render(
-		<StateConsumer>
-			<h1>Hello!</h1>
-		</StateConsumer>,
-	);
-});
+function render(ui, options) {
+	return rtlRender(ui, {wrapper: Wrapper, ...options});
+}
 
-export default StateConsumer;
+export * from '@testing-library/react';
+export {render};
