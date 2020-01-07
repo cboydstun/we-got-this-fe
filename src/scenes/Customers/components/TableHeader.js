@@ -18,14 +18,20 @@ const useStyles = makeStyles(theme => ({
     },
     container: {
         display: 'flex',
+        marginTop: '75px',
         flexDirection: 'row',
-        marginBottom: theme.spacing(2),
     },
     title: {
-        marginRight: theme.spacing(2),
+        marginLeft: "44px",
     },
 }));
 
+/*
+    Displays a header for the table of customers.
+
+    Example Props:
+        "title": "Customers"
+*/
 const TableHeader = ({ title }) => {
     const classes = useStyles();
     return (
@@ -38,7 +44,7 @@ const TableHeader = ({ title }) => {
                     <FilterListIcon />
                 </IconButton>
             </Tooltip> */}
-            <DialogWrapper
+            {/* <DialogWrapper
                 trigger={click => (
                     <Button
                         variant="outlined"
@@ -52,7 +58,7 @@ const TableHeader = ({ title }) => {
                 dialogContent={close => <NewCustomerForm handleClose={close} />}
                 title="Create New Customer"
                 size="sm"
-            />
+            /> */}
         </div>
     );
 };

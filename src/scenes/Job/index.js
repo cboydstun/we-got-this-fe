@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../../state';
+import moment from 'moment';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
-import {
-    Tab,
-    Tabs,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { useTheme, makeStyles, styled } from '@material-ui/core/styles';
+import { Tab, Tabs, Button, Grid, Box } from '@material-ui/core';
 
+import DialogWrapper from '../../components/dialogs/DialogWrapper';
 import PhotosPanel from './components/PhotosPanel';
 import NotesPanel from './components/NotesPanel';
+import Image from './components/Image';
+import NewPhoto from './components/NewPhoto';
+import JobCard from './components/JobCard';
+import ChecklistImage from './components/ChecklistImage';
 
-const useStyles = makeStyles({
-    column: {
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
+const useStyles = makeStyles(theme => ({
+    root: {
+        marginLeft: theme.spacing(2),
+        width: '100%',
     },
-});
+    tabs: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+    },
+}));
 
 const teams = techsArray => {
     let team = techsArray.reduce((acc, curr) => {
@@ -34,10 +37,52 @@ const teams = techsArray => {
     return team.slice(0, -2);
 };
 
-const Job = ({ location, history }) => {
+const AddPhoto = () => {
+    return (
+        <DialogWrapper
+            trigger={click => (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    fullWidth
+                    onClick={() => click()}
+                >
+                    Add Photo
+                </Button>
+            )}
+            dialogContent={close => <NewPhoto handleClose={close} />}
+            title="New Photo"
+            size="xs"
+            showTitle={false}
+            noPadding={true}
+        />
+    );
+};
+
+const AddNote = () => {
+    return (
+        <DialogWrapper
+            trigger={click => (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    fullWidth
+                    onClick={() => click()}
+                >
+                    Add Note
+                </Button>
+            )}
+            dialogContent={close => <NewPhoto handleClose={close} />}
+            title="New Note"
+            size="xs"
+        />
+    );
+};
+
+const Job = ({ match, location, history }) => {
     const [value, setValue] = useState(0);
-    const [open, setOpen] = useState(false);
-    const [note, setNote] = useState('');
     const [{ customers }, dipatch] = useStateValue();
     const [job, setJob] = useState(null);
     const classes = useStyles();
@@ -46,7 +91,11 @@ const Job = ({ location, history }) => {
 
     useEffect(() => {
         let index = customers.customerJobs.findIndex(job => {
-            return job.docId == location.state;
+            return (
+                //Checks for both to handle select from the customer view
+                // and from the calendar
+                job.docId == location.state || job.docId == match.params.job_id
+            );
         });
         let job = customers.customerJobs[index];
         setJob(job);
@@ -56,74 +105,59 @@ const Job = ({ location, history }) => {
         setValue(newVal);
     };
 
-    const handleNoteChange = e => {
-        setNote(e.target.value);
-    };
-
-    const handleSubmit = () => {
-        console.log('The submitted note is!: ', note);
-    };
-
     return (
-        <>
+        <Grid container item className={classes.root} direction="column">
             {!job ? (
                 <h2>Loading...</h2>
             ) : (
                 <>
-                    {mobile && (
-                        <IconButton onClick={() => history.goBack()}>
-                            <ArrowBackIcon />
-                            {customers.currentCustomer.name}
-                        </IconButton>
+                    {mobile ? (
+                        <Grid item>
+                            <IconButton onClick={() => history.goBack()}>
+                                <ArrowBackIcon />
+                                {customers.currentCustomer.name}
+                            </IconButton>
+                        </Grid>
+                    ) : (
+                        <Grid item>
+                            <IconButton
+                                onClick={() =>
+                                    history.replace(
+                                        `/customers/${match.params.customer_id}`
+                                    )
+                                }
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                        </Grid>
                     )}
-                    <div className={classes.column}>
-                        <h1>{job.details.schedule_date}</h1>
-                        <p>Serviced By: Get this to work</p>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            indicatorColor="primary"
-                            textColor="primary"
-                        >
-                            <Tab label="Photos" />
-                            <Tab label="Job Notes" />
-                            {value == 0 ? (
-                                <Button variant="contained" color="primary">
-                                    Add Photo
-                                </Button>
-                            ) : (
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => setOpen(true)}
+                    <Grid item>
+                        <Grid item>
+                            <JobCard job={job} />
+                        </Grid>
+                        <Grid container className={classes.tabs}>
+                            <Grid item>
+                                <Tabs
+                                    value={value}
+                                    onChange={handleChange}
+                                    indicatorColor="primary"
+                                    textColor="primary"
+                                    scrollButtons="off"
                                 >
-                                    Add Note
-                                </Button>
-                            )}
-                        </Tabs>
+                                    <Tab label="Photos" />
+                                    <Tab label="Job Notes" />
+                                </Tabs>
+                            </Grid>
+                            <Grid item>
+                                {value == 0 ? <AddPhoto /> : <AddNote />}
+                            </Grid>
+                        </Grid>
                         <PhotosPanel value={value} index={0} job={job} />
                         <NotesPanel value={value} index={1} job={job} />
-                        <Dialog open={open}>
-                            <DialogContent>
-                                <form>
-                                    <input
-                                        type="text"
-                                        value={note}
-                                        onChange={handleNoteChange}
-                                    />
-                                </form>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onCLick={() => setOpen(false)}>
-                                    Cancel
-                                </Button>
-                                <Button onClick={handleSubmit}>Submit</Button>
-                            </DialogActions>
-                        </Dialog>
-                    </div>
+                    </Grid>
                 </>
             )}
-        </>
+        </Grid>
     );
 };
 

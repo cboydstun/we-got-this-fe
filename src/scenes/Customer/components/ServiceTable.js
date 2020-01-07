@@ -27,9 +27,6 @@ const useStyles = makeStyles(theme => ({
         overflowX: 'auto',
         marginBottom: theme.spacing(2),
     },
-    table: {
-        minWidth: 650,
-    },
     header: {
         '& th': {
             fontWeight: 600,
@@ -37,6 +34,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+// TODO: Fix this in the schema first
 const teams = techsArray => {
     let team = techsArray.reduce((acc, curr) => {
         return acc + curr.name + ' & ';
@@ -46,13 +44,33 @@ const teams = techsArray => {
     return team.slice(0, -2);
 };
 
+/*
+    Displays a specific customer's service history in a table format.
+
+    Example Props:
+        "jobs": [
+            "Object"
+        ],
+        "match": {
+            "path": "/customers/:customer_id",
+            "url": "/customers/I0G0og0tcoa0KUlrzxPK",
+            "isExact": true,
+            "params": "Object"
+        },
+        "location": {
+            "pathname": "/customers/I0G0og0tcoa0KUlrzxPK",
+            "search": "",
+            "hash": "",
+            "key": "e58lws"
+        }
+*/
 const ServiceTable = ({ jobs, match, location }) => {
     console.log(('Service Table Location: ', location));
     const classes = useStyles();
 
     return (
         <>
-            <Table className={classes.table} size="small">
+            <Table size="small">
                 <TableHead>
                     <TableRow className={classes.header}>
                         <TableCell>Service Date</TableCell>
@@ -80,6 +98,7 @@ const ServiceTable = ({ jobs, match, location }) => {
                                         <Button
                                             variant="outlined"
                                             color="primary"
+                                            size="small"
                                             component={Link}
                                             to={{
                                                 pathname: `${match.url}/${job.docId}`,
