@@ -4,6 +4,7 @@ import { useService } from '../../state';
 import { Card, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useStateValue } from '../../state';
+import PlaceholderPerson from '../../images/placeholderPerson.png';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -82,7 +83,7 @@ const TechCard = ({ docId, displayName, photoUrl, disabled, team, handleEdit }) 
 
     return (
         <div className={classes.root}>
-            <img className="photo" src={photoUrl} alt={displayName} />
+            <img className="photo" src={photoUrl || PlaceholderPerson} alt={displayName} />
             <div className={classes.info}>
                 <h2>{displayName}</h2>
                 <p>{team && team.name}</p>
