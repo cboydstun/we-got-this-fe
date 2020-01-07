@@ -66,8 +66,10 @@ const CustomerCard = ({customer}) => {
 		}
 	}, [customer.docId, customer.img, dispatch]);
 
-	let {address} = customer.locations[0];
-	let fullAddress = `${address.street} ${address.city}, ${address.state} ${address.zipcode}`;
+	let {address} = customer.locations && customer.locations[0];
+	let fullAddress =
+		address &&
+		`${address.street} ${address.city}, ${address.state} ${address.zipcode}`;
 
 	return (
 		<Grid component={Paper} container item>
