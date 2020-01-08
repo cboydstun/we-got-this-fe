@@ -49,7 +49,7 @@ const Auth = () => {
 					if (result == true) {
 						setTimeout(() => {
 							history.push(routes.HOME);
-						}, 200);
+						}, 500);
 					}
 				}}
 			>
