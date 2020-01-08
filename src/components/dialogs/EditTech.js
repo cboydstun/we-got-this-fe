@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem } from '@material-ui/core';
 import SplashLoading from '../loading/SplashLoading';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     control: {
         width: '100%',
     },
@@ -12,6 +12,7 @@ const useStyles = makeStyles({
     headshotContainer: {
         display: 'flex',
         justifyContent: 'space-around',
+        marginTop: theme.spacing(2),
     },
 
     headshot: {
@@ -27,14 +28,14 @@ const useStyles = makeStyles({
         display: 'flex',
         alignItems: 'center',
     },
-})
+}))
 
 export default function EditTech({ loading, isEditing, tech, handleChange, handleCancel, handleSave, open }) {
     const classes = useStyles();
     const [{ teams }] = useStateValue();
 
     return tech ? (
-        <Dialog open={open} maxWidth="xs">
+        <Dialog open={open} maxWidth="xs" onClose={handleCancel}>
             <DialogTitle>{isEditing ? 'Edit Technician' : 'New Technician'}</DialogTitle>
             <DialogContent>
                 {loading ? <SplashLoading /> : <>

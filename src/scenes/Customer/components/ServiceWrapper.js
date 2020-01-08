@@ -9,8 +9,12 @@ const ServiceWrapper = ({ jobPaths, customer, location, match }) => {
     const [{ customers }, dispatch] = useStateValue();
 
     useEffect(() => {
+        console.log('Getting customer Jobs');
         actions.getCustomerJobs(dispatch, jobPaths).then(res => {
-            setLoading(false);
+            console.log('Resolution', res);
+            if (res === true) {
+                setLoading(false);
+            }
         });
     }, [location.pathname, dispatch, jobPaths]);
 
