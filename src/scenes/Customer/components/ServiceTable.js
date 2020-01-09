@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+// TODO: Fix this in the schema first
 const teams = techsArray => {
     let team = techsArray.reduce((acc, curr) => {
         return acc + curr.name + ' & ';
@@ -81,14 +82,14 @@ const ServiceTable = ({ jobs, match, location }) => {
                 <TableBody>
                     {jobs.length &&
                         jobs.map((job, i) => {
-                            let scheduledDate = moment(job.end).format('LL');
+                            let scheduledDate = moment(job.details.arrivalWindowStart).format('LL');
                             return (
                                 <TableRow key={i}>
                                     <TableCell component="th" scope="row">
                                         {scheduledDate}
                                     </TableCell>
                                     <TableCell align="right">
-                                        'Need to fix'
+                                        {job.team.name}
                                     </TableCell>
                                     <TableCell align="right">
                                         {job.type || 'Unknown'}

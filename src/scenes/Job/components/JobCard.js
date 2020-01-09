@@ -47,9 +47,9 @@ const JobCard = ({ job }) => {
             </Grid>
             <Grid item style={{ margin: theme.spacing(1) }}>
                 <Typography variant="h6">
-                    {moment(job.details.arrivalWindowStart).format('LL')}
+                    {moment(job.details.arrivalWindowEnd).format('LL')}
                 </Typography>
-                <p>Serviced By: Get this to work</p>
+                <p>Serviced By: {job.team.name}</p>
             </Grid>
         </Grid>
     );

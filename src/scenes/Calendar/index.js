@@ -55,19 +55,35 @@ const AllCalendar = ({ history }) => {
         actions.setNewServiceFormOpen(dispatch, true);
     }
 
-    //Memoized the the teamFilter is only rerendered when the teamFitler changes
-    let teamFilter = useMemo(() => {
-        return jobs.jobs.filter(job => {
-            if (
-                jobs.teamFilter !== null &&
-                !!job.details &&
-                job.details.team !== null
-            ) {
-                return job.details.team.docId == jobs.teamFilter;
-            }
-            return true;
-        });
-    }, [jobs.jobs, jobs.teamFilter]);
+    //Memoized the the filters is only rerendered when the teamFitler changes
+    let filters = useMemo(() => {
+        //Team Filter
+        return (
+            jobs.jobs
+                .filter(job => {
+                    if (
+                        jobs.teamFilter !== null &&
+                        !!job.details &&
+                        job.details.team !== null
+                    ) {
+                        return job.details.team.docId == jobs.teamFilter;
+                    }
+                    return true;
+                })
+                //Zipcode Filter
+                .filter(job => {
+                    if (
+                        jobs.zipcodeFilter !== null &&
+                        jobs.zipcodeFilter != '' &&
+                        !!job.details &&
+                        job.details.team !== null
+                    ) {
+                        return job.details.zipcode.includes(jobs.zipcodeFilter);
+                    }
+                    return true;
+                })
+        );
+    }, [jobs.jobs, jobs.teamFilter, jobs.zipcodeFilter]);
 
     const Event = ({ event }) => {
         return (
@@ -101,7 +117,7 @@ const AllCalendar = ({ history }) => {
             <DraggableCalendar
                 selectable
                 localizer={localizer}
-                events={teamFilter}
+                events={filters}
                 views={[Views.MONTH, Views.WORK_WEEK, Views.DAY, Views.AGENDA]}
                 defaultView={Views.WORK_WEEK}
                 onSelectSlot={event => {
@@ -110,7 +126,6 @@ const AllCalendar = ({ history }) => {
                 min={new Date(2019, 11, 13, 8)}
                 max={new Date(2019, 11, 13, 18)}
                 onSelectEvent={event => {
-                    console.log(event);
                     if (!!event.details) {
                         history.push(
                             `/customers/${event.details.customerId}/${event.details.jobId}`

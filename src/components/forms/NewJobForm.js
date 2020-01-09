@@ -88,7 +88,7 @@ const NewJobForm = ({ handleClose }) => {
         if (selectedCustomer) {
             jobActions.setNewJobCustomer(dispatch, selectedCustomer);
         }
-    }
+    };
 
     return (
         <>
@@ -112,25 +112,45 @@ const NewJobForm = ({ handleClose }) => {
                                 <Grid item xs={6}>
                                     <Autocomplete
                                         options={customers.customers}
-                                        getOptionLabel={customer => customer.name}
-                                        onChange={(_, customer) => setSelectedCustomer(customer)}
+                                        getOptionLabel={customer =>
+                                            customer.name
+                                        }
+                                        onChange={(_, customer) =>
+                                            setSelectedCustomer(customer)
+                                        }
                                         filterOptions={(customers, state) =>
                                             customers.filter(customer =>
-                                                customer.name.toLowerCase().includes(state.inputValue.toLowerCase()))}
+                                                customer.name
+                                                    .toLowerCase()
+                                                    .includes(
+                                                        state.inputValue.toLowerCase()
+                                                    )
+                                            )
+                                        }
                                         renderInput={params => (
-                                            <TextField name="customer" {...params} variant="outlined" fullWidth />
+                                            <TextField
+                                                name="customer"
+                                                {...params}
+                                                variant="standard"
+                                                fullWidth
+                                            />
                                         )}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <Grid container justify="center" alignItems="center" style={{ height: '100%' }}>
+                                    <Grid
+                                        container
+                                        justify="center"
+                                        alignItems="center"
+                                        style={{ height: '100%' }}
+                                    >
                                         <Button
                                             type="submit"
                                             variant="contained"
                                             color="primary"
                                         >
                                             Next ->
-                                    </Button>
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             </Grid>

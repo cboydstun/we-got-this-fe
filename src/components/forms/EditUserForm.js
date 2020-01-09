@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 
 const roles = ['admin', 'tech'];
 
-const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
+const UserForm = ({ errors, touched, values, status, setFieldValue, handleClose }) => {
     const [state, setState] = useState([]);
     const classes = useStyles();
     useEffect(() => {
@@ -103,8 +103,8 @@ const UserForm = ({ errors, touched, values, status, setFieldValue }) => {
                     <div className={classes.marginBottom}>
                         <Button
                             variant="outlined"
-                            color="secondar"
                             type="button"
+                            onClick={handleClose}
                         >
                             Cancel
                         </Button>

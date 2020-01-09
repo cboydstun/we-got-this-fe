@@ -4,14 +4,19 @@ import { useService } from '../../state';
 import { Card, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useStateValue } from '../../state';
+import PlaceholderPerson from '../../images/placeholderPerson.png';
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         justifyContent: 'space-between',
-        maxWidth: '330px',
-        maxHeight: '120px',
+        width: '330px',
+        height: '120px',
         background: props => props.disabled && '#dcdbdb',
+        backgroundColor: '#FFFFFF',
+        borderRadius: "6px",
+        marginTop: "20px",
+        // border: "1px solid black",
 
         '& *': {
             margin: '0',
@@ -19,12 +24,13 @@ const useStyles = makeStyles(theme => ({
         },
 
         '& button': {
-            paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
+            color: "#2678C0",
         },
 
         '& .photo': {
             maxWidth: '120px',
+            borderRadius: "6px 0px 0px 6px",
         },
     },
 
@@ -40,10 +46,6 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         textAlign: 'center',
         paddingTop: theme.spacing(1),
-        '& *': {
-            // marginLeft: theme.spacing(1),
-            // marginRight: theme.spacing(1),
-        },
     },
 }));
 
@@ -81,13 +83,13 @@ const TechCard = ({ docId, displayName, photoUrl, disabled, team, handleEdit }) 
 
     return (
         <div className={classes.root}>
-            <img className="photo" src={photoUrl} alt={displayName} />
+            <img className="photo" src={photoUrl || PlaceholderPerson} alt={displayName} />
             <div className={classes.info}>
                 <h2>{displayName}</h2>
                 <p>{team && team.name}</p>
                 <div className={classes.controls}>
-                    <Button onClick={handleArchive}>{disabled ? 'Activate' : 'Archive'}</Button>
-                    <Button onClick={() => handleEdit(docId)} disabled={disabled}>Edit</Button>
+                    <Button className={classes.button} onClick={handleArchive}>{disabled ? 'Activate' : 'Archive'}</Button>
+                    <Button className={classes.button} onClick={() => handleEdit(docId)} disabled={disabled}>Edit</Button>
                 </div>
             </div>
         </div>

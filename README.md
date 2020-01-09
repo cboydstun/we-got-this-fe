@@ -2,11 +2,11 @@
 
 https://we-got-this-fe-eosin-gamma.now.sh/
 
-|                                                      [Student 1](https://github.com/sanny-io)                                                       |                                                       [Student 2](https://github.com/lucasbaze)                                                        |                                                      [Student 3](https://github.com/DemeryMA)                                                       |                                                       [Student 4](https://github.com/NicholasInterest1)                                                        |                                                      [Student 5](https://github.com/)                                                       |
-| :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-| [<img src="https://avatars0.githubusercontent.com/u/3054653?s=460&v=4" width = "200" />](https://github.com/sanny-io) | [<img src="https://media.licdn.com/dms/image/C4E03AQG4yz4D4GMI8g/profile-displayphoto-shrink_200_200/0?e=1581552000&v=beta&t=MFXzySCqcQq_IghYYUh-wvcbA2htyQF97J4kbI_cXfs" width = "200" />](https://github.com/lucasbaze) | [<img src="https://media.licdn.com/dms/image/C5603AQEgU0HBofS1QQ/profile-displayphoto-shrink_200_200/0?e=1581552000&v=beta&t=wXXTgY2HrPZnt-HlL0ttWqS-CNG-FSQnx8dVqhZEy4o" width = "200" />](https://github.com/DemeryMA) | [<img src="https://media.licdn.com/dms/image/C4E03AQEBDYBI32fjhg/profile-displayphoto-shrink_200_200/0?e=1581552000&v=beta&t=awdvqNZTmz9mnaK1Eo3e4JLpNDnb1I5LzT7cw0IxrJE" width = "200" />](https://github.com/NicholasInterest1) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) |
-|                                [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/)                                |                            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/honda0306)                             |                          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/Mister-Corn)                           |                          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/NandoTheessen)                           |                           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/wvandolah)                            |
-|                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/sanny-sherief-85aa90120/)                |                 [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/lucas-bazemore)                 |                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/michael-demery/)                |                 [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/nicholas-interest-1a0957191/)                 |                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |
+|                                                 [Student 1](https://github.com/sanny-io)                                                 |                                           [Student 2](https://github.com/lucasbaze)                                            |                                                                                         [Student 3](https://github.com/DemeryMA)                                                                                         |                                                                                         [Student 4](https://github.com/NicholasInterest1)                                                                                         |                                                      [Student 5](https://github.com/)                                                       |
+| :--------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
+|          [<img src="https://avatars0.githubusercontent.com/u/3054653?s=460&v=4" width = "200" />](https://github.com/sanny-io)           |    [<img src="https://avatars2.githubusercontent.com/u/16271037?s=460&v=4" width = "200" />](https://github.com/lucasbaze)     | [<img src="https://media.licdn.com/dms/image/C5603AQEgU0HBofS1QQ/profile-displayphoto-shrink_200_200/0?e=1581552000&v=beta&t=wXXTgY2HrPZnt-HlL0ttWqS-CNG-FSQnx8dVqhZEy4o" width = "200" />](https://github.com/DemeryMA) | [<img src="https://media.licdn.com/dms/image/C4E03AQEBDYBI32fjhg/profile-displayphoto-shrink_200_200/0?e=1581552000&v=beta&t=awdvqNZTmz9mnaK1Eo3e4JLpNDnb1I5LzT7cw0IxrJE" width = "200" />](https://github.com/NicholasInterest1) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) |
+|                              [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/)                               |                     [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/honda0306)                     |                                                                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/Mister-Corn)                                                                 |                                                                    [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/NandoTheessen)                                                                     |                           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/wvandolah)                            |
+| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/sanny-sherief-85aa90120/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/lucas-bazemore) |                                             [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/michael-demery/)                                              |                                           [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/nicholas-interest-1a0957191/)                                            |                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |
 
 <br>
 <br>
@@ -31,8 +31,11 @@ The app will be a database that stores information regarding business operations
 
 -   Scheduling jobs for customers
 -   Integrating with Google Calendar
--   feature four
--   feature five
+-   View customers information
+-   Filter jobs by zip code
+-   Uploading checklist/pictures related to job
+-   Add and edit customers
+-   Assign jobs to teams
 
 ## Tech Stack
 
@@ -41,6 +44,14 @@ The app will be a database that stores information regarding business operations
 #### React
 
 -   We learned it in Lambda School
+
+#### Reducers
+
+-   We learned it in Lambda School
+
+#### Formik
+
+-   We used formik for our forms because they come with .yup validation and we learned it in Lambda
 
 #### Material UI
 

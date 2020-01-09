@@ -23,6 +23,12 @@ export default function reducer(state, action) {
             techs[techs.findIndex(tech => tech.docId === payload.docId)] = payload;
             return { ...state, techs };
         }
+        case service.setTechDisabled.start: {
+            const [techId, disabled] = payload;
+            const techs = [...state.techs];
+            techs[techs.findIndex(tech => tech.docId === techId)].disabled = disabled;
+            return { ...state, techs };
+        }
         default:
             return { ...state };
     }

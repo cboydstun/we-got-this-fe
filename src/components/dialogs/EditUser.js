@@ -34,7 +34,7 @@ export default function NewUser({ user }) {
             >
                 <DialogTitle>Edit</DialogTitle>
                 <DialogContent>
-                    <EditUserForm user={user} />
+                    <EditUserForm user={user} handleClose={handleClose} />
                 </DialogContent>
                 {/* <DialogActions>
                     <Button onClick={handleClose}>Create!</Button>
