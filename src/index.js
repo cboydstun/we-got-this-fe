@@ -10,7 +10,7 @@ import { mainReducer, initialState } from './state/reducers.js';
 import { BrowserRouter } from 'react-router-dom';
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('UA-154739324-1 ');
+ReactGA.initialize('UA-154739324-1');
 
 ReactDOM.render(
     <StateProvider reducer={mainReducer} initialState={initialState}>
