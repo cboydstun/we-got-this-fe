@@ -40,7 +40,9 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "npm run test && react-scripts build",
-		"test": "jest",
+		"test": "jest --coverage",
+		"test:watch": "jest --watch",
+		"test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
