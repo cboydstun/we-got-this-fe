@@ -1,11 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {render, fireEvent, act, wait, waitForElement} from 'providers';
-// import {render, act} from '@testing-library/react';
-// import {getQueriesForElement, fireEvent} from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
+import {axe} from 'jest-axe';
 
 import {Formik, Form} from 'formik';
 import MuiPhoneInput from '../components/formItems/MuiPhoneInput';
+// import {render, act} from '@testing-library/react';
+// import {getQueriesForElement, fireEvent} from '@testing-library/dom';
 
 test('it renders', () => {
 	let {debug, getByLabelText} = render(
@@ -28,9 +29,24 @@ test('adding 10 digits converts string to phone number', async () => {
 	);
 
 	let input = getByLabelText(/phone number/i);
+
+	// Same as below
+	// await wait(() => {
+	// 	fireEvent.change(input, {target: {value: '1234567890'}});
+	// });
 	await wait(() => {
-		fireEvent.change(input, {target: {value: '1234567890'}});
+		userEvent.type(input, '1234567890');
 	});
-	debug(input);
+	// debug(input);
 	expect(input.value).toStrictEqual('(123) 456-7890');
+});
+
+test('this form is accessile', async () => {
+	let {container} = render(
+		<Formik>
+			<MuiPhoneInput name='phone' label='Phone Number' type='text' />
+		</Formik>,
+	);
+	const results = await axe(container);
+	expect(results).toHaveNoViolations();
 });

@@ -1,5 +1,8 @@
 module.exports = {
-	setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+	setupFilesAfterEnv: [
+		'@testing-library/jest-dom/extend-expect',
+		'jest-axe/extend-expect',
+	],
 	moduleDirectories: ['node_modules', 'test'],
 	collectCoverageFrom: ['**/src/**/*.js'],
 	coverageThreshold: {
